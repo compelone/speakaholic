@@ -17,7 +17,7 @@ yarn
 echo
 ls -la
 echo
-cd ios # for some reason I need to go into this directory now
+cd .. # for some reason I need to go into this directory now
 
 echo
 ls -la
