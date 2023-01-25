@@ -10,6 +10,11 @@
       "StackName": "amplify-speakaholic-dev-202305",
       "StackId": "arn:aws:cloudformation:us-east-1:744137563977:stack/amplify-speakaholic-dev-202305/d2bc4790-9c4e-11ed-92df-0eabb997dded",
       "AmplifyAppId": "d9ywujvoqorjm"
+    },
+    "categories": {
+      "auth": {
+        "speakaholic": {}
+      }
     }
   }
 }
