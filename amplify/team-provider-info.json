@@ -10,6 +10,11 @@
       "StackName": "amplify-speakaholic-staging-190822",
       "StackId": "arn:aws:cloudformation:us-east-1:744137563977:stack/amplify-speakaholic-staging-190822/78911450-9c1a-11ed-b524-0e7978bf37f7",
       "AmplifyAppId": "d1qkuxojuobenf"
+    },
+    "categories": {
+      "auth": {
+        "speakaholic": {}
+      }
     }
   }
 }
