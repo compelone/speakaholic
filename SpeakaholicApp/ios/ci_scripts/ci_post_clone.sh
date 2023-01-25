@@ -10,8 +10,11 @@ brew link node@16
 brew install yarn
 
 # Install dependencies you manage with CocoaPods.
-# yarn
-npm install
+
+ls -la
+
+yarn
+# npm install
 
 pod install
 # the sed command from RN cant find the file... so we have to run it ourselves
