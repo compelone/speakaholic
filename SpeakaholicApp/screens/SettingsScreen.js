@@ -13,13 +13,13 @@ const SettingsScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView>
+    <View>
       <View>
         <TouchableOpacity style={styles.button} onPress={() => handlePress()}>
           <Text style={styles.buttonText}>Signout</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

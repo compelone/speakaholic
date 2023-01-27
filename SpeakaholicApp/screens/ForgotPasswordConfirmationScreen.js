@@ -57,7 +57,7 @@ const ForgotPasswordConfirmationScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Confirm Account</Text>
         <TextInput
@@ -111,7 +111,7 @@ const ForgotPasswordConfirmationScreen = ({navigation}) => {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

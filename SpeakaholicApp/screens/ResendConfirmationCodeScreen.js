@@ -41,7 +41,7 @@ const ResendConfirmationCodeScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Resend Code</Text>
         <TextInput
@@ -71,7 +71,7 @@ const ResendConfirmationCodeScreen = ({navigation}) => {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

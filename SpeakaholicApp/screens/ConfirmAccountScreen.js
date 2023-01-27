@@ -48,7 +48,7 @@ const ConfirmAccountScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Confirm Account</Text>
         <Text>
@@ -99,7 +99,7 @@ const ConfirmAccountScreen = ({navigation}) => {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

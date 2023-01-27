@@ -10,7 +10,6 @@ import {
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
 import {signIn} from '../services/authService';
@@ -60,10 +59,10 @@ const HomeScreen = ({navigation}) => {
   // }, []);
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <View style={styles.image}>
-          <Image source={require('../assets/images/Appleicon_120px.png')} />
+          {/* <Image source={require('../assets/images/Appleicon_120px.png')} /> */}
         </View>
         <Text style={styles.headerText}>Dealsy</Text>
         <View>
@@ -82,7 +81,7 @@ const HomeScreen = ({navigation}) => {
           <SocialLogin navigation={navigation} />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

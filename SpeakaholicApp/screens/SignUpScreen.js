@@ -56,7 +56,7 @@ const SignUpScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Sign Up</Text>
 
@@ -120,7 +120,7 @@ const SignUpScreen = ({navigation}) => {
           <Text>Login</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

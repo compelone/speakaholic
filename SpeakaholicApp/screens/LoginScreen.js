@@ -62,7 +62,7 @@ const LoginScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Login</Text>
         <TextInput
@@ -122,7 +122,7 @@ const LoginScreen = ({navigation}) => {
       <View>
         <SocialLogin navigation={navigation} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
