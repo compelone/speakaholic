@@ -1,0 +1,8 @@
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String!
+  name: String!
+  cognito_user_nam: String!
+  image_url: String
+  created_date_utc: AWSDateTime!
+}
