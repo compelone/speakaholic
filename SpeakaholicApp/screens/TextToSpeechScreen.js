@@ -9,6 +9,9 @@ import {
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
+import {Storage} from '@aws-amplify/storage';
+import {saveSpeechItem} from '../services/dataService';
+import {getCurrentUserInfo} from '../services/authService';
 
 const TextToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
@@ -17,8 +20,16 @@ const TextToSpeechScreen = ({navigation}) => {
 
   const maxLength = 1000;
 
-  const saveText = () => {
-    return;
+  const saveText = async () => {
+    if (text.length > 0) {
+      const fileName = new Date().toISOString();
+      const key = await Storage.put(`${fileName}.txt`, text, {
+        level: 'private',
+        contentType: 'text/plain',
+      });
+      user = await getCurrentUserInfo();
+      await saveSpeechItem(user.attributes.sub, key, textLength);
+    }
   };
 
   const setTextAndLength = value => {

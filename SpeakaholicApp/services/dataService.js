@@ -1,6 +1,6 @@
 import '@azure/core-asynciterator-polyfill';
 import {DataStore} from '@aws-amplify/datastore';
-import {Users} from '../models';
+import {SpeechItems, Users} from '../models';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
   const doesUserExist = await userExists(cognitoUsername);
@@ -24,4 +24,16 @@ export async function userExists(cognitoUsername) {
   );
 
   return models.length > 1;
+}
+
+export async function saveSpeechItem(cognitoUsername, s3_key, textLength) {
+  await DataStore.save(
+    new SpeechItems({
+      cognito_user_name: cognitoUsername,
+      key: s3_key.key,
+      character_count: textLength,
+      created_date_utc: new Date().toISOString(),
+      is_processed: false,
+    }),
+  );
 }
