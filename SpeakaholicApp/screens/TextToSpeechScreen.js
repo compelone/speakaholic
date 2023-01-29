@@ -13,7 +13,7 @@ import layout from '../styles/layout';
 const TextToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
   const [textError, setTextError] = useState();
-  const [textLength, setTextLength] = useState();
+  const [textLength, setTextLength] = useState(0);
 
   const maxLength = 1000;
 

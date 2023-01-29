@@ -18,5 +18,11 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolId": "string",
       "UserPoolName": "string"
     }
+  },
+  "storage": {
+    "s3speakaholicstoragedev": {
+      "BucketName": "string",
+      "Region": "string"
+    }
   }
 }
