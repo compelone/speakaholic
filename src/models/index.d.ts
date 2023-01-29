@@ -6,6 +6,42 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
+type EagerSpeechItems = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpeechItems, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly key: string;
+  readonly cognito_user_name: string;
+  readonly character_count: number;
+  readonly created_date_utc: string;
+  readonly is_processed?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySpeechItems = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpeechItems, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly key: string;
+  readonly cognito_user_name: string;
+  readonly character_count: number;
+  readonly created_date_utc: string;
+  readonly is_processed?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SpeechItems = LazyLoading extends LazyLoadingDisabled ? EagerSpeechItems : LazySpeechItems
+
+export declare const SpeechItems: (new (init: ModelInit<SpeechItems>) => SpeechItems) & {
+  copyOf(source: SpeechItems, mutator: (draft: MutableModel<SpeechItems>) => MutableModel<SpeechItems> | void): SpeechItems;
+}
+
 type EagerUsers = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Users, 'id'>;

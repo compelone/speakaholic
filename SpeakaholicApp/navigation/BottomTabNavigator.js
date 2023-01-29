@@ -3,6 +3,8 @@ import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TextToSpeechScreen from '../screens/TextToSpeechScreen';
+import ImageToSpeechScreen from '../screens/ImageToSpeechScreen';
+import SpeechToTextScreen from '../screens/SpeechToTextScreen';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -11,7 +13,18 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="TextToSpeech"
       screenOptions={{headerShown: false}}>
-      <BottomTab.Screen name="TextToSpeech" component={TextToSpeechNavigator} />
+      <BottomTab.Screen
+        name="Text To Speech"
+        component={TextToSpeechNavigator}
+      />
+      <BottomTab.Screen
+        name="Image To Speech"
+        component={ImageToSpeechNavigator}
+      />
+      <BottomTab.Screen
+        name="Speech To Text"
+        component={SpeechToTextNavigator}
+      />
     </BottomTab.Navigator>
   );
 }
@@ -28,5 +41,37 @@ function TextToSpeechNavigator() {
         }}
       />
     </TextToSpeechStack.Navigator>
+  );
+}
+
+const ImageToSpeechStack = createNativeStackNavigator();
+
+function ImageToSpeechNavigator() {
+  return (
+    <ImageToSpeechStack.Navigator>
+      <ImageToSpeechStack.Screen
+        name="ImageToSpeechScreen"
+        component={ImageToSpeechScreen}
+        options={{
+          header: () => <></>,
+        }}
+      />
+    </ImageToSpeechStack.Navigator>
+  );
+}
+
+const SpeechToTextStack = createNativeStackNavigator();
+
+function SpeechToTextNavigator() {
+  return (
+    <SpeechToTextStack.Navigator>
+      <SpeechToTextStack.Screen
+        name="SpeechToTextScreen"
+        component={SpeechToTextScreen}
+        options={{
+          header: () => <></>,
+        }}
+      />
+    </SpeechToTextStack.Navigator>
   );
 }

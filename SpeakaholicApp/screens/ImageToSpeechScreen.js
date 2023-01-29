@@ -10,42 +10,16 @@ import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
 
-const TextToSpeechScreen = ({navigation}) => {
+const ImageToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
   const [textError, setTextError] = useState();
-  const [textLength, setTextLength] = useState();
-
-  const maxLength = 1000;
 
   const saveText = () => {
     return;
   };
 
-  const setTextAndLength = value => {
-    setText(value);
-    setTextLength(value.length);
-  };
-
   return (
     <View style={styles.mainContainer}>
-      <TextInput
-        style={
-          textError
-            ? [
-                styles.descriptionTextInput,
-                defaultStyles.default.textInputError,
-              ]
-            : styles.descriptionTextInput
-        }
-        multiline={true}
-        placeholder="Text*"
-        value={text}
-        onChangeText={value => setTextAndLength(value)}
-        maxLength={maxLength}
-      />
-      <Text style={styles.lengthCount}>
-        {textLength + ' character(s) of ' + maxLength}
-      </Text>
       <TouchableOpacity style={styles.button} onPress={() => saveText()}>
         <Text>Save</Text>
       </TouchableOpacity>
@@ -72,7 +46,7 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    height: '80%',
+    height: 300,
   },
   button: {
     backgroundColor: colors.COLORS.LIGHTGRAY,
@@ -81,11 +55,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
   },
-  lengthCount: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    padding: 5,
-  },
 });
 
-export default TextToSpeechScreen;
+export default ImageToSpeechScreen;

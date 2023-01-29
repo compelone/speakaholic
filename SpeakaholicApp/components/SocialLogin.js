@@ -3,8 +3,8 @@ import {View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import {CognitoHostedUIIdentityProvider} from '@aws-amplify/auth';
 import {Auth, Hub} from 'aws-amplify';
 
-import {getCurrentUserInfo} from '../services/authService';
-import {createUser, userExists} from '../services/dataService';
+// import {getCurrentUserInfo} from '../services/authService';
+// import {createUser, userExists} from '../services/dataService';
 
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
@@ -14,32 +14,7 @@ const SocialLogin = ({navigation}) => {
     const unsubscribe = Hub.listen('auth', ({payload: {event, data}}) => {
       switch (event) {
         case 'signIn':
-          getCurrentUserInfo()
-            .then(user => {
-              userExists(user.attributes.sub)
-                .then(doesExist => {
-                  if (!doesExist) {
-                    createUser(
-                      'no-reply@sociallogin.com',
-                      user.attributes.name,
-                      user.attributes.sub,
-                      null,
-                    )
-                      .then(createdUser => {
-                        return;
-                      })
-                      .catch(err => console.log(err));
-                  }
-
-                  navigation.navigate('Root');
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          navigation.navigate('Root');
           break;
         case 'signOut':
           break;
@@ -47,7 +22,6 @@ const SocialLogin = ({navigation}) => {
           console.log(data);
       }
     });
-
     return unsubscribe;
   }, [navigation]);
 

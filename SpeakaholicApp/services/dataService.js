@@ -3,16 +3,19 @@ import {DataStore} from '@aws-amplify/datastore';
 import {Users} from '../models';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
-  await DataStore.save(
-    new Users({
-      email: email,
-      image_url: imageUrl,
-      created_utc: new Date().toISOString(),
-      authentication_id: cognitoUsername,
-      name: name,
-      cognito_user_name: cognitoUsername,
-    }),
-  );
+  const doesUserExist = await userExists(cognitoUsername);
+  if (!doesUserExist) {
+    await DataStore.save(
+      new Users({
+        email: email,
+        image_url: imageUrl,
+        created_date_utc: new Date().toISOString(),
+        authentication_id: cognitoUsername,
+        name: name,
+        cognito_user_name: cognitoUsername,
+      }),
+    );
+  }
 }
 
 export async function userExists(cognitoUsername) {
