@@ -16,7 +16,7 @@ async function uploadToS3(data, access, prefix) {
     level: access,
   });
 
-  return id;
+  return fileName;
 }
 
 export {generateUUID, uploadToS3};
