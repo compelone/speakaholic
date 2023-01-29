@@ -13,6 +13,7 @@ import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {registration} from '../services/authService';
+import SocialLogin from '../components/SocialLogin';
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -119,6 +120,9 @@ const SignUpScreen = ({navigation}) => {
           onPress={() => navigation.navigate('Login')}>
           <Text>Login</Text>
         </TouchableOpacity>
+      </View>
+      <View>
+        <SocialLogin navigation={navigation} />
       </View>
     </View>
   );

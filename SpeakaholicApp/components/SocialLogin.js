@@ -65,14 +65,6 @@ const SocialLogin = ({navigation}) => {
           }>
           <Image source={require('../assets/images/icons8-facebook-48.png')} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            Auth.federatedSignIn({
-              provider: CognitoHostedUIIdentityProvider.Google,
-            })
-          }>
-          <Image source={require('../assets/images/icons8-google-48.png')} />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -94,7 +86,7 @@ const styles = StyleSheet.create({
   },
   socialView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   useText: {
     fontSize: 20,

@@ -91,7 +91,7 @@
     "universal-cookie" "^4.0.4"
     "zen-observable-ts" "0.8.19"
 
-"@aws-amplify/datastore@4.0.11":
+"@aws-amplify/datastore@^4.0.11", "@aws-amplify/datastore@4.0.11":
   "integrity" "sha512-8KzyKKf1pI5Gh3u2LIVlG2hkPbjVnKP+2bb2v7ZMWm05tQvjnrGIMn23cn29oIzpVZ4LljfJY9LlxcjG22xpMw=="
   "resolved" "https://registry.npmjs.org/@aws-amplify/datastore/-/datastore-4.0.11.tgz"
   "version" "4.0.11"

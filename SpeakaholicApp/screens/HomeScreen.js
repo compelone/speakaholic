@@ -64,7 +64,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.image}>
           {/* <Image source={require('../assets/images/Appleicon_120px.png')} /> */}
         </View>
-        <Text style={styles.headerText}>Dealsy</Text>
+        <Text style={styles.headerText}>Speakaholic</Text>
         <View>
           <TouchableOpacity
             style={styles.button}

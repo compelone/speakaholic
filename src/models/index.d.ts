@@ -14,7 +14,7 @@ type EagerUsers = {
   readonly id: string;
   readonly email: string;
   readonly name: string;
-  readonly cognito_user_nam: string;
+  readonly cognito_user_name: string;
   readonly image_url?: string | null;
   readonly created_date_utc: string;
   readonly createdAt?: string | null;
@@ -29,7 +29,7 @@ type LazyUsers = {
   readonly id: string;
   readonly email: string;
   readonly name: string;
-  readonly cognito_user_nam: string;
+  readonly cognito_user_name: string;
   readonly image_url?: string | null;
   readonly created_date_utc: string;
   readonly createdAt?: string | null;

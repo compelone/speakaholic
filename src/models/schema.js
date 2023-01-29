@@ -24,8 +24,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "cognito_user_nam": {
-                    "name": "cognito_user_nam",
+                "cognito_user_name": {
+                    "name": "cognito_user_name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -91,5 +91,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "6154b6d5ffec68d0c9bfcb7ac4329d94"
+    "version": "2d936c2ab8c3ceb057b11b7255254727"
 };

@@ -2,12 +2,17 @@ import {Auth} from 'aws-amplify';
 import {createUser, userExists} from './dataService';
 
 async function registration(email, password, name) {
-  await Auth.signUp({
-    username: email,
-    password,
-    attributes: {name},
-    autoSignIn: {enabled: true},
-  });
+  try {
+    await Auth.signUp({
+      username: email,
+      password,
+      attributes: {name, email},
+      autoSignIn: {enabled: true},
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
 async function signIn(email, password) {
