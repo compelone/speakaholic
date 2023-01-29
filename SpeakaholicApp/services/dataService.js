@@ -26,7 +26,14 @@ export async function userExists(cognitoUsername) {
   return models.length > 1;
 }
 
-export async function saveSpeechItem(cognitoUsername, s3_key, textLength) {
+export async function saveSpeechItem(
+  cognitoUsername,
+  s3_key,
+  textLength,
+  voice,
+  language,
+  predictionType,
+) {
   await DataStore.save(
     new SpeechItems({
       cognito_user_name: cognitoUsername,
@@ -34,6 +41,9 @@ export async function saveSpeechItem(cognitoUsername, s3_key, textLength) {
       character_count: textLength,
       created_date_utc: new Date().toISOString(),
       is_processed: false,
+      voice: voice,
+      language: language,
+      prediction_type: predictionType,
     }),
   );
 }

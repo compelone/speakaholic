@@ -17,6 +17,9 @@ type EagerSpeechItems = {
   readonly character_count: number;
   readonly created_date_utc: string;
   readonly is_processed?: boolean | null;
+  readonly voice: string;
+  readonly language: string;
+  readonly prediction_type: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -32,6 +35,9 @@ type LazySpeechItems = {
   readonly character_count: number;
   readonly created_date_utc: string;
   readonly is_processed?: boolean | null;
+  readonly voice: string;
+  readonly language: string;
+  readonly prediction_type: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

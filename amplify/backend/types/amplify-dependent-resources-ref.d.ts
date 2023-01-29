@@ -19,6 +19,21 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     }
   },
+  "predictions": {
+    "speakaholicidentifytext": {
+      "format": "string",
+      "region": "string"
+    },
+    "speakaholicspeechtotext": {
+      "language": "string",
+      "region": "string"
+    },
+    "speakaholictexttospeech": {
+      "language": "string",
+      "region": "string",
+      "voice": "string"
+    }
+  },
   "storage": {
     "s3speakaholicstoragedev": {
       "BucketName": "string",

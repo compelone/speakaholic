@@ -58,6 +58,24 @@
       "service": "Cognito"
     }
   },
+  "predictions": {
+    "speakaholicidentifytext": {
+      "dependsOn": [],
+      "identifyType": "identifyText",
+      "providerPlugin": "awscloudformation",
+      "service": "Rekognition"
+    },
+    "speakaholicspeechtotext": {
+      "convertType": "transcription",
+      "providerPlugin": "awscloudformation",
+      "service": "Transcribe"
+    },
+    "speakaholictexttospeech": {
+      "convertType": "speechGenerator",
+      "providerPlugin": "awscloudformation",
+      "service": "Polly"
+    }
+  },
   "storage": {
     "s3speakaholicstoragedev": {
       "dependsOn": [],

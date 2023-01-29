@@ -12,11 +12,13 @@ import layout from '../styles/layout';
 import {Storage} from '@aws-amplify/storage';
 import {saveSpeechItem} from '../services/dataService';
 import {getCurrentUserInfo} from '../services/authService';
+import Voices from '../components/Voices';
 
 const TextToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
   const [textError, setTextError] = useState();
   const [textLength, setTextLength] = useState(0);
+  const [voice, setVoice] = useState('salli');
 
   const maxLength = 1000;
 
@@ -28,7 +30,14 @@ const TextToSpeechScreen = ({navigation}) => {
         contentType: 'text/plain',
       });
       user = await getCurrentUserInfo();
-      await saveSpeechItem(user.attributes.sub, key, textLength);
+      await saveSpeechItem(
+        user.attributes.sub,
+        key,
+        textLength,
+        voice,
+        'English',
+        'texttospeech',
+      );
     }
   };
 
@@ -39,6 +48,8 @@ const TextToSpeechScreen = ({navigation}) => {
 
   return (
     <View style={styles.mainContainer}>
+      <Voices voice={voice} setVoice={setVoice} />
+
       <TextInput
         style={
           textError
@@ -83,7 +94,7 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    height: '80%',
+    height: '60%',
   },
   button: {
     backgroundColor: colors.COLORS.LIGHTGRAY,

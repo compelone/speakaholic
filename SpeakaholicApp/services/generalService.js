@@ -10,13 +10,10 @@ function generateUUID(digits) {
 }
 
 async function uploadToS3(data, access, prefix) {
-  const id = generateUUID(32);
+  const fileName = new Date().toISOString();
 
-  await Storage.put(id, data, {
+  await Storage.put(fileName, data, {
     level: access,
-    // customPrefix: {
-    //   public: `${prefix}/`,
-    // },
   });
 
   return id;

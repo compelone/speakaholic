@@ -45,6 +45,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "voice": {
+                    "name": "voice",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "language": {
+                    "name": "language",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "prediction_type": {
+                    "name": "prediction_type",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -178,5 +199,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "4d5d59a053c713207f49e819d5e616d0"
+    "version": "7fc8130d5f8672d98df8bad3982c9cf6"
 };
