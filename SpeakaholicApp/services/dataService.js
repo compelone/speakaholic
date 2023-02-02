@@ -47,3 +47,24 @@ export async function saveSpeechItem(
     }),
   );
 }
+
+export async function saveImageToSpeechItem(
+  cognitoUsername,
+  s3_key,
+  voice,
+  language,
+  predictionType,
+) {
+  await DataStore.save(
+    new SpeechItems({
+      cognito_user_name: cognitoUsername,
+      key: s3_key,
+      character_count: 0,
+      created_date_utc: new Date().toISOString(),
+      is_processed: false,
+      voice: voice,
+      language: language,
+      prediction_type: predictionType,
+    }),
+  );
+}

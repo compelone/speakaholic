@@ -26,21 +26,22 @@ const SocialLogin = ({navigation}) => {
   }, [navigation]);
 
   return (
-    <View>
-      <View style={layout.default.centered.justifyContent}>
-        <Text style={styles.useText}>- Login With -</Text>
-      </View>
-      <View style={styles.socialView}>
-        <TouchableOpacity
-          onPress={() =>
-            Auth.federatedSignIn({
-              provider: CognitoHostedUIIdentityProvider.Facebook,
-            })
-          }>
-          <Image source={require('../assets/images/icons8-facebook-48.png')} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    <></>
+    // <View>
+    //   <View style={layout.default.centered.justifyContent}>
+    //     <Text style={styles.useText}>- Login With -</Text>
+    //   </View>
+    //   <View style={styles.socialView}>
+    //     <TouchableOpacity
+    //       onPress={() =>
+    //         Auth.federatedSignIn({
+    //           provider: CognitoHostedUIIdentityProvider.Facebook,
+    //         })
+    //       }>
+    //       <Image source={require('../assets/images/icons8-facebook-48.png')} />
+    //     </TouchableOpacity>
+    //   </View>
+    // </View>
   );
 };
 
