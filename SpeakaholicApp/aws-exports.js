@@ -20,8 +20,8 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "speakaholicapp://com.byitl.speakaholicapp/signin",
-        "redirectSignOut": "speakaholicapp://com.byitl.speakaholicapp/signout",
+        "redirectSignIn": "speakaholic://com.byitl.speakaholic/signin",
+        "redirectSignOut": "speakaholic://com.byitl.speakaholic/signout",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",
