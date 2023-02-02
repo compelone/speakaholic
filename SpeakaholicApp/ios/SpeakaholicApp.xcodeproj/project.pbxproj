@@ -537,8 +537,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.byitl.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.byitl.SpeakaholicApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholicapp;
 				PRODUCT_NAME = SpeakaholicApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -567,8 +566,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.byitl.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.byitl.SpeakaholicApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholicapp;
 				PRODUCT_NAME = SpeakaholicApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
