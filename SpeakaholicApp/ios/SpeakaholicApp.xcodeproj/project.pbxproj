@@ -56,6 +56,7 @@
 		4952CEEF2986F19C00BEC19A /* joey.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = joey.mp3; sourceTree = "<group>"; };
 		4952CEF02986F19C00BEC19A /* ivy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ivy.mp3; sourceTree = "<group>"; };
 		4952CEF12986F19C00BEC19A /* kendra.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = kendra.mp3; sourceTree = "<group>"; };
+		4952CEFB298C09D800BEC19A /* SpeakaholicApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SpeakaholicApp.entitlements; path = SpeakaholicApp/SpeakaholicApp.entitlements; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-SpeakaholicApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakaholicApp.release.xcconfig"; path = "Target Support Files/Pods-SpeakaholicApp/Pods-SpeakaholicApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig"; path = "Target Support Files/Pods-SpeakaholicApp-SpeakaholicAppTests/Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-SpeakaholicApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpeakaholicApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +105,7 @@
 		13B07FAE1A68108700A75B9A /* SpeakaholicApp */ = {
 			isa = PBXGroup;
 			children = (
+				4952CEFB298C09D800BEC19A /* SpeakaholicApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -521,6 +523,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SpeakaholicApp/SpeakaholicApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4H74N8P7XZ;
 				ENABLE_BITCODE = NO;
@@ -537,7 +540,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholicapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholic;
 				PRODUCT_NAME = SpeakaholicApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -551,6 +554,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SpeakaholicApp/SpeakaholicApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4H74N8P7XZ;
 				INFOPLIST_FILE = SpeakaholicApp/Info.plist;
@@ -566,7 +570,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholicapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byitl.speakaholic;
 				PRODUCT_NAME = SpeakaholicApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
