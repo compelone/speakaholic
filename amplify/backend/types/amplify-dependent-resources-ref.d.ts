@@ -1,4 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
+  "api": {
+    "speakaholic": {
+      "GraphQLAPIEndpointOutput": "string",
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
+    }
+  },
   "auth": {
     "speakaholic": {
       "AppClientID": "string",
@@ -10,6 +17,27 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
+    }
+  },
+  "predictions": {
+    "speakaholicidentifytext": {
+      "format": "string",
+      "region": "string"
+    },
+    "speakaholicspeechtotext": {
+      "language": "string",
+      "region": "string"
+    },
+    "speakaholictexttospeech": {
+      "language": "string",
+      "region": "string",
+      "voice": "string"
+    }
+  },
+  "storage": {
+    "s3speakaholicstoragedev": {
+      "BucketName": "string",
+      "Region": "string"
     }
   }
 }

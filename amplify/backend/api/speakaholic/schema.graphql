@@ -1,0 +1,21 @@
+type SpeechItems @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  key: String!
+  cognito_user_name: String!
+  character_count: Int!
+  created_date_utc: AWSDateTime!
+  is_processed: Boolean
+  voice: String!
+  language: String!
+  prediction_type: String!
+}
+
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String!
+  name: String!
+  cognito_user_name: String!
+  image_url: String
+  created_date_utc: AWSDateTime!
+}
+ 

@@ -14,6 +14,17 @@
     "categories": {
       "auth": {
         "speakaholic": {}
+      },
+      "api": {
+        "speakaholic": {}
+      },
+      "storage": {
+        "s3speakaholicstoragedev": {}
+      },
+      "predictions": {
+        "speakaholicidentifytext": {},
+        "speakaholictexttospeech": {},
+        "speakaholicspeechtotext": {}
       }
     }
   }

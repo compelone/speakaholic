@@ -1,0 +1,14 @@
+{
+    "resourceName": "speakaholictexttospeech",
+    "convertPolicyName": "speechGeneratorPolicy7d1ccbcf",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "convertType": "speechGenerator",
+    "language": "en-US",
+    "voice": "Matthew",
+    "access": "auth"
+}
