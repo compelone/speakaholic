@@ -54,7 +54,8 @@ def lambda_handler(event, context):
             OutputFormat='mp3',
             TextType='ssml',
             Text='<speak> %s </speak>' % (text),
-            VoiceId=dynamo_response['Items'][0]['voice']
+            VoiceId=dynamo_response['Items'][0]['voice'],
+            Engine='neural'
         )
 
         # save polly response to s3
