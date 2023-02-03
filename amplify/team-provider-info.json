@@ -27,7 +27,19 @@
         "speakaholicspeechtotext": {}
       },
       "analytics": {
-        "speakaholic": {}
+        "speakaholic": {},
+        "Pinpoint": {
+          "Name": "speakaholic-dev",
+          "Id": "209ce5922b5d48619230c54e12c854ee",
+          "Region": "us-east-1"
+        }
+      },
+      "notifications": {
+        "Pinpoint": {
+          "Name": "speakaholic-dev",
+          "Id": "209ce5922b5d48619230c54e12c854ee",
+          "Region": "us-east-1"
+        }
       }
     }
   }
