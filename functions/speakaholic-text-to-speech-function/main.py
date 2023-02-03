@@ -15,7 +15,7 @@ def lambda_handler(event, context):
         print("Environment is local, skipping")
 
         bucket = 'speakaholic-storage-dev202305-dev'
-        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/2023-02-02T19:15:16.324Z.txt'
+        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/2023-02-03T10:07:25.601Z.txt'
         speech_items_table_name = 'SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-dev'
     else:
         print('Environment is not local, processing')
@@ -30,7 +30,7 @@ def lambda_handler(event, context):
     print('Looking up key %s in bucket %s' % (dynamo_lookup_key, bucket))
 
     try:
-        index_name = 'key-index'
+        index_name = 's3_input_key-index'
 
         # boto3 lookup record in dynamo db
         dynamodb = boto3.resource('dynamodb')
@@ -46,7 +46,7 @@ def lambda_handler(event, context):
         s3_response = s3.get_object(Bucket=bucket, Key=key)
 
         # read text from s3 object
-        text = s3_response['Item']['text']
+        text = s3_response['Body'].read().decode('utf-8')
 
         # boto3 pass s3 file to amazon polly for text to speech
         polly = boto3.client('polly')
@@ -54,7 +54,7 @@ def lambda_handler(event, context):
             OutputFormat='mp3',
             TextType='ssml',
             Text='<speak> %s </speak>' % (text),
-            VoiceId=dynamo_response['Item']['voice']
+            VoiceId=dynamo_response['Items'][0]['voice']
         )
 
         # save polly response to s3
@@ -65,17 +65,16 @@ def lambda_handler(event, context):
         )
 
         # update dynamo db with new file size
-        if 'Item' in polly_response:
-            table.update_item(
-                Key={
-                    'id': dynamo_response['Item']['id']
-                },
-                UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key',
-                ExpressionAttributeValues={
-                    ':is_processed': True,
-                    ':s3_output_key': key.replace('.txt', '.mp3')
-                }
-            )
+        table.update_item(
+            Key={
+                'id': dynamo_response['Items'][0]['id']
+            },
+            UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key',
+            ExpressionAttributeValues={
+                ':is_processed': True,
+                ':s3_output_key': key.replace('.txt', '.mp3')
+            }
+        )
     except Exception as e:
         print(e)
         raise e

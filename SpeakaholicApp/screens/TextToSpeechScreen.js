@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
@@ -23,21 +24,26 @@ const TextToSpeechScreen = ({navigation}) => {
   const maxLength = 1000;
 
   const saveText = async () => {
-    if (text.length > 0) {
-      const fileName = new Date().toISOString();
-      const key = await Storage.put(`${fileName}.txt`, text, {
-        level: 'private',
-        contentType: 'text/plain',
-      });
-      user = await getCurrentUserInfo();
-      await saveSpeechItem(
-        user.attributes.sub,
-        key,
-        textLength,
-        voice,
-        'English',
-        'texttospeech',
-      );
+    try {
+      if (text.length > 0) {
+        const fileName = new Date().toISOString();
+        const key = await Storage.put(`${fileName}.txt`, text, {
+          level: 'private',
+          contentType: 'text/plain',
+        });
+        user = await getCurrentUserInfo();
+        await saveSpeechItem(
+          user.attributes.sub,
+          key,
+          textLength,
+          voice,
+          'English',
+          'texttospeech',
+        );
+      }
+      setText();
+    } catch (error) {
+      Alert.alert('Something went wrong', error.message);
     }
   };
 
