@@ -3,14 +3,14 @@ import urllib.parse
 import boto3
 import os
 
-print('Loading function')
-
-s3 = boto3.client('s3')
-env = os.getenv('ENVIRONMENT')
-speech_items_table_name = os.getenv('SPEECHITEMS_TABLE_NAME')
-
 
 def lambda_handler(event, context):
+    print('Loading function')
+
+    s3 = boto3.client('s3')
+    env = os.getenv('ENVIRONMENT')
+    speech_items_table_name = os.getenv('SPEECHITEMS_TABLE_NAME')
+
     if (env == 'local'):
         print("Environment is local, skipping")
 
@@ -80,5 +80,5 @@ def lambda_handler(event, context):
         raise e
 
 
-if __name__ == "__main__":
-    lambda_handler(None, None)
+# if __name__ == "__main__":
+#     lambda_handler(None, None)
