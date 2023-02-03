@@ -25,6 +25,9 @@
         "speakaholicidentifytext": {},
         "speakaholictexttospeech": {},
         "speakaholicspeechtotext": {}
+      },
+      "analytics": {
+        "speakaholic": {}
       }
     }
   }

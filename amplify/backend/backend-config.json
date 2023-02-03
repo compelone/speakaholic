@@ -1,4 +1,10 @@
 {
+  "analytics": {
+    "speakaholic": {
+      "providerPlugin": "awscloudformation",
+      "service": "Pinpoint"
+    }
+  },
   "api": {
     "speakaholic": {
       "dependsOn": [],
