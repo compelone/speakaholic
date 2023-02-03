@@ -14,6 +14,7 @@ import ForgotPasswordConfirmationScreen from '../screens/ForgotPasswordConfirmat
 import SettingsScreen from '../screens/SettingsScreen';
 import colors from '../styles/colors';
 import BottomTabNavigator from './BottomTabNavigator';
+import DownloadsScreen from '../screens/DownloadsScreen';
 
 Icon.loadFont().then();
 
@@ -109,6 +110,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="Downloads"
+        component={DownloadsScreen}
         options={{headerShown: true}}
       />
     </Stack.Navigator>

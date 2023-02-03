@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TextInput,
@@ -15,6 +15,11 @@ import {saveSpeechItem} from '../services/dataService';
 import {getCurrentUserInfo} from '../services/authService';
 import Voices from '../components/Voices';
 
+import {PushNotification} from '@aws-amplify/pushnotification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import DeviceInfo from 'react-native-device-info';
+
 const TextToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
   const [textError, setTextError] = useState();
@@ -22,6 +27,46 @@ const TextToSpeechScreen = ({navigation}) => {
   const [voice, setVoice] = useState('salli');
 
   const maxLength = 1000;
+  if (!DeviceInfo.isEmulatorSync()) {
+    useEffect(() => {
+      (async () => {
+        const notificationPermissions = await check(
+          PERMISSIONS.IOS.NOTIFICATIONS,
+        );
+
+        if (notificationPermissions !== RESULTS.GRANTED) {
+          const requestNotificationPermission = await request(
+            PERMISSIONS.IOS.NOTIFICATIONS,
+          );
+          if (requestNotificationPermission !== RESULTS.GRANTED) {
+            Alert.alert('Permission to send notification is not allowed');
+            return;
+          }
+
+          PushNotification.onRegister(token => {
+            console.log('in app registration', token);
+          });
+
+          PushNotificationIOS.addEventListener(
+            'notification',
+            onRemoteNotification,
+          );
+        }
+      })();
+    }, []);
+  }
+
+  const onRemoteNotification = notification => {
+    const isClicked = notification.getData().userInteraction === 1;
+
+    if (isClicked) {
+      // Navigate user to another screen
+      console.log('clicked');
+    } else {
+      // Do something else with push notification
+      console.log('not clicked');
+    }
+  };
 
   const saveText = async () => {
     try {
@@ -76,6 +121,9 @@ const TextToSpeechScreen = ({navigation}) => {
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => saveText()}>
         <Text>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Downloads')}>
+        <Text>Downloads</Text>
       </TouchableOpacity>
     </View>
   );

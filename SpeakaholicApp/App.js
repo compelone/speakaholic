@@ -9,39 +9,22 @@ import React, {useEffect} from 'react';
 import Navigation from './navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Amplify, Analytics} from 'aws-amplify';
-import {PushNotification} from '@aws-amplify/pushnotification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import userReducer from './modules/UserStore';
 
 import awsconfig from './aws-exports';
 
-Amplify.configure({
-  ...awsconfig,
-  PushNotification: {
-    requestIOSPermissions: true,
-  },
-});
+Amplify.configure(awsconfig);
+const store = createStore(userReducer);
 
 function App() {
-  useEffect(() => {
-    PushNotificationIOS.addEventListener('notification', onRemoteNotification);
-  });
-
-  const onRemoteNotification = notification => {
-    const isClicked = notification.getData().userInteraction === 1;
-
-    if (isClicked) {
-      // Navigate user to another screen
-      console.log('clicked');
-    } else {
-      // Do something else with push notification
-      console.log('not clicked');
-    }
-  };
-
   return (
-    <SafeAreaProvider>
-      <Navigation />
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <Navigation />
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 

@@ -68,3 +68,11 @@ export async function saveImageToSpeechItem(
     }),
   );
 }
+
+export async function getProcessedSpeechItems(cognitoUsername) {
+  const models = await DataStore.query(SpeechItems, u =>
+    u.cognito_user_name.eq(cognitoUsername),
+  );
+
+  return models.filter(model => model.is_processed);
+}

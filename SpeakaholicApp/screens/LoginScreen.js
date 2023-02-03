@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {signIn} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
+import {bindActionCreators} from 'redux';
+import {updateUser} from '../modules/UserActions';
+import {connect} from 'react-redux';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -39,11 +41,13 @@ const LoginScreen = ({navigation}) => {
     setLoading(true);
 
     try {
-      await signIn(email, password);
+      const loggedInUser = await signIn(email, password);
+
+      props.updateUser(loggedInUser);
 
       setError('');
       await Keychain.setGenericPassword(email, password);
-      navigation.replace('Root');
+      props.navigation.replace('Root');
     } catch (err) {
       if (
         err.toString() === 'UserNotConfirmedException: User is not confirmed.'
@@ -51,7 +55,7 @@ const LoginScreen = ({navigation}) => {
         Alert.alert(
           'Your account is not confirmed. Check your email for your confirmation code.',
         );
-        navigation.navigate('ConfirmAccount');
+        props.navigation.navigate('ConfirmAccount');
       } else {
         setError(err.toString());
       }
@@ -94,12 +98,12 @@ const LoginScreen = ({navigation}) => {
 
         <Text
           style={styles.forgotPasswordText}
-          onPress={() => navigation.navigate('ForgotPassword')}>
+          onPress={() => props.navigation.navigate('ForgotPassword')}>
           Forgot Password?
         </Text>
         <Text
           style={styles.forgotPasswordText}
-          onPress={() => navigation.navigate('ConfirmAccount')}>
+          onPress={() => props.navigation.navigate('ConfirmAccount')}>
           Have a Code?
         </Text>
         {loading ? (
@@ -113,14 +117,14 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.signupButton]}
-              onPress={() => navigation.navigate('SignUp')}>
+              onPress={() => props.navigation.navigate('SignUp')}>
               <Text>Sign Up</Text>
             </TouchableOpacity>
           </View>
         )}
       </View>
       <View>
-        <SocialLogin navigation={navigation} />
+        <SocialLogin navigation={props.navigation} />
       </View>
     </View>
   );
@@ -163,4 +167,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateUser,
+    },
+    dispatch,
+  );
+
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import {CognitoHostedUIIdentityProvider} from '@aws-amplify/auth';
 import {Auth, Hub} from 'aws-amplify';
+import {connect} from 'react-redux';
 
 // import {getCurrentUserInfo} from '../services/authService';
 // import {createUser, userExists} from '../services/dataService';
@@ -9,12 +10,16 @@ import {Auth, Hub} from 'aws-amplify';
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 
-const SocialLogin = ({navigation}) => {
+const SocialLogin = props => {
   useEffect(() => {
+    if (props === undefined) {
+      return;
+    }
+
     const unsubscribe = Hub.listen('auth', ({payload: {event, data}}) => {
       switch (event) {
         case 'signIn':
-          navigation.navigate('Root');
+          props.navigation.navigate('Root');
           break;
         case 'signOut':
           break;
@@ -23,7 +28,7 @@ const SocialLogin = ({navigation}) => {
       }
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [props]);
 
   return (
     <></>
@@ -70,4 +75,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SocialLogin;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(SocialLogin);
