@@ -1,6 +1,6 @@
 type SpeechItems @model @auth(rules: [{allow: public}]) {
   id: ID!
-  key: String!
+  s3_input_key: String!
   cognito_user_name: String!
   character_count: Int!
   created_date_utc: AWSDateTime!
@@ -8,6 +8,7 @@ type SpeechItems @model @auth(rules: [{allow: public}]) {
   voice: String!
   language: String!
   prediction_type: String!
+  s3_output_key: String
 }
 
 type Users @model @auth(rules: [{allow: public}]) {

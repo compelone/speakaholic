@@ -37,7 +37,7 @@ export async function saveSpeechItem(
   await DataStore.save(
     new SpeechItems({
       cognito_user_name: cognitoUsername,
-      key: s3_key.key,
+      s3_input_key: s3_key.key,
       character_count: textLength,
       created_date_utc: new Date().toISOString(),
       is_processed: false,
@@ -58,7 +58,7 @@ export async function saveImageToSpeechItem(
   await DataStore.save(
     new SpeechItems({
       cognito_user_name: cognitoUsername,
-      key: s3_key,
+      s3_input_key: s3_key,
       character_count: 0,
       created_date_utc: new Date().toISOString(),
       is_processed: false,
