@@ -15,7 +15,7 @@ def lambda_handler(event, context):
         print("Environment is local, skipping")
 
         bucket = 'speakaholic-storage-dev202305-dev'
-        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/2023-02-03T10:07:25.601Z.txt'
+        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/inputs/2023-02-04T13:37:46.934Z.txt'
         speech_items_table_name = 'SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-dev'
     else:
         print('Environment is not local, processing')
@@ -25,7 +25,16 @@ def lambda_handler(event, context):
         key = urllib.parse.unquote_plus(
             event['Records'][0]['s3']['object']['key'], encoding='utf-8')
 
-    dynamo_lookup_key = key.split('/')[2]
+    # if the key does not contains /inputs/ return
+    if '/inputs/' not in key:
+        print('Key does not contain /inputs/ skipping')
+        return
+
+    key_split = key.split('/')
+    dynamo_lookup_key = 'inputs/' + key_split[3]
+    file_name = key_split[3]
+    file_output_path = '%s/%s/%s' % (key_split[0],
+                                     key_split[1], file_name.replace('.txt', '.mp3'))
 
     print('Looking up key %s in bucket %s' % (dynamo_lookup_key, bucket))
 
@@ -62,7 +71,7 @@ def lambda_handler(event, context):
         s3.put_object(
             Body=polly_response['AudioStream'].read(),
             Bucket=bucket,
-            Key=key.replace('.txt', '.mp3')
+            Key=file_output_path
         )
 
         # update dynamo db with new file size

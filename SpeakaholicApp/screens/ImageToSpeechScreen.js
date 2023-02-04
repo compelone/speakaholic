@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
@@ -10,17 +19,23 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {uploadToS3} from '../services/generalService';
 import {saveImageToSpeechItem} from '../services/dataService';
 import {getCurrentUserInfo} from '../services/authService';
+import Downloads from '../components/Downloads';
+import {connect} from 'react-redux';
 
-const ImageToSpeechScreen = ({navigation}) => {
-  const [imageUri, setImageUri] = useState('');
-  const [voice, setVoice] = useState('salli');
+const ImageToSpeechScreen = props => {
+  const [imageUri, setImageUri] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState();
+  const [nameError, setNameError] = useState();
+  const [voice, setVoice] = useState('Salli');
+  const [isImageChanged, setIsImageChanged] = useState(false);
+
+  const imageBase64 = {
+    uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAREAAAC4CAMAAADzLiguAAAAG1BMVEX39/f4+Pjv7+/k5OT09PTq6urm5ubw8PDs7OxW829PAAACYElEQVR4nO3dzU7DMBAA4fzYjt//iamTNnUmQeK2SJ65oMKB7ack0A0qU12sr07LbH3LS2Syb4owRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYf9B5PaudbHTxIuk2zsbho4TL5LyyrbIieJFlhvIWiLniRcpd5E1cqRIkbldU7cHkDUfXwsZLEwk5bL3BPI6b44iLihxIs8UOFYUUUSRbxQpudbKq8rAImV7fzYXRVp1+swwp6JIA+kG6klGFamXAXqSQUVK2h/XnOtxNamji+znzPsV8H64pNFFUvv+n5VAO0rmMrbIftKcj3KbqSoybYp4jNy6ipx7ozbMnMcWWfdF81bOQ6Rbqw0qcmxV2wYp12Ok0X/6fraqKaXj4/C/s54vfN91dytGFVm7fep8uX0zrMha6tQW7201737kfPLLtm1cog0t8pgiiijSlX65m3cpYrS4+77pD0XMFf+3Af8tRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYqwXcT6lqne/gvk2NUfdiEYb2qZLrAAAAAASUVORK5CYII=',
+  };
 
   useEffect(() => {
     (async () => {
-      const imageBase64 = {
-        uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAREAAAC4CAMAAADzLiguAAAAG1BMVEX39/f4+Pjv7+/k5OT09PTq6urm5ubw8PDs7OxW829PAAACYElEQVR4nO3dzU7DMBAA4fzYjt//iamTNnUmQeK2SJ65oMKB7ack0A0qU12sr07LbH3LS2Syb4owRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYf9B5PaudbHTxIuk2zsbho4TL5LyyrbIieJFlhvIWiLniRcpd5E1cqRIkbldU7cHkDUfXwsZLEwk5bL3BPI6b44iLihxIs8UOFYUUUSRbxQpudbKq8rAImV7fzYXRVp1+swwp6JIA+kG6klGFamXAXqSQUVK2h/XnOtxNamji+znzPsV8H64pNFFUvv+n5VAO0rmMrbIftKcj3KbqSoybYp4jNy6ipx7ozbMnMcWWfdF81bOQ6Rbqw0qcmxV2wYp12Ok0X/6fraqKaXj4/C/s54vfN91dytGFVm7fep8uX0zrMha6tQW7201737kfPLLtm1cog0t8pgiiijSlX65m3cpYrS4+77pD0XMFf+3Af8tRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYowRZgiTBGmCFOEKcIUYYqwXcT6lqne/gvk2NUfdiEYb2qZLrAAAAAASUVORK5CYII=',
-      };
-
       setImageUri(imageBase64);
     })();
   }, []);
@@ -32,6 +47,7 @@ const ImageToSpeechScreen = ({navigation}) => {
       };
 
       setImageUri(imageBase64);
+      setIsImageChanged(true);
     } else {
       const cameraPermission = await check(PERMISSIONS.IOS.CAMERA);
 
@@ -66,42 +82,77 @@ const ImageToSpeechScreen = ({navigation}) => {
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const imageBase64 = {uri: 'data:image/jpeg;base64,' + response.data};
+          const imageBase64 = {uri: 'data:image/png;base64,' + response.data};
 
           setImageUri(imageBase64);
+          setIsImageChanged(true);
         }
       });
     }
   };
 
   const save = async () => {
-    const fileName = new Date().toISOString();
-    const key = await uploadToS3(
-      fileName,
-      source,
-      'private',
-      'text/plain',
-      'input',
-    );
-    const user = await getCurrentUserInfo();
-    await saveImageToSpeechItem(
-      user.attributes.sub,
-      key,
-      voice,
-      'English',
-      'imagetospeech',
-    );
+    try {
+      if (name === undefined) {
+        setNameError(true);
+        return;
+      }
+      if (!isImageChanged) {
+        Alert.alert('You must select an image.');
+        return;
+      }
+
+      setIsLoading(true);
+      const fileName = `inputs/${new Date().toISOString()}.png`;
+      const s3_key = await uploadToS3(
+        fileName,
+        imageUri,
+        'private',
+        'image/png',
+        'input',
+      );
+      await saveImageToSpeechItem(
+        props.user.loggedInUser.attributes.sub,
+        s3_key.key,
+        voice,
+        'English',
+        'imagetospeech',
+        name,
+      );
+      setName();
+      setImageUri(imageBase64);
+    } catch (error) {
+      Alert.alert('Something went wrong', error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <View style={styles.mainContainer}>
       <Voices voice={voice} setVoice={setVoice} />
+      <TextInput
+        style={
+          nameError
+            ? [styles.textInput, defaultStyles.textInputError]
+            : styles.textInput
+        }
+        onChangeText={setName}
+        placeholder="Name*"
+        value={name}
+        maxLength={100}
+      />
       <TouchableOpacity style={styles.centerImage} onPress={() => pickImage()}>
         <Image source={imageUri} style={styles.image} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => save()}>
-        <Text>Save</Text>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator color={colors.COLORS.PRIMARY} />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={() => save()}>
+          <Text>Save</Text>
+        </TouchableOpacity>
+      )}
+      <Downloads navigation={props.navigation} />
     </View>
   );
 };
@@ -146,4 +197,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageToSpeechScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(ImageToSpeechScreen);

@@ -13,9 +13,9 @@ async function uploadToS3(fileName, data, access, contentType, prefix) {
   const key = await Storage.put(fileName, data, {
     level: access,
     contentType: contentType,
-    customPrefix: {
-      private: `${prefix}/`,
-    },
+    // customPrefix: {
+    //   private: `${prefix}/`,
+    // },
   });
 
   return key;
