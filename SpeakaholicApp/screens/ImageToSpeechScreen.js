@@ -7,7 +7,6 @@ import Voices from '../components/Voices';
 import DeviceInfo from 'react-native-device-info';
 import {showImagePicker} from 'react-native-image-picker';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import RNFS from 'react-native-fs';
 import {uploadToS3} from '../services/generalService';
 import {saveImageToSpeechItem} from '../services/dataService';
 import {getCurrentUserInfo} from '../services/authService';

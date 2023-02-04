@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Speakaholic</string>
+	<string>SpeakaholicApp</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -54,6 +54,10 @@
 	<string>Allow $(PRODUCT_NAME) to access your camera to allow you to upload photos of deals you've found.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your photo library to allow you to upload photos of deals you've found.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>

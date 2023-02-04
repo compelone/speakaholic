@@ -10,15 +10,15 @@ Sound.setCategory('Playback');
 const Voices = props => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    {label: 'English, Ivy, Female', value: 'ivy'},
-    {label: 'English, Joanna, Female', value: 'joanna'},
-    {label: 'English, Joey, Male', value: 'joey'},
-    {label: 'English, Justin, Male', value: 'justin'},
-    {label: 'English, Kendra, Female', value: 'kendra'},
-    {label: 'English, Kevin, Male', value: 'kevin'},
-    {label: 'English, Kimberly, Female', value: 'kimberly'},
-    {label: 'English, Matthew, Male', value: 'matthew'},
-    {label: 'English, Salli, Female', value: 'salli'},
+    {label: 'English, Ivy, Female', value: 'Ivy'},
+    {label: 'English, Joanna, Female', value: 'Joanna'},
+    {label: 'English, Joey, Male', value: 'Joey'},
+    {label: 'English, Justin, Male', value: 'Justin'},
+    {label: 'English, Kendra, Female', value: 'Kendra'},
+    {label: 'English, Kevin, Male', value: 'Kevin'},
+    {label: 'English, Kimberly, Female', value: 'Kimberly'},
+    {label: 'English, Matthew, Male', value: 'Matthew'},
+    {label: 'English, Salli, Female', value: 'Salli'},
   ]);
 
   const changedValue = (value, index) => {

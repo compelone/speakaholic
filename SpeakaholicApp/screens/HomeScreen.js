@@ -14,13 +14,22 @@ import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
 import {signIn} from '../services/authService';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {updateUser} from '../modules/UserActions';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = props => {
   useEffect(() => {
     (async () => {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
-        await signIn(credentials.username, credentials.password);
+        const loggedInUser = await signIn(
+          credentials.username,
+          credentials.password,
+        );
+
+        props.updateUser(loggedInUser);
+        // userStore.dispatch({logedInUser, type: 'SET_USER'});
       }
     })();
   }, []);
@@ -68,17 +77,17 @@ const HomeScreen = ({navigation}) => {
         <View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => props.navigation.navigate('Login')}>
             <Text>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.signupButton]}
-            onPress={() => navigation.navigate('SignUp')}>
+            onPress={() => props.navigation.navigate('SignUp')}>
             <Text>Sign Up</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <SocialLogin navigation={navigation} />
+          <SocialLogin navigation={props.navigation} />
         </View>
       </View>
     </View>
@@ -123,4 +132,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateUser,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

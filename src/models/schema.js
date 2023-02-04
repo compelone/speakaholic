@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "key": {
-                    "name": "key",
+                "s3_input_key": {
+                    "name": "s3_input_key",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -64,6 +64,13 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "s3_output_key": {
+                    "name": "s3_output_key",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -199,5 +206,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "7fc8130d5f8672d98df8bad3982c9cf6"
+    "version": "2ca5bf2d3387022468062440deda629e"
 };

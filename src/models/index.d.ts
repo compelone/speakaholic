@@ -12,7 +12,7 @@ type EagerSpeechItems = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly key: string;
+  readonly s3_input_key: string;
   readonly cognito_user_name: string;
   readonly character_count: number;
   readonly created_date_utc: string;
@@ -20,6 +20,7 @@ type EagerSpeechItems = {
   readonly voice: string;
   readonly language: string;
   readonly prediction_type: string;
+  readonly s3_output_key?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -30,7 +31,7 @@ type LazySpeechItems = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly key: string;
+  readonly s3_input_key: string;
   readonly cognito_user_name: string;
   readonly character_count: number;
   readonly created_date_utc: string;
@@ -38,6 +39,7 @@ type LazySpeechItems = {
   readonly voice: string;
   readonly language: string;
   readonly prediction_type: string;
+  readonly s3_output_key?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
