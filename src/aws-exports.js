@@ -3,6 +3,8 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
+    "aws_mobile_analytics_app_id": "209ce5922b5d48619230c54e12c854ee",
+    "aws_mobile_analytics_app_region": "us-east-1",
     "aws_appsync_graphqlEndpoint": "https://qs7k46lyyrcbpi3m3uqzvkqjme.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "API_KEY",
@@ -53,8 +55,6 @@ const awsmobile = {
     ],
     "aws_user_files_s3_bucket": "speakaholic-storage-dev202305-dev",
     "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_mobile_analytics_app_id": "209ce5922b5d48619230c54e12c854ee",
-    "aws_mobile_analytics_app_region": "us-east-1",
     "predictions": {
         "identify": {
             "identifyText": {

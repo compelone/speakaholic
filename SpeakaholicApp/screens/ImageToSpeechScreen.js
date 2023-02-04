@@ -75,8 +75,14 @@ const ImageToSpeechScreen = ({navigation}) => {
   };
 
   const save = async () => {
-    const level = 'private';
-    const key = await uploadToS3(source, level, 'text/plain', '');
+    const fileName = new Date().toISOString();
+    const key = await uploadToS3(
+      fileName,
+      source,
+      'private',
+      'text/plain',
+      'input',
+    );
     const user = await getCurrentUserInfo();
     await saveImageToSpeechItem(
       user.attributes.sub,

@@ -9,15 +9,16 @@ function generateUUID(digits) {
   return uuid.join('');
 }
 
-async function uploadToS3(data, access, contentType, prefix) {
-  const fileName = new Date().toISOString();
-
-  await Storage.put(fileName, data, {
+async function uploadToS3(fileName, data, access, contentType, prefix) {
+  const key = await Storage.put(fileName, data, {
     level: access,
     contentType: contentType,
+    customPrefix: {
+      private: `${prefix}/`,
+    },
   });
 
-  return fileName;
+  return key;
 }
 
 export {generateUUID, uploadToS3};

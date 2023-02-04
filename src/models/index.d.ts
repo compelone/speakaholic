@@ -6,6 +6,38 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
+type EagerUserCreditsLeft = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly created_date_utc: string;
+  readonly cognito_user_name: string;
+  readonly credits_left: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyUserCreditsLeft = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly created_date_utc: string;
+  readonly cognito_user_name: string;
+  readonly credits_left: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type UserCreditsLeft = LazyLoading extends LazyLoadingDisabled ? EagerUserCreditsLeft : LazyUserCreditsLeft
+
+export declare const UserCreditsLeft: (new (init: ModelInit<UserCreditsLeft>) => UserCreditsLeft) & {
+  copyOf(source: UserCreditsLeft, mutator: (draft: MutableModel<UserCreditsLeft>) => MutableModel<UserCreditsLeft> | void): UserCreditsLeft;
+}
+
 type EagerSpeechItems = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<SpeechItems, 'id'>;
@@ -21,6 +53,8 @@ type EagerSpeechItems = {
   readonly language: string;
   readonly prediction_type: string;
   readonly s3_output_key?: string | null;
+  readonly failed_reason?: string | null;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -40,6 +74,8 @@ type LazySpeechItems = {
   readonly language: string;
   readonly prediction_type: string;
   readonly s3_output_key?: string | null;
+  readonly failed_reason?: string | null;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -61,6 +97,9 @@ type EagerUsers = {
   readonly cognito_user_name: string;
   readonly image_url?: string | null;
   readonly created_date_utc: string;
+  readonly monthly_limit: number;
+  readonly additional_credits: number;
+  readonly credit_reset_days: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -76,6 +115,9 @@ type LazyUsers = {
   readonly cognito_user_name: string;
   readonly image_url?: string | null;
   readonly created_date_utc: string;
+  readonly monthly_limit: number;
+  readonly additional_credits: number;
+  readonly credit_reset_days: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

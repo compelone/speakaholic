@@ -19,6 +19,7 @@ import {PushNotification} from '@aws-amplify/pushnotification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
+import {uploadToS3} from '../services/generalService';
 
 const TextToSpeechScreen = ({navigation}) => {
   const [text, setText] = useState();
@@ -72,14 +73,18 @@ const TextToSpeechScreen = ({navigation}) => {
     try {
       if (text.length > 0) {
         const fileName = new Date().toISOString();
-        const key = await Storage.put(`${fileName}.txt`, text, {
-          level: 'private',
-          contentType: 'text/plain',
-        });
+        const s3_key = await uploadToS3(
+          fileName,
+          text,
+          'private',
+          'text/plain',
+          'input',
+        );
+
         user = await getCurrentUserInfo();
         await saveSpeechItem(
           user.attributes.sub,
-          key,
+          s3_key.key,
           textLength,
           voice,
           'English',

@@ -4,9 +4,10 @@ import { schema } from './schema';
 
 
 
-const { SpeechItems, Users } = initSchema(schema);
+const { UserCreditsLeft, SpeechItems, Users } = initSchema(schema);
 
 export {
+  UserCreditsLeft,
   SpeechItems,
   Users
 };
