@@ -14,7 +14,7 @@ import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
 import Voices from '../components/Voices';
 import DeviceInfo from 'react-native-device-info';
-import {showImagePicker} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {uploadToS3} from '../services/generalService';
 import {saveImageToSpeechItem} from '../services/dataService';
@@ -58,21 +58,13 @@ const ImageToSpeechScreen = props => {
           return;
         }
       }
+
       let options = {
-        title: 'Select Image',
-        customButtons: [
-          {
-            name: 'customOptionKey',
-            title: 'Choose Photo from Custom Option',
-          },
-        ],
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
+        mediaType: 'photo',
+        includeBase64: true,
       };
 
-      showImagePicker(options, response => {
+      await launchCamera(options, response => {
         console.log('Response = ', response);
 
         if (response.didCancel) {
@@ -82,7 +74,9 @@ const ImageToSpeechScreen = props => {
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const imageBase64 = {uri: 'data:image/png;base64,' + response.data};
+          const imageBase64 = {
+            uri: 'data:image/jpg;base64,' + response.assets[0].base64,
+          };
 
           setImageUri(imageBase64);
           setIsImageChanged(true);
