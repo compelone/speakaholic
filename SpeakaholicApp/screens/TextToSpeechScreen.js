@@ -6,25 +6,30 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
-import {Storage} from '@aws-amplify/storage';
 import {saveSpeechItem} from '../services/dataService';
-import {getCurrentUserInfo} from '../services/authService';
 import Voices from '../components/Voices';
 
 import {PushNotification} from '@aws-amplify/pushnotification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
+import {uploadToS3} from '../services/generalService';
+import {connect} from 'react-redux';
+import Downloads from '../components/Downloads';
 
-const TextToSpeechScreen = ({navigation}) => {
+const TextToSpeechScreen = props => {
   const [text, setText] = useState();
+  const [name, setName] = useState();
+  const [nameError, setNameError] = useState();
   const [textError, setTextError] = useState();
   const [textLength, setTextLength] = useState(0);
-  const [voice, setVoice] = useState('salli');
+  const [voice, setVoice] = useState('Salli');
+  const [isLoading, setIsLoading] = useState(false);
 
   const maxLength = 1000;
   if (!DeviceInfo.isEmulatorSync()) {
@@ -70,25 +75,40 @@ const TextToSpeechScreen = ({navigation}) => {
 
   const saveText = async () => {
     try {
-      if (text.length > 0) {
-        const fileName = new Date().toISOString();
-        const key = await Storage.put(`${fileName}.txt`, text, {
-          level: 'private',
-          contentType: 'text/plain',
-        });
-        user = await getCurrentUserInfo();
-        await saveSpeechItem(
-          user.attributes.sub,
-          key,
-          textLength,
-          voice,
-          'English',
-          'texttospeech',
-        );
+      setIsLoading(true);
+      if (name === undefined) {
+        setNameError(true);
+        return;
       }
+      if (text === undefined) {
+        setTextError(true);
+        return;
+      }
+
+      const fileName = `inputs/${new Date().toISOString()}.txt`;
+      const s3_key = await uploadToS3(
+        fileName,
+        text,
+        'private',
+        'text/plain',
+        'input',
+      );
+
+      await saveSpeechItem(
+        props.user.loggedInUser.attributes.sub,
+        s3_key,
+        textLength,
+        voice,
+        'English',
+        'texttospeech',
+        name,
+      );
       setText();
+      setName();
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -103,11 +123,19 @@ const TextToSpeechScreen = ({navigation}) => {
 
       <TextInput
         style={
+          nameError
+            ? [styles.textInput, defaultStyles.textInputError]
+            : styles.textInput
+        }
+        onChangeText={setName}
+        placeholder="Name*"
+        value={name}
+        maxLength={100}
+      />
+      <TextInput
+        style={
           textError
-            ? [
-                styles.descriptionTextInput,
-                defaultStyles.default.textInputError,
-              ]
+            ? [styles.descriptionTextInput, styles.textDescriptionError]
             : styles.descriptionTextInput
         }
         multiline={true}
@@ -119,12 +147,14 @@ const TextToSpeechScreen = ({navigation}) => {
       <Text style={styles.lengthCount}>
         {textLength + ' character(s) of ' + maxLength}
       </Text>
-      <TouchableOpacity style={styles.button} onPress={() => saveText()}>
-        <Text>Save</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Downloads')}>
-        <Text>Downloads</Text>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator color={colors.COLORS.PRIMARY} />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={() => saveText()}>
+          <Text>Save</Text>
+        </TouchableOpacity>
+      )}
+      <Downloads navigation={props.navigation} />
     </View>
   );
 };
@@ -150,6 +180,11 @@ const styles = StyleSheet.create({
     ...defaultStyles.textInput,
     height: '60%',
   },
+  textDescriptionError: {
+    ...defaultStyles.textInput,
+    height: '60%',
+    borderColor: 'red',
+  },
   button: {
     backgroundColor: colors.COLORS.LIGHTGRAY,
     alignItems: 'center',
@@ -164,4 +199,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TextToSpeechScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(TextToSpeechScreen);

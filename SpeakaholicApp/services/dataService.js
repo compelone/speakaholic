@@ -33,6 +33,7 @@ export async function saveSpeechItem(
   voice,
   language,
   predictionType,
+  fileName,
 ) {
   await DataStore.save(
     new SpeechItems({
@@ -44,6 +45,7 @@ export async function saveSpeechItem(
       voice: voice,
       language: language,
       prediction_type: predictionType,
+      name: fileName,
     }),
   );
 }
@@ -54,6 +56,7 @@ export async function saveImageToSpeechItem(
   voice,
   language,
   predictionType,
+  name,
 ) {
   await DataStore.save(
     new SpeechItems({
@@ -65,6 +68,7 @@ export async function saveImageToSpeechItem(
       voice: voice,
       language: language,
       prediction_type: predictionType,
+      name: name,
     }),
   );
 }
