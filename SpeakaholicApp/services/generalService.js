@@ -21,4 +21,11 @@ async function uploadToS3(fileName, data, access, contentType, prefix) {
   return key;
 }
 
-export {generateUUID, uploadToS3};
+async function downloadFile(key) {
+  const url = await Storage.get(key, {
+    level: 'private',
+  });
+  return url;
+}
+
+export {generateUUID, uploadToS3, downloadFile};

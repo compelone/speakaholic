@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
@@ -151,43 +152,47 @@ const ImageToSpeechScreen = props => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <Voices voice={voice} setVoice={setVoice} />
-      <TextInput
-        style={
-          nameError
-            ? [styles.textInput, defaultStyles.textInputError]
-            : styles.textInput
-        }
-        onChangeText={setName}
-        placeholder="Name*"
-        value={name}
-        maxLength={100}
-      />
-      <TouchableOpacity style={styles.centerImage} onPress={() => pickImage()}>
-        <Image
-          source={
-            imageUri === ''
-              ? require('../assets/images/emptyimage.png')
-              : {uri: imageUri}
+    <ScrollView>
+      <View style={styles.mainContainer}>
+        <Voices voice={voice} setVoice={setVoice} />
+        <TextInput
+          style={
+            nameError
+              ? [styles.textInput, defaultStyles.textInputError]
+              : styles.textInput
           }
-          style={styles.image}
+          onChangeText={setName}
+          placeholder="Name*"
+          value={name}
+          maxLength={100}
         />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.centerImage}
-        onPress={() => selectPhoto()}>
-        <Text style={styles.selectPhotoButton}>Select a photo</Text>
-      </TouchableOpacity>
-      {isLoading ? (
-        <ActivityIndicator color={colors.COLORS.PRIMARY} />
-      ) : (
-        <TouchableOpacity style={styles.button} onPress={() => save()}>
-          <Text>Save</Text>
+        <TouchableOpacity
+          style={styles.centerImage}
+          onPress={() => pickImage()}>
+          <Image
+            source={
+              imageUri === ''
+                ? require('../assets/images/emptyimage.png')
+                : {uri: imageUri}
+            }
+            style={styles.image}
+          />
         </TouchableOpacity>
-      )}
-      <Downloads navigation={props.navigation} />
-    </View>
+        <TouchableOpacity
+          style={styles.centerImage}
+          onPress={() => selectPhoto()}>
+          <Text style={styles.selectPhotoButton}>Select a photo</Text>
+        </TouchableOpacity>
+        {isLoading ? (
+          <ActivityIndicator color={colors.COLORS.PRIMARY} />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={() => save()}>
+            <Text>Save</Text>
+          </TouchableOpacity>
+        )}
+        <Downloads navigation={props.navigation} />
+      </View>
+    </ScrollView>
   );
 };
 

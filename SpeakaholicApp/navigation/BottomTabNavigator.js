@@ -21,10 +21,10 @@ export default function BottomTabNavigator() {
         name="Image To Speech"
         component={ImageToSpeechNavigator}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="Speech To Text"
         component={SpeechToTextNavigator}
-      />
+      /> */}
     </BottomTab.Navigator>
   );
 }
