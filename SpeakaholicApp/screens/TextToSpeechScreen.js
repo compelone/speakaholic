@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
@@ -118,44 +119,46 @@ const TextToSpeechScreen = props => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <Voices voice={voice} setVoice={setVoice} />
+    <ScrollView>
+      <View style={styles.mainContainer}>
+        <Voices voice={voice} setVoice={setVoice} />
 
-      <TextInput
-        style={
-          nameError
-            ? [styles.textInput, defaultStyles.textInputError]
-            : styles.textInput
-        }
-        onChangeText={setName}
-        placeholder="Name*"
-        value={name}
-        maxLength={100}
-      />
-      <TextInput
-        style={
-          textError
-            ? [styles.descriptionTextInput, styles.textDescriptionError]
-            : styles.descriptionTextInput
-        }
-        multiline={true}
-        placeholder="Text*"
-        value={text}
-        onChangeText={value => setTextAndLength(value)}
-        maxLength={maxLength}
-      />
-      <Text style={styles.lengthCount}>
-        {textLength + ' character(s) of ' + maxLength}
-      </Text>
-      {isLoading ? (
-        <ActivityIndicator color={colors.COLORS.PRIMARY} />
-      ) : (
-        <TouchableOpacity style={styles.button} onPress={() => saveText()}>
-          <Text>Save</Text>
-        </TouchableOpacity>
-      )}
-      <Downloads navigation={props.navigation} />
-    </View>
+        <TextInput
+          style={
+            nameError
+              ? [styles.textInput, defaultStyles.textInputError]
+              : styles.textInput
+          }
+          onChangeText={setName}
+          placeholder="Name*"
+          value={name}
+          maxLength={100}
+        />
+        <TextInput
+          style={
+            textError
+              ? [styles.descriptionTextInput, styles.textDescriptionError]
+              : styles.descriptionTextInput
+          }
+          multiline={true}
+          placeholder="Text*"
+          value={text}
+          onChangeText={value => setTextAndLength(value)}
+          maxLength={maxLength}
+        />
+        <Text style={styles.lengthCount}>
+          {textLength + ' character(s) of ' + maxLength}
+        </Text>
+        {isLoading ? (
+          <ActivityIndicator color={colors.COLORS.PRIMARY} />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={() => saveText()}>
+            <Text>Save</Text>
+          </TouchableOpacity>
+        )}
+        <Downloads navigation={props.navigation} />
+      </View>
+    </ScrollView>
   );
 };
 

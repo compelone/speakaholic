@@ -78,5 +78,7 @@ export async function getProcessedSpeechItems(cognitoUsername) {
     u.cognito_user_name.eq(cognitoUsername),
   );
 
-  return models.filter(model => model.is_processed);
+  return models.filter(
+    model => model.is_processed || model.failed_reason !== null,
+  );
 }
