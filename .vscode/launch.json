@@ -22,6 +22,23 @@
       }
     },
     {
+      "name": "Python: speakaholic-image-to-speech-function",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-image-to-speech-function/main.py",
+        "--lambda_handler",
+        "something",
+        "something"
+      ],
+      "env": {
+        "ENVIRONMENT": "local"
+      }
+    },
+    {
       "name": "Debug iOS Hermes - Experimental",
       "cwd": "${workspaceFolder}/SpeakaholicApp",
       "type": "reactnativedirect",
