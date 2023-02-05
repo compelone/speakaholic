@@ -48,16 +48,34 @@ const DownloadsScreen = (props, navigation) => {
     // Linking.openURL(url);
   };
 
+  const listenInBrowser = async key => {
+    const filename = key.split('/').pop();
+
+    const url = await downloadFile(filename);
+
+    Linking.openURL(url);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <FlatList
         data={speechItems}
         renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => downloadSpeech(item.s3_output_key)}>
+          <View>
             <Text style={styles.item}>{item.name}</Text>
-          </TouchableOpacity>
+            <View style={styles.horizontalView}>
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => downloadSpeech(item.s3_output_key)}>
+                <Text>Download</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => listenInBrowser(item.s3_output_key)}>
+                <Text>Listen</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       />
     </View>
@@ -74,6 +92,14 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: colors.COLORS.LIGHTGRAY,
     marginBottom: 5,
+    width: 100,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  horizontalView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
