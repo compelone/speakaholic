@@ -31,21 +31,23 @@ const DownloadsScreen = (props, navigation) => {
     const filename = key.split('/').pop();
 
     const url = await downloadFile(filename);
-    let dirs = RNFetchBlob.fs.dirs;
+    const dirs = RNFetchBlob.fs.dirs;
 
+    const fullFileName = `${dirs.DocumentDir}/${filename}`;
     RNFetchBlob.config({
       // response data will be saved to this path if it has access right.
-      path: dirs.DocumentDir,
+      path: fullFileName,
+      fileCache: true,
+      // // by adding this option, the temp files will have a file extension
+      // // appendExt: 'mp3',
     })
       .fetch('GET', url, {
         //some headers ..
       })
       .then(res => {
-        // the path should be dirs.DocumentDir + 'path-to-file.anything'
-        Alert.alert('The file saved to your documents folder.');
+        RNFetchBlob.fs.writeFile(fullFileName, res.data, 'base64');
+        RNFetchBlob.ios.previewDocument(fullFileName);
       });
-    // await RNFetchBlob.config({
-    // Linking.openURL(url);
   };
 
   const listenInBrowser = async key => {
