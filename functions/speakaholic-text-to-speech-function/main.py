@@ -37,6 +37,7 @@ def lambda_handler(event, context):
                                      key_split[1], file_name.replace('.txt', '.mp3'))
 
     print('Looking up key %s in bucket %s' % (dynamo_lookup_key, bucket))
+    table = None
 
     try:
         index_name = 's3_input_key-index'
@@ -87,8 +88,23 @@ def lambda_handler(event, context):
         )
     except Exception as e:
         print(e)
+        try:
+            # if table is not None
+            if (table is not None):
+                # update dynamo db with new file size
+                table.update_item(
+                    Key={
+                        'id': dynamo_response['Items'][0]['id']
+                    },
+                    UpdateExpression='SET is_processed = :is_processed, failed_reason = :failed_reason',
+                    ExpressionAttributeValues={
+                        ':is_processed': False,
+                        ':failed_reason': 'An error occurred while processing the file',
+                    }
+                )
+        except Exception as ie:
+            print(ie)
         raise e
-
 
 # if __name__ == "__main__":
 #     lambda_handler(None, None)
