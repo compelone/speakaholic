@@ -122,11 +122,11 @@ const DownloadsScreen = (props, navigation) => {
 const styles = StyleSheet.create({
   mainContainer: layout.top,
   item: {
-    padding: 10,
+    padding: 5,
     fontSize: 18,
   },
   buttons: {
-    backgroundColor: colors.COLORS.SALMON,
+    backgroundColor: colors.COLORS.PRIMARY,
     marginBottom: 5,
     width: 100,
     padding: 5,
