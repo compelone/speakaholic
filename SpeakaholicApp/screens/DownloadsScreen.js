@@ -15,8 +15,6 @@ import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
-import {DataStore} from 'aws-amplify';
-import {SpeechItems} from '../models';
 
 const DownloadsScreen = (props, navigation) => {
   const [speechItems, setSpeechItems] = React.useState([]);
@@ -31,20 +29,16 @@ const DownloadsScreen = (props, navigation) => {
   const getProcessedItems = async () => {
     setIsLoading(true);
     try {
-      const user = props.user.loggedInUser;
-      const items = await getProcessedSpeechItems(user.attributes.sub);
+      const items = await getProcessedSpeechItems(
+        props.user.loggedInUser.attributes.sub,
+      );
       setSpeechItems([...items.reverse(a => a._lastChangedAt)]);
-      await DataStore.clear();
-      await DataStore.start();
     } catch (error) {
+      console.log(error);
       Alert.alert('Something went wrong');
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const onRefresh = async () => {
-    await getProcessedItems();
   };
 
   const downloadSpeech = async key => {
@@ -81,13 +75,14 @@ const DownloadsScreen = (props, navigation) => {
 
   return (
     <View style={styles.mainContainer}>
+      <Text style={styles.pullToRefreshText}>Pull to refresh</Text>
       <FlatList
         keyExtractor={item => item.id}
         data={speechItems}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
-            onRefresh={() => onRefresh()}
+            onRefresh={() => getProcessedItems()}
           />
         }
         renderItem={({item}) => (
@@ -144,6 +139,10 @@ const styles = StyleSheet.create({
   failedText: {
     color: 'red',
     fontSize: 12,
+  },
+  pullToRefreshText: {
+    alignSelf: 'center',
+    color: colors.COLORS.SALMON,
   },
 });
 
