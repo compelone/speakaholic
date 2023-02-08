@@ -15,6 +15,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import colors from '../styles/colors';
 import BottomTabNavigator from './BottomTabNavigator';
 import DownloadsScreen from '../screens/DownloadsScreen';
+import {View} from 'react-native';
 
 Icon.loadFont().then();
 
@@ -42,11 +43,18 @@ function RootNavigator() {
           fontWeight: 'bold',
         },
         headerRight: () => (
-          <Icon.Button
-            onPress={() => navigation.navigate('Settings')}
-            name="gear"
-            backgroundColor={colors.COLORS.PRIMARY}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <Icon.Button
+              onPress={() => navigation.navigate('Downloads')}
+              name="cloud-download"
+              backgroundColor={colors.COLORS.PRIMARY}
+            />
+            <Icon.Button
+              onPress={() => navigation.navigate('Settings')}
+              name="gear"
+              backgroundColor={colors.COLORS.PRIMARY}
+            />
+          </View>
         ),
         headerLeft: () => (
           <Icon.Button

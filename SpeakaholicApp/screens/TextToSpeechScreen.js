@@ -156,7 +156,7 @@ const TextToSpeechScreen = props => {
             <Text>Save</Text>
           </TouchableOpacity>
         )}
-        <Downloads navigation={props.navigation} />
+        {/* <Downloads navigation={props.navigation} /> */}
       </View>
     </ScrollView>
   );
