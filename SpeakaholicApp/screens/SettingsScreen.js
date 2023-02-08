@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import * as colors from '../styles/colors';
 import {signOut} from '../services/authService';
@@ -28,13 +35,17 @@ const SettingsScreen = ({navigation}) => {
       <View>
         <Text
           style={styles.textLinks}
-          onPress={() => Linking.openURL('https://dealsy.app/privacy.html')}>
+          onPress={() =>
+            Linking.openURL('https://speakaholic.com/pages/privacy')
+          }>
           Privacy Policy
         </Text>
         <View style={styles.separator}></View>
         <Text
           style={styles.textLinks}
-          onPress={() => Linking.openURL('https://dealsy.app/terms.html')}>
+          onPress={() =>
+            Linking.openURL('https://speakaholic.com/pages/terms')
+          }>
           Terms
         </Text>
         <TouchableOpacity style={styles.button} onPress={restore}>

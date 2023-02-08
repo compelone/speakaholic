@@ -15,6 +15,8 @@ import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
+import {DataStore} from 'aws-amplify';
+import {SpeechItems} from '../models';
 
 const DownloadsScreen = (props, navigation) => {
   const [speechItems, setSpeechItems] = React.useState([]);
@@ -22,30 +24,27 @@ const DownloadsScreen = (props, navigation) => {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      try {
-        const user = props.user.loggedInUser;
-        const items = await getProcessedSpeechItems(user.attributes.sub);
-        setSpeechItems(items);
-      } catch (error) {
-        Alert.alert('Something went wrong');
-      } finally {
-        setIsLoading(false);
-      }
+      await getProcessedItems();
     })();
   }, []);
 
-  const onRefresh = async () => {
+  const getProcessedItems = async () => {
     setIsLoading(true);
     try {
       const user = props.user.loggedInUser;
       const items = await getProcessedSpeechItems(user.attributes.sub);
-      setSpeechItems(items);
+      setSpeechItems([...items.reverse(a => a._lastChangedAt)]);
+      await DataStore.clear();
+      await DataStore.start();
     } catch (error) {
       Alert.alert('Something went wrong');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onRefresh = async () => {
+    await getProcessedItems();
   };
 
   const downloadSpeech = async key => {
