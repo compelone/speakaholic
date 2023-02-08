@@ -15,6 +15,8 @@ import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
+import {SpeechItems} from '../models';
+import {DataStore} from 'aws-amplify';
 
 const DownloadsScreen = (props, navigation) => {
   const [speechItems, setSpeechItems] = React.useState([]);

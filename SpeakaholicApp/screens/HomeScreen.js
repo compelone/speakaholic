@@ -32,9 +32,6 @@ const HomeScreen = props => {
 
         props.updateUser(loggedInUser);
         // userStore.dispatch({logedInUser, type: 'SET_USER'});
-        const subscription = DataStore.observe(SpeechItems).subscribe(msg => {
-          console.log(msg.model);
-        });
       }
     })();
   }, []);
