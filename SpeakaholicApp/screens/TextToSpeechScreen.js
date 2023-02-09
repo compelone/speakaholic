@@ -188,16 +188,17 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   button: {
-    backgroundColor: colors.COLORS.LIGHTGRAY,
+    backgroundColor: colors.COLORS.PRIMARY,
     alignItems: 'center',
     padding: 10,
-    margin: 10,
+    marginTop: 10,
     borderRadius: 5,
   },
   lengthCount: {
     fontWeight: 'bold',
     fontSize: 14,
     padding: 5,
+    color: colors.COLORS.DARKGRAY,
   },
 });
 

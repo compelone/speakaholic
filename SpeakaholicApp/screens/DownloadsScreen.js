@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: 100,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 5,
     alignItems: 'center',
   },
   horizontalView: {

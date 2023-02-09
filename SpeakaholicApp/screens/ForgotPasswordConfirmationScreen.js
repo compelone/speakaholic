@@ -7,17 +7,17 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {confirmForgotPassword} from '../services/authService';
+import {connect} from 'react-redux';
 
-const ForgotPasswordConfirmationScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState('');
+const ForgotPasswordConfirmationScreen = props => {
+  const [email, setEmail] = useState(props?.route?.params?.email);
+  const [code, setCode] = useState();
+  const [newPassword, setNewPassword] = useState();
+  const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
@@ -44,15 +44,15 @@ const ForgotPasswordConfirmationScreen = ({navigation}) => {
 
     try {
       await confirmForgotPassword(email, code, newPassword);
-      setError('');
-      navigation.replace('Deals');
+      setError();
+      props.navigation.replace('Login');
     } catch (err) {
       setError(err.toString());
     } finally {
       setLoading(false);
-      setEmail('');
-      setCode('');
-      setNewPassword('');
+      setEmail();
+      setCode();
+      setNewPassword();
     }
   };
 
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     padding: 10,
     minWidth: '48%',
     marginBottom: 10,
+    borderRadius: 5,
   },
   signupButton: {
     backgroundColor: colors.default.COLORS.DEFAULT,
@@ -152,4 +153,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordConfirmationScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(ForgotPasswordConfirmationScreen);

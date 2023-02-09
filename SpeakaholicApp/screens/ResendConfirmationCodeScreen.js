@@ -7,15 +7,15 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {resendConfirmationCode} from '../services/authService';
+import {connect} from 'react-redux';
 
-const ResendConfirmationCodeScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+const ResendConfirmationCodeScreen = props => {
+  const [email, setEmail] = useState(props?.route?.params?.email);
+  const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
@@ -30,13 +30,13 @@ const ResendConfirmationCodeScreen = ({navigation}) => {
 
     try {
       await resendConfirmationCode(email);
-      setError('');
-      navigation.replace('ConfirmAccount');
+      setError();
+      props.navigation.replace('ConfirmAccount');
     } catch (err) {
       setError(err.toString());
     } finally {
       setLoading(false);
-      setEmail('');
+      setEmail();
     }
   };
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     padding: 10,
     minWidth: '48%',
     marginBottom: 10,
+    borderRadius: 5,
   },
   signupButton: {
     backgroundColor: colors.default.COLORS.DEFAULT,
@@ -112,4 +113,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResendConfirmationCodeScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(ResendConfirmationCodeScreen);
