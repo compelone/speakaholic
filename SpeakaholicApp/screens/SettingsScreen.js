@@ -7,17 +7,17 @@ import {
   Alert,
   Linking,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as colors from '../styles/colors';
 import {signOut} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import layout from '../styles/layout';
+import {connect} from 'react-redux';
 
-const SettingsScreen = ({navigation}) => {
+const SettingsScreen = props => {
   const handlePress = async () => {
     await signOut();
     await Keychain.resetGenericPassword();
-    navigation.navigate('Home');
+    props.navigation.navigate('Home');
   };
 
   const restore = async () => {
@@ -84,4 +84,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(SettingsScreen);
