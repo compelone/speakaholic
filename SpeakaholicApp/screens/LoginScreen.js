@@ -47,6 +47,9 @@ const LoginScreen = props => {
 
       props.updateUser(loggedInUser);
 
+      setError('');
+      await Keychain.setGenericPassword(email, password);
+
       DataStore.configure({
         syncExpressions: [
           syncExpression(UserCreditsLeft, () => {
@@ -64,8 +67,6 @@ const LoginScreen = props => {
         ],
       });
 
-      setError('');
-      await Keychain.setGenericPassword(email, password);
       props.navigation.replace('Root');
     } catch (err) {
       if (
