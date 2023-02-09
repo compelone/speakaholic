@@ -17,6 +17,8 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
+import {DataStore} from 'aws-amplify';
+import {SpeechItems} from '../models';
 
 const HomeScreen = props => {
   useEffect(() => {

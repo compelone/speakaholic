@@ -21,7 +21,6 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
 import {uploadToS3} from '../services/generalService';
 import {connect} from 'react-redux';
-import Downloads from '../components/Downloads';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -156,7 +155,7 @@ const TextToSpeechScreen = props => {
             <Text>Save</Text>
           </TouchableOpacity>
         )}
-        <Downloads navigation={props.navigation} />
+        {/* <Downloads navigation={props.navigation} /> */}
       </View>
     </ScrollView>
   );

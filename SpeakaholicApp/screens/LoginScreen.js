@@ -17,6 +17,8 @@ import SocialLogin from '../components/SocialLogin';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
 import {connect} from 'react-redux';
+import {DataStore, syncExpression} from '@aws-amplify/datastore';
+import {SpeechItems, UserCreditsLeft, Users} from '../models';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -47,6 +49,24 @@ const LoginScreen = props => {
 
       setError('');
       await Keychain.setGenericPassword(email, password);
+
+      DataStore.configure({
+        syncExpressions: [
+          syncExpression(UserCreditsLeft, () => {
+            return ucl =>
+              ucl.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+          syncExpression(SpeechItems, () => {
+            return si =>
+              si.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+          syncExpression(Users, () => {
+            return u =>
+              u.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+        ],
+      });
+
       props.navigation.replace('Root');
     } catch (err) {
       if (
