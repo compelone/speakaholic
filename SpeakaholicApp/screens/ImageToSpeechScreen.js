@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     ...defaultStyles.textInput,
   },
   button: {
-    backgroundColor: colors.COLORS.LIGHTGRAY,
+    backgroundColor: colors.COLORS.PRIMARY,
     alignItems: 'center',
     padding: 10,
     marginTop: 10,

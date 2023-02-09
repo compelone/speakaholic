@@ -143,9 +143,7 @@ const LoginScreen = props => {
           </View>
         )}
       </View>
-      <View>
-        <SocialLogin navigation={props.navigation} />
-      </View>
+      <View>{/* <SocialLogin navigation={props.navigation} /> */}</View>
     </View>
   );
 };
@@ -169,6 +167,7 @@ const styles = StyleSheet.create({
     padding: 10,
     minWidth: '48%',
     marginBottom: 10,
+    borderRadius: 5,
   },
   signupButton: {
     backgroundColor: colors.default.COLORS.SALMON,

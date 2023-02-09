@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     padding: 10,
     minWidth: '48%',
     marginBottom: 10,
+    borderRadius: 5,
   },
   signupButton: {
     backgroundColor: colors.default.COLORS.DEFAULT,

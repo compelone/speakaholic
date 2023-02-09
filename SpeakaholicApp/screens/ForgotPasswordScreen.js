@@ -36,7 +36,7 @@ const ForgotPasswordScreen = props => {
       await signOut();
       await Keychain.resetGenericPassword();
       setError();
-      navigation.navigate('ForgotPasswordConfirmation');
+      props.navigation.navigate('ForgotPasswordConfirmation');
     } catch (err) {
       setError(err.toString());
     } finally {
@@ -76,9 +76,7 @@ const ForgotPasswordScreen = props => {
           </View>
         )}
       </View>
-      <View>
-        <SocialLogin navigation={navigation} />
-      </View>
+      <View>{/* <SocialLogin navigation={navigation} /> */}</View>
     </View>
   );
 };
@@ -102,6 +100,7 @@ const styles = StyleSheet.create({
     padding: 10,
     minWidth: '48%',
     marginBottom: 10,
+    borderRadius: 5,
   },
   signupButton: {
     backgroundColor: colors.default.COLORS.DEFAULT,
