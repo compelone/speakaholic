@@ -7,16 +7,16 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {confirmAccount} from '../services/authService';
+import {connect} from 'react-redux';
 
-const ConfirmAccountScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
+const ConfirmAccountScreen = props => {
+  const [email, setEmail] = useState(props?.route?.params?.email);
+  const [code, setCode] = useState();
+  const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
@@ -37,13 +37,13 @@ const ConfirmAccountScreen = ({navigation}) => {
 
     try {
       await confirmAccount(email, code);
-      setError('');
-      navigation.replace('Login');
+      setError();
+      props.navigation.replace('Login');
     } catch (err) {
       setError(err.toString());
     } finally {
       setLoading(false);
-      setEmail('');
+      setEmail();
     }
   };
 
@@ -83,7 +83,9 @@ const ConfirmAccountScreen = ({navigation}) => {
         <Text style={styles.errorText}>{error}</Text>
         <Text
           style={styles.ConfirmAccountText}
-          onPress={() => navigation.navigate('ResendConfirmationCode')}>
+          onPress={() =>
+            props.navigation.navigate('ResendConfirmationCode', {email})
+          }>
           Resend Confirmation Code?
         </Text>
 
@@ -140,4 +142,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConfirmAccountScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(ConfirmAccountScreen);

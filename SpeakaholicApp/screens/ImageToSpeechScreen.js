@@ -178,11 +178,15 @@ const ImageToSpeechScreen = props => {
             style={styles.image}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.centerImage}
-          onPress={() => selectPhoto()}>
-          <Text style={styles.selectPhotoButton}>Select a photo</Text>
-        </TouchableOpacity>
+        <View style={styles.imageButtonsContainer}>
+          <TouchableOpacity onPress={() => pickImage()}>
+            <Text style={styles.selectPhotoButton}>Take a photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => selectPhoto()}>
+            <Text style={styles.selectPhotoButton}>Select a photo</Text>
+          </TouchableOpacity>
+        </View>
+
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
         ) : (
@@ -213,19 +217,14 @@ const styles = StyleSheet.create({
   textInput: {
     ...defaultStyles.textInput,
   },
-  descriptionTextInput: {
-    ...defaultStyles.textInput,
-    height: 300,
-  },
   button: {
     backgroundColor: colors.COLORS.LIGHTGRAY,
     alignItems: 'center',
     padding: 10,
-    margin: 10,
+    marginTop: 10,
     borderRadius: 5,
   },
   image: {
-    margin: 10,
     width: 300,
     height: 300,
     resizeMode: 'contain',
@@ -237,7 +236,13 @@ const styles = StyleSheet.create({
   selectPhotoButton: {
     fontSize: 20,
     color: colors.COLORS.SALMON,
-    padding: 10,
+    paddingLeft: 20,
+    paddingBottom: 20,
+  },
+  imageButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: colors.COLORS.LIGHTGRAY,
   },
 });
 

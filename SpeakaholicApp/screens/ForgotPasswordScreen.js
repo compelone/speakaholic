@@ -14,10 +14,11 @@ import * as defaultStyles from '../styles/defaultStyles';
 import {forgotPassword, signOut} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
+import {connect} from 'react-redux';
 
-const ForgotPasswordScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+const ForgotPasswordScreen = props => {
+  const [email, setEmail] = useState();
+  const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
@@ -34,13 +35,13 @@ const ForgotPasswordScreen = ({navigation}) => {
       await forgotPassword(email);
       await signOut();
       await Keychain.resetGenericPassword();
-      setError('');
+      setError();
       navigation.navigate('ForgotPasswordConfirmation');
     } catch (err) {
       setError(err.toString());
     } finally {
       setLoading(false);
-      setEmail('');
+      setEmail();
     }
   };
 
@@ -119,4 +120,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(ForgotPasswordScreen);

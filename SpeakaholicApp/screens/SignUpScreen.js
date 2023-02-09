@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {connect} from 'react-redux';
 
 import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
@@ -15,11 +15,11 @@ import * as defaultStyles from '../styles/defaultStyles';
 import {registration} from '../services/authService';
 import SocialLogin from '../components/SocialLogin';
 
-const SignUpScreen = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const SignUpScreen = props => {
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
 
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -27,10 +27,10 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   const emptyState = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    setName();
+    setEmail();
+    setPassword();
+    setConfirmPassword();
   };
   const handlePress = async () => {
     if (!name) {
@@ -49,7 +49,9 @@ const SignUpScreen = ({navigation}) => {
       try {
         await registration(email, password, name);
         emptyState();
-        navigation.navigate('ConfirmAccount');
+        props.navigation.navigate('ConfirmAccount', {
+          email,
+        });
       } catch (error) {
         Alert.alert('Something went wrong.');
       }
@@ -117,13 +119,11 @@ const SignUpScreen = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={() => props.navigation.navigate('Login')}>
           <Text>Login</Text>
         </TouchableOpacity>
       </View>
-      <View>
-        <SocialLogin navigation={navigation} />
-      </View>
+      <View>{/* <SocialLogin navigation={props.navigation} /> */}</View>
     </View>
   );
 };
@@ -162,4 +162,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps)(SignUpScreen);

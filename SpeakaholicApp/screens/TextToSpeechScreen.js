@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.COLORS.LIGHTGRAY,
     alignItems: 'center',
     padding: 10,
-    margin: 10,
+    marginTop: 10,
     borderRadius: 5,
   },
   lengthCount: {
