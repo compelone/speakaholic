@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   },
   selectPhotoButton: {
     fontSize: 20,
-    color: colors.COLORS.SALMON,
+    color: colors.COLORS.DARKGRAY,
     paddingLeft: 20,
     paddingBottom: 20,
   },
