@@ -17,8 +17,7 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
-import {DataStore} from 'aws-amplify';
-import {SpeechItems} from '../models';
+import {Glassfy} from 'react-native-glassfy-module';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -33,6 +32,8 @@ const HomeScreen = props => {
         props.updateUser(loggedInUser);
         // userStore.dispatch({logedInUser, type: 'SET_USER'});
       }
+
+      await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
     })();
   }, []);
 

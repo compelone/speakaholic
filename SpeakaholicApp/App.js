@@ -12,6 +12,7 @@ import {Amplify, Analytics, API} from 'aws-amplify';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import userReducer from './modules/UserStore';
+import {Glassfy} from 'react-native-glassfy-module';
 
 import awsconfig from './aws-exports';
 
