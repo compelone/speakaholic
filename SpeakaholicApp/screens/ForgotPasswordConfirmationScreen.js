@@ -60,6 +60,10 @@ const ForgotPasswordConfirmationScreen = props => {
     <View style={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Confirm Account</Text>
+        <Text>
+          The verification will be emailed to the email address you provided
+          when signing up. Please, check your email inbox or junk folder.
+        </Text>
         <TextInput
           style={
             emailError

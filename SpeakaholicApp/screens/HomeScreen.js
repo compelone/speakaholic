@@ -17,7 +17,7 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
-import {Glassfy, offerings} from 'react-native-glassfy-module';
+import {Glassfy} from 'react-native-glassfy-module';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -36,14 +36,19 @@ const HomeScreen = props => {
       await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
 
       try {
-        let offering = offerings.all.find(o => o.identifier === 'standard');
+        let offering = Glassfy.offerings.all.find(
+          o => o.identifier === 'standard',
+        );
+        console.log(offering);
 
         offering?.skus.forEach(sku => {
           // sku.extravars
           // sku.product.description;
           console.log(sku.product.price);
         });
-      } catch (e) {}
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, []);
 

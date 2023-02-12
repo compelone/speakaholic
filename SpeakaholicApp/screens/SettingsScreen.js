@@ -12,6 +12,7 @@ import {signOut} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import layout from '../styles/layout';
 import {connect} from 'react-redux';
+import {version} from '../package.json';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
@@ -55,6 +56,9 @@ const SettingsScreen = props => {
           <Text style={styles.buttonText}>Signout</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.versionView}>
+        <Text style={styles.textVersion}>Version: {version}</Text>
+      </View>
     </View>
   );
 };
@@ -62,6 +66,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     ...layout.top,
     justifyContent: 'center',
+    paddingTop: 100,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -81,6 +86,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.default.COLORS.PRIMARY,
     marginBottom: 10,
+  },
+  versionView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 20,
   },
 });
 
