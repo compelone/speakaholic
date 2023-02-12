@@ -27,14 +27,14 @@ export const schema = {
                 "purchase_date": {
                     "name": "purchase_date",
                     "isArray": false,
-                    "type": "AWSDate",
+                    "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
                 },
                 "expiration_date": {
                     "name": "expiration_date",
                     "isArray": false,
-                    "type": "AWSDate",
+                    "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -401,5 +401,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "0d731ec7f067045cc834d326d9faaf7b"
+    "version": "e25da1e54855f29c7a8fe6b88b48fae3"
 };

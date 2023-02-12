@@ -3,6 +3,7 @@ import {DataStore} from '@aws-amplify/datastore';
 import {SpeechItems, Users} from '../models';
 import {API, graphqlOperation} from 'aws-amplify';
 import {listSpeechItems} from '../models/graphql/queries';
+import {createPurchaseCredits} from '../models/graphql/mutations';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
   const doesUserExist = await userExists(cognitoUsername);
@@ -86,11 +87,24 @@ export async function getProcessedSpeechItems(cognitoUsername) {
 }
 
 export async function purchaseCredits(cognito_user_name, credits) {
-  const purchase_date = new Date();
-  const expiration_date = purchase_date + 30;
-  const is_expired = false;
+  const now = new Date();
+  const purchase_date = now.toISOString();
+  const expiration_date = new Date(
+    now.setDate(now.getDate() + 30),
+  ).toISOString();
 
-  console.log(purchase_date);
-  console.log(expiration_date);
-  console.log(credits);
+  const purchaseCredits = {
+    cognito_user_name: cognito_user_name,
+    credits: credits,
+    purchase_date: purchase_date,
+    expiration_date: expiration_date,
+    is_expired: false,
+  };
+
+  const newPurchase = API.graphql({
+    query: createPurchaseCredits,
+    variables: {input: purchaseCredits},
+  });
+
+  return newPurchase;
 }

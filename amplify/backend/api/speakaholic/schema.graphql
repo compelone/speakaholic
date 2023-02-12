@@ -2,8 +2,8 @@ type PurchaseCredits @model @auth(rules: [{allow: public}]) {
   id: ID!
   cognito_user_name: String!
   credits: Int!
-  purchase_date: AWSDate!
-  expiration_date: AWSDate!
+  purchase_date: AWSDateTime!
+  expiration_date: AWSDateTime!
   is_expired: Boolean!
 }
 

@@ -26,6 +26,7 @@ const PurchaseScreen = props => {
     try {
       await purchaseCredits(cognitoUserName, creditAmount);
     } catch (error) {
+      console.log(error);
       Alert.alert('Something went wrong.');
     }
   };
