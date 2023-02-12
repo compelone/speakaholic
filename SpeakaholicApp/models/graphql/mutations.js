@@ -1,6 +1,66 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPurchaseCredits = /* GraphQL */ `
+  mutation CreatePurchaseCredits(
+    $input: CreatePurchaseCreditsInput!
+    $condition: ModelPurchaseCreditsConditionInput
+  ) {
+    createPurchaseCredits(input: $input, condition: $condition) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updatePurchaseCredits = /* GraphQL */ `
+  mutation UpdatePurchaseCredits(
+    $input: UpdatePurchaseCreditsInput!
+    $condition: ModelPurchaseCreditsConditionInput
+  ) {
+    updatePurchaseCredits(input: $input, condition: $condition) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deletePurchaseCredits = /* GraphQL */ `
+  mutation DeletePurchaseCredits(
+    $input: DeletePurchaseCreditsInput!
+    $condition: ModelPurchaseCreditsConditionInput
+  ) {
+    deletePurchaseCredits(input: $input, condition: $condition) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createUserCreditsLeft = /* GraphQL */ `
   mutation CreateUserCreditsLeft(
     $input: CreateUserCreditsLeftInput!

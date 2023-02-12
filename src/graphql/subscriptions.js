@@ -1,6 +1,63 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreatePurchaseCredits = /* GraphQL */ `
+  subscription OnCreatePurchaseCredits(
+    $filter: ModelSubscriptionPurchaseCreditsFilterInput
+  ) {
+    onCreatePurchaseCredits(filter: $filter) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdatePurchaseCredits = /* GraphQL */ `
+  subscription OnUpdatePurchaseCredits(
+    $filter: ModelSubscriptionPurchaseCreditsFilterInput
+  ) {
+    onUpdatePurchaseCredits(filter: $filter) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeletePurchaseCredits = /* GraphQL */ `
+  subscription OnDeletePurchaseCredits(
+    $filter: ModelSubscriptionPurchaseCreditsFilterInput
+  ) {
+    onDeletePurchaseCredits(filter: $filter) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateUserCreditsLeft = /* GraphQL */ `
   subscription OnCreateUserCreditsLeft(
     $filter: ModelSubscriptionUserCreditsLeftFilterInput

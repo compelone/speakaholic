@@ -6,6 +6,42 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
+type EagerPurchaseCredits = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognito_user_name: string;
+  readonly credits: number;
+  readonly purchase_date: string;
+  readonly expiration_date: string;
+  readonly is_expired: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyPurchaseCredits = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognito_user_name: string;
+  readonly credits: number;
+  readonly purchase_date: string;
+  readonly expiration_date: string;
+  readonly is_expired: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type PurchaseCredits = LazyLoading extends LazyLoadingDisabled ? EagerPurchaseCredits : LazyPurchaseCredits
+
+export declare const PurchaseCredits: (new (init: ModelInit<PurchaseCredits>) => PurchaseCredits) & {
+  copyOf(source: PurchaseCredits, mutator: (draft: MutableModel<PurchaseCredits>) => MutableModel<PurchaseCredits> | void): PurchaseCredits;
+}
+
 type EagerUserCreditsLeft = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;

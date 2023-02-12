@@ -1,6 +1,8 @@
 import '@azure/core-asynciterator-polyfill';
 import {DataStore} from '@aws-amplify/datastore';
 import {SpeechItems, Users} from '../models';
+import {API, graphqlOperation} from 'aws-amplify';
+import {listSpeechItems} from '../models/graphql/queries';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
   const doesUserExist = await userExists(cognitoUsername);
@@ -81,4 +83,14 @@ export async function getProcessedSpeechItems(cognitoUsername) {
   return models.filter(
     model => model.is_processed || model.failed_reason !== null,
   );
+}
+
+export async function purchaseCredits(cognito_user_name, credits) {
+  const purchase_date = new Date();
+  const expiration_date = purchase_date + 30;
+  const is_expired = false;
+
+  console.log(purchase_date);
+  console.log(expiration_date);
+  console.log(credits);
 }

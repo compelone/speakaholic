@@ -1,6 +1,79 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPurchaseCredits = /* GraphQL */ `
+  query GetPurchaseCredits($id: ID!) {
+    getPurchaseCredits(id: $id) {
+      id
+      cognito_user_name
+      credits
+      purchase_date
+      expiration_date
+      is_expired
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listPurchaseCredits = /* GraphQL */ `
+  query ListPurchaseCredits(
+    $filter: ModelPurchaseCreditsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPurchaseCredits(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        cognito_user_name
+        credits
+        purchase_date
+        expiration_date
+        is_expired
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPurchaseCredits = /* GraphQL */ `
+  query SyncPurchaseCredits(
+    $filter: ModelPurchaseCreditsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPurchaseCredits(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        cognito_user_name
+        credits
+        purchase_date
+        expiration_date
+        is_expired
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getUserCreditsLeft = /* GraphQL */ `
   query GetUserCreditsLeft($id: ID!) {
     getUserCreditsLeft(id: $id) {
