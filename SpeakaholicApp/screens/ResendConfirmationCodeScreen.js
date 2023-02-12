@@ -31,7 +31,7 @@ const ResendConfirmationCodeScreen = props => {
     try {
       await resendConfirmationCode(email);
       setError();
-      props.navigation.replace('ConfirmAccount');
+      props.navigation.replace('ConfirmAccount', {email});
     } catch (err) {
       setError(err.toString());
     } finally {

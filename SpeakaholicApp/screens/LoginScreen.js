@@ -13,7 +13,6 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {signIn} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
-import SocialLogin from '../components/SocialLogin';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
 import {connect} from 'react-redux';
@@ -75,7 +74,7 @@ const LoginScreen = props => {
         Alert.alert(
           'Your account is not confirmed. Check your email for your confirmation code.',
         );
-        props.navigation.navigate('ConfirmAccount');
+        props.navigation.navigate('ConfirmAccount', {email});
       } else {
         setError(err.toString());
       }

@@ -36,7 +36,7 @@ const ForgotPasswordScreen = props => {
       await signOut();
       await Keychain.resetGenericPassword();
       setError();
-      props.navigation.navigate('ForgotPasswordConfirmation');
+      props.navigation.navigate('ForgotPasswordConfirmation', {email});
     } catch (err) {
       setError(err.toString());
     } finally {
