@@ -101,7 +101,7 @@ export async function purchaseCredits(cognito_user_name, credits) {
     is_expired: false,
   };
 
-  const newPurchase = API.graphql({
+  const newPurchase = await API.graphql({
     query: createPurchaseCredits,
     variables: {input: purchaseCredits},
   });

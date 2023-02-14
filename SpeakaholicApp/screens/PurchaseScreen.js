@@ -32,7 +32,6 @@ const PurchaseScreen = props => {
   };
   return (
     <View style={styles.mainContainer}>
-      <Text>Credits expire after 30 days</Text>
       <TouchableOpacity
         style={styles.buttons}
         onPress={() => handlePress(4000)}>
