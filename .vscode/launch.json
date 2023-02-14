@@ -5,6 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: speakaholic-deduct-user-credits-function",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-deduct-user-credits-function/main.py",
+        "--lambda_handler",
+        "something",
+        "something"
+      ],
+      "env": {
+        "ENVIRONMENT": "local"
+      }
+    },
+    {
       "name": "Python: speakaholic-purchased-credits-function",
       "type": "python",
       "request": "launch",
