@@ -20,10 +20,10 @@ export default function BottomTabNavigator() {
           let page;
           if (route.name === 'Text To Speech') {
             iconName = 'file-text-o';
-            page = 'TextToSpeechScreen';
+            page = 'Text To Speech';
           } else if (route.name === 'Image To Speech') {
             iconName = 'file-image-o';
-            page = 'ImageToSpeechScreen';
+            page = 'Image To Speech';
           }
 
           print(page);

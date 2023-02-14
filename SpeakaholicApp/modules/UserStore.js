@@ -3,6 +3,7 @@ import {combineReducers} from 'redux';
 const INITIAL_STATE = {
   //   current: [],
   loggedInUser: {},
+  userCreditsLeft: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +12,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loggedInUser: action.payload,
+      };
+    case 'SET_USER_CREDITS_LEFT':
+      return {
+        ...state,
+        userCreditsLeft: action.payload,
       };
     default:
       return state;

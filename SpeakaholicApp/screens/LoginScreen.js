@@ -15,9 +15,11 @@ import {signIn} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
+import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {connect} from 'react-redux';
 import {DataStore, syncExpression} from '@aws-amplify/datastore';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
+import {getCreditsLeft} from '../services/dataService';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -49,22 +51,25 @@ const LoginScreen = props => {
       setError('');
       await Keychain.setGenericPassword(email, password);
 
+      const cognito_user_name = loggedInUser.attributes.sub;
+
       DataStore.configure({
         syncExpressions: [
           syncExpression(UserCreditsLeft, () => {
-            return ucl =>
-              ucl.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+            return ucl => ucl.cognito_user_name.eq(cognito_user_name);
           }),
           syncExpression(SpeechItems, () => {
-            return si =>
-              si.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+            return si => si.cognito_user_name.eq(cognito_user_name);
           }),
           syncExpression(Users, () => {
-            return u =>
-              u.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+            return u => u.cognito_user_name.eq(cognito_user_name);
           }),
         ],
       });
+
+      const userCreditsLeft = await getCreditsLeft(cognito_user_name);
+
+      props.updateUserCreditsLeft(userCreditsLeft);
 
       props.navigation.replace('Root');
     } catch (err) {
@@ -75,9 +80,9 @@ const LoginScreen = props => {
           'Your account is not confirmed. Check your email for your confirmation code.',
         );
         props.navigation.navigate('ConfirmAccount', {email});
-      } else {
-        setError(err.toString());
+        return;
       }
+      setError(err.toString());
     } finally {
       setLoading(false);
       setPassword('');
@@ -189,6 +194,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       updateUser,
+      updateUserCreditsLeft,
     },
     dispatch,
   );

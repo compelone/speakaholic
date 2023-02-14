@@ -2,7 +2,7 @@ import '@azure/core-asynciterator-polyfill';
 import {DataStore} from '@aws-amplify/datastore';
 import {SpeechItems, Users} from '../models';
 import {API, graphqlOperation} from 'aws-amplify';
-import {listSpeechItems} from '../models/graphql/queries';
+import {getUserCreditsLeft} from '../models/graphql/queries';
 import {createPurchaseCredits} from '../models/graphql/mutations';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
@@ -107,4 +107,23 @@ export async function purchaseCredits(cognito_user_name, credits) {
   });
 
   return newPurchase;
+}
+
+export async function getCreditsLeft(cognito_user_name) {
+  try {
+    const filter = {
+      id: {
+        eq: cognito_user_name,
+      },
+    };
+    const userCreditsLeft = await API.graphql({
+      query: getUserCreditsLeft,
+      variables: {id: cognito_user_name},
+    });
+    return userCreditsLeft;
+  } catch (error) {
+    console.log(error);
+    // raise error to the caller
+    throw error;
+  }
 }

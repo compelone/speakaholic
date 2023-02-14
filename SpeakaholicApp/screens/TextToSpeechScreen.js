@@ -30,33 +30,32 @@ const TextToSpeechScreen = props => {
   const [textLength, setTextLength] = useState(0);
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
+  const [maxLength, setMaxLength] = useState(
+    props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left,
+  );
 
-  const maxLength = 1000;
   if (!DeviceInfo.isEmulatorSync()) {
     useEffect(() => {
       (async () => {
-        const notificationPermissions = await check(
-          PERMISSIONS.IOS.NOTIFICATIONS,
-        );
-
-        if (notificationPermissions !== RESULTS.GRANTED) {
-          const requestNotificationPermission = await request(
-            PERMISSIONS.IOS.NOTIFICATIONS,
-          );
-          if (requestNotificationPermission !== RESULTS.GRANTED) {
-            Alert.alert('Permission to send notification is not allowed');
-            return;
-          }
-
-          PushNotification.onRegister(token => {
-            console.log('in app registration', token);
-          });
-
-          PushNotificationIOS.addEventListener(
-            'notification',
-            onRemoteNotification,
-          );
-        }
+        // const notificationPermissions = await check(
+        //   PERMISSIONS.IOS.NOTIFICATIONS,
+        // );
+        // if (notificationPermissions !== RESULTS.GRANTED) {
+        //   const requestNotificationPermission = await request(
+        //     PERMISSIONS.IOS.NOTIFICATIONS,
+        //   );
+        //   if (requestNotificationPermission !== RESULTS.GRANTED) {
+        //     Alert.alert('Permission to send notification is not allowed');
+        //     return;
+        //   }
+        //   PushNotification.onRegister(token => {
+        //     console.log('in app registration', token);
+        //   });
+        //   PushNotificationIOS.addEventListener(
+        //     'notification',
+        //     onRemoteNotification,
+        //   );
+        // }
       })();
     }, []);
   }
@@ -150,6 +149,12 @@ const TextToSpeechScreen = props => {
         </Text>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
+        ) : maxLength <= 0 ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => props.navigation.navigate('PurchaseCredits')}>
+            <Text>Save</Text>
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.button} onPress={() => saveText()}>
             <Text>Save</Text>
