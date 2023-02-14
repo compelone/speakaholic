@@ -21,6 +21,10 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
 import {uploadToS3} from '../services/generalService';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
+import {Amplify, API} from 'aws-amplify';
+import * as subscriptions from '../models/graphql/subscriptions';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -56,6 +60,17 @@ const TextToSpeechScreen = props => {
         //     onRemoteNotification,
         //   );
         // }
+        const subscription = API.graphql({
+          query: subscriptions.onUpdateUserCreditsLeft,
+          variables: {id: props.user.loggedInUser.attributes.sub},
+        }).subscribe({
+          next: ({provider, value}) => {
+            props.updateUserCreditsLeft(value);
+            setMaxLength(value);
+            console.log(value);
+          },
+          error: error => console.log(error),
+        });
       })();
     }, []);
   }
@@ -212,4 +227,12 @@ const mapStateToProps = state => {
   return {user};
 };
 
-export default connect(mapStateToProps)(TextToSpeechScreen);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateUserCreditsLeft,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextToSpeechScreen);
