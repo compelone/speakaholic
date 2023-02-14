@@ -49,22 +49,22 @@ const LoginScreen = props => {
       setError('');
       await Keychain.setGenericPassword(email, password);
 
-      // DataStore.configure({
-      //   syncExpressions: [
-      //     syncExpression(UserCreditsLeft, () => {
-      //       return ucl =>
-      //         ucl.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
-      //     }),
-      //     syncExpression(SpeechItems, () => {
-      //       return si =>
-      //         si.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
-      //     }),
-      //     syncExpression(Users, () => {
-      //       return u =>
-      //         u.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
-      //     }),
-      //   ],
-      // });
+      DataStore.configure({
+        syncExpressions: [
+          syncExpression(UserCreditsLeft, () => {
+            return ucl =>
+              ucl.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+          syncExpression(SpeechItems, () => {
+            return si =>
+              si.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+          syncExpression(Users, () => {
+            return u =>
+              u.cognito_user_name.eq(props.user.loggedInUser.attributes.sub);
+          }),
+        ],
+      });
 
       props.navigation.replace('Root');
     } catch (err) {

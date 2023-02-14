@@ -60,15 +60,24 @@ def lambda_handler(event, context):
                 # Insert a new record into the table for this user
                 # get the current utc date time
                 now = datetime.datetime.utcnow()
+                # get timestamp in millisecods from current datetime utc
+                timestamp_epoch = int(datetime.datetime.timestamp(now) * 1000)
+
                 # convert now to dynamo supported format
                 now = now.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
                 table.put_item(
                     Item={
                         'id': cognito_user_name,
+                        '__typename': 'UserCreditsLeft',
+                        '_lastChangedAt': timestamp_epoch,
+                        '_version': 1,
                         'cognito_user_name': cognito_user_name,
+                        'createdAt': now,
                         'credits_left': credits_purchased,
                         'credits_left_as_of': now,
-                        'created_date_utc': now
+                        'created_date_utc': now,
+                        'updatedAt': now
                     }
                 )
             else:
@@ -77,15 +86,23 @@ def lambda_handler(event, context):
                 # convert current_credits_left to int
                 current_credits_left = int(
                     current_credits_left) + int(credits_purchased)
+                # get the current utc date time
+                now = datetime.datetime.utcnow()
+                # get timestamp in millisecods from current datetime utc
+                timestamp_epoch = int(datetime.datetime.timestamp(now) * 1000)
+
+                # convert now to dynamo supported format
+                now = now.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
                 # Update the user credits left current amount + purchased credits
                 table.update_item(
                     Key={
                         'id': dynamo_response['Items'][0]['id']
                     },
-                    UpdateExpression='SET credits_left = :credits_left, credits_left_as_of = :credits_left_as_of',
+                    UpdateExpression='SET credits_left = :credits_left, credits_left_as_of = :credits_left_as_of, updatedAt = :updatedAt',
                     ExpressionAttributeValues={
                         ':credits_left': current_credits_left,
-                        ':credits_left_as_of': current_credits_left,
+                        ':credits_left_as_of': now,
+                        ':updatedAt': now
                     }
                 )
         except Exception as e:
@@ -94,4 +111,4 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
-    lambda_handler(None, None)
+    lambda_handler(sample_event, None)
