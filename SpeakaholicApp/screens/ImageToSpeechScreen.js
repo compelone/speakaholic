@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import {
   View,
   Image,
@@ -23,6 +23,9 @@ import {getCurrentUserInfo} from '../services/authService';
 import Downloads from '../components/Downloads';
 import {connect} from 'react-redux';
 import RNFS from 'react-native-fs';
+import {bindActionCreators} from 'redux';
+import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
+import {userReducer} from '../modules/UserStore';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -152,7 +155,7 @@ const ImageToSpeechScreen = props => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.mainContainer}>
         <Voices voice={voice} setVoice={setVoice} />
         <TextInput
@@ -186,14 +189,33 @@ const ImageToSpeechScreen = props => {
             <Text style={styles.selectPhotoButton}>Select a photo</Text>
           </TouchableOpacity>
         </View>
-
-        {isLoading ? (
-          <ActivityIndicator color={colors.COLORS.PRIMARY} />
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={() => save()}>
-            <Text>Save</Text>
-          </TouchableOpacity>
-        )}
+        <View style={styles.charactersleftandbuttonView}>
+          <Text style={styles.lengthCount}>
+            {'character(s) left ' +
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+          </Text>
+          {isLoading ? (
+            <ActivityIndicator color={colors.COLORS.PRIMARY} />
+          ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
+            0 ? (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => props.navigation.navigate('Purchase')}>
+              <Text>
+                You have{' '}
+                {
+                  props.user.userCreditsLeft.data.getUserCreditsLeft
+                    .credits_left
+                }{' '}
+                credits available
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.button} onPress={() => save()}>
+              <Text>Save</Text>
+            </TouchableOpacity>
+          )}
+        </View>
         {/* <Downloads navigation={props.navigation} /> */}
       </View>
     </ScrollView>
@@ -201,6 +223,9 @@ const ImageToSpeechScreen = props => {
 };
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   mainContainer: layout.top,
   scrollContainer: {
     paddingTop: 0,
@@ -244,11 +269,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.COLORS.LIGHTGRAY,
   },
+  lengthCount: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    padding: 5,
+    color: colors.COLORS.DARKGRAY,
+  },
+  charactersleftandbuttonView: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
 });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateUserCreditsLeft,
+    },
+    dispatch,
+  );
 
 const mapStateToProps = state => {
   const {user} = state;
   return {user};
 };
 
-export default connect(mapStateToProps)(ImageToSpeechScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ImageToSpeechScreen);

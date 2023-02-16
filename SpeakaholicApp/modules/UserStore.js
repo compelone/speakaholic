@@ -1,3 +1,4 @@
+import {InteractionManager} from 'react-native';
 import {combineReducers} from 'redux';
 
 const INITIAL_STATE = {
@@ -6,7 +7,7 @@ const INITIAL_STATE = {
   userCreditsLeft: 0,
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+export const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER':
       return {

@@ -9,4 +9,4 @@ const mapStateToProps = state => {
   return {user};
 };
 
-export default connect(mapStateToProps)(RootScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RootScreen);

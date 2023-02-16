@@ -51,7 +51,7 @@ const LoginScreen = props => {
       setError('');
       await Keychain.setGenericPassword(email, password);
 
-      const cognito_user_name = loggedInUser.attributes.sub;
+      const cognito_user_name = props.user.loggedInUser.attributes.sub;
 
       DataStore.configure({
         syncExpressions: [

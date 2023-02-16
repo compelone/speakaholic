@@ -17,7 +17,11 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
+import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {Glassfy} from 'react-native-glassfy-module';
+import {DataStore, syncExpression} from 'aws-amplify';
+import {getCreditsLeft} from '../services/dataService';
+import {SpeechItems, UserCreditsLeft, Users} from '../models';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -30,25 +34,43 @@ const HomeScreen = props => {
         );
 
         props.updateUser(loggedInUser);
-        // userStore.dispatch({logedInUser, type: 'SET_USER'});
-      }
-
-      await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
-
-      try {
-        let offering = Glassfy.offerings.all.find(
-          o => o.identifier === 'standard',
-        );
-        console.log(offering);
-
-        offering?.skus.forEach(sku => {
-          // sku.extravars
-          // sku.product.description;
-          console.log(sku.product.price);
+        const cognito_user_name = loggedInUser.attributes.sub;
+        DataStore.configure({
+          syncExpressions: [
+            syncExpression(UserCreditsLeft, () => {
+              return ucl => ucl.cognito_user_name.eq(cognito_user_name);
+            }),
+            syncExpression(SpeechItems, () => {
+              return si => si.cognito_user_name.eq(cognito_user_name);
+            }),
+            syncExpression(Users, () => {
+              return u => u.cognito_user_name.eq(cognito_user_name);
+            }),
+          ],
         });
-      } catch (error) {
-        console.log(error);
+        const userCreditsLeft = await getCreditsLeft(cognito_user_name);
+
+        props.updateUserCreditsLeft(userCreditsLeft);
+
+        props.navigation.navigate('Root');
       }
+
+      // await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
+
+      // try {
+      //   let offering = Glassfy.offerings.all.find(
+      //     o => o.identifier === 'standard',
+      //   );
+      //   console.log(offering);
+
+      //   offering?.skus.forEach(sku => {
+      //     // sku.extravars
+      //     // sku.product.description;
+      //     console.log(sku.product.price);
+      //   });
+      // } catch (error) {
+      //   console.log(error);
+      // }
     })();
   }, []);
 
@@ -159,6 +181,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      updateUserCreditsLeft,
       updateUser,
     },
     dispatch,

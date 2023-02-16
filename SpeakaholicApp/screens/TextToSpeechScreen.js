@@ -22,9 +22,13 @@ import DeviceInfo from 'react-native-device-info';
 import {uploadToS3} from '../services/generalService';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
-import {Amplify, API} from 'aws-amplify';
-import * as subscriptions from '../models/graphql/subscriptions';
+import {
+  updateUserCreditsLeft,
+  updateUsedCreditsAfterSubmit,
+} from '../modules/UserCreditsLeftAction';
+import {DataStore, syncExpression} from 'aws-amplify';
+import {SpeechItems, UserCreditsLeft, Users} from '../models';
+import {getCreditsLeft} from '../services/dataService';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -34,46 +38,30 @@ const TextToSpeechScreen = props => {
   const [textLength, setTextLength] = useState(0);
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
-  const [maxLength, setMaxLength] = useState(
-    props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left,
-  );
 
-  if (!DeviceInfo.isEmulatorSync()) {
-    useEffect(() => {
-      (async () => {
-        // const notificationPermissions = await check(
-        //   PERMISSIONS.IOS.NOTIFICATIONS,
-        // );
-        // if (notificationPermissions !== RESULTS.GRANTED) {
-        //   const requestNotificationPermission = await request(
-        //     PERMISSIONS.IOS.NOTIFICATIONS,
-        //   );
-        //   if (requestNotificationPermission !== RESULTS.GRANTED) {
-        //     Alert.alert('Permission to send notification is not allowed');
-        //     return;
-        //   }
-        //   PushNotification.onRegister(token => {
-        //     console.log('in app registration', token);
-        //   });
-        //   PushNotificationIOS.addEventListener(
-        //     'notification',
-        //     onRemoteNotification,
-        //   );
-        // }
-        const subscription = API.graphql({
-          query: subscriptions.onUpdateUserCreditsLeft,
-          variables: {id: props.user.loggedInUser.attributes.sub},
-        }).subscribe({
-          next: ({provider, value}) => {
-            props.updateUserCreditsLeft(value);
-            setMaxLength(value);
-            console.log(value);
-          },
-          error: error => console.log(error),
-        });
-      })();
-    }, []);
-  }
+  useEffect(() => {
+    (async () => {
+      // const notificationPermissions = await check(
+      //   PERMISSIONS.IOS.NOTIFICATIONS,
+      // );
+      // if (notificationPermissions !== RESULTS.GRANTED) {
+      //   const requestNotificationPermission = await request(
+      //     PERMISSIONS.IOS.NOTIFICATIONS,
+      //   );
+      //   if (requestNotificationPermission !== RESULTS.GRANTED) {
+      //     Alert.alert('Permission to send notification is not allowed');
+      //     return;
+      //   }
+      //   PushNotification.onRegister(token => {
+      //     console.log('in app registration', token);
+      //   });
+      //   PushNotificationIOS.addEventListener(
+      //     'notification',
+      //     onRemoteNotification,
+      //   );
+      // }
+    })();
+  }, []);
 
   const onRemoteNotification = notification => {
     const isClicked = notification.getData().userInteraction === 1;
@@ -98,6 +86,13 @@ const TextToSpeechScreen = props => {
         setTextError(true);
         return;
       }
+      if (
+        text.length >
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+      ) {
+        setTextError('Not enough credits remaining');
+        return;
+      }
 
       const fileName = `inputs/${new Date().toISOString()}.txt`;
       const s3_key = await uploadToS3(
@@ -117,6 +112,9 @@ const TextToSpeechScreen = props => {
         'texttospeech',
         name,
       );
+
+      props.updateUsedCreditsAfterSubmit();
+
       setText();
       setName();
     } catch (error) {
@@ -132,7 +130,7 @@ const TextToSpeechScreen = props => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.mainContainer}>
         <Voices voice={voice} setVoice={setVoice} />
 
@@ -147,28 +145,39 @@ const TextToSpeechScreen = props => {
           value={name}
           maxLength={100}
         />
-        <TextInput
-          style={
-            textError
-              ? [styles.descriptionTextInput, styles.textDescriptionError]
-              : styles.descriptionTextInput
-          }
-          multiline={true}
-          placeholder="Text*"
-          value={text}
-          onChangeText={value => setTextAndLength(value)}
-          maxLength={maxLength}
-        />
+        <View style={styles.descriptionView}>
+          <TextInput
+            style={
+              textError
+                ? [styles.descriptionTextInput, styles.textDescriptionError]
+                : styles.descriptionTextInput
+            }
+            multiline={true}
+            placeholder="Text*"
+            value={text}
+            onChangeText={value => setTextAndLength(value)}
+            maxLength={
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+            }
+          />
+        </View>
         <Text style={styles.lengthCount}>
-          {textLength + ' character(s) of ' + maxLength}
+          {textLength +
+            ' character(s) of ' +
+            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
         </Text>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
-        ) : maxLength <= 0 ? (
+        ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
+          0 ? (
           <TouchableOpacity
             style={styles.button}
-            onPress={() => props.navigation.navigate('PurchaseCredits')}>
-            <Text>Save</Text>
+            onPress={() => props.navigation.navigate('Purchase')}>
+            <Text>
+              You have{' '}
+              {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
+              credits available
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.button} onPress={() => saveText()}>
@@ -182,7 +191,12 @@ const TextToSpeechScreen = props => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: layout.top,
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
+  mainContainer: {
+    ...layout.top,
+  },
   scrollContainer: {
     paddingTop: 0,
   },
@@ -200,7 +214,10 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    height: '60%',
+    flexGrow: 1,
+  },
+  descriptionView: {
+    flexGrow: 1,
   },
   textDescriptionError: {
     ...defaultStyles.textInput,
@@ -231,6 +248,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       updateUserCreditsLeft,
+      updateUsedCreditsAfterSubmit,
     },
     dispatch,
   );
