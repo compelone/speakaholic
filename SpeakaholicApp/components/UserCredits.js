@@ -6,15 +6,15 @@ import {updateUser} from '../modules/UserActions';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 
 const UserCredits = props => {
-  setInterval(() => {
-    if (props.user.loggedInUser !== undefined) {
-      getCreditsLeft(props.user.loggedInUser.attributes.sub).then(
-        remainingCredits => {
-          props.updateUserCreditsLeft(remainingCredits);
-        },
+  setInterval(async () => {
+    if (props.user.loggedInUser.attributes !== undefined) {
+      const remainingCredits = await getCreditsLeft(
+        props.user.loggedInUser.attributes.sub,
       );
+      props.updateUserCreditsLeft(remainingCredits);
+      console.log('remaining credits', remainingCredits);
     }
-  }, 30000);
+  }, 300000);
   return <></>;
 };
 
