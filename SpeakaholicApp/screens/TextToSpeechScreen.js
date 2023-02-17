@@ -113,7 +113,10 @@ const TextToSpeechScreen = props => {
         name,
       );
 
-      props.updateUsedCreditsAfterSubmit();
+      props.updateUserCreditsLeft(
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
+          textLength,
+      );
 
       setText();
       setName();
