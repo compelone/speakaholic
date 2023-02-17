@@ -13,11 +13,16 @@ import * as Keychain from 'react-native-keychain';
 import layout from '../styles/layout';
 import {connect} from 'react-redux';
 import {version} from '../package.json';
+import {DataStore} from 'aws-amplify';
+import {reset} from '../modules/ResetAction';
+import {bindActionCreators} from 'redux';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
-    await signOut();
     await Keychain.resetGenericPassword();
+    await DataStore.clear();
+    props.reset();
+    await signOut();
     props.navigation.navigate('Home');
   };
 
@@ -105,4 +110,12 @@ const mapStateToProps = state => {
   return {user};
 };
 
-export default connect(mapStateToProps)(SettingsScreen);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      reset,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

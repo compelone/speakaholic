@@ -51,7 +51,7 @@ const LoginScreen = props => {
       setError('');
       await Keychain.setGenericPassword(email, password);
 
-      const cognito_user_name = props.user.loggedInUser.attributes.sub;
+      const cognito_user_name = loggedInUser.attributes.sub;
 
       DataStore.configure({
         syncExpressions: [
@@ -69,6 +69,11 @@ const LoginScreen = props => {
 
       const userCreditsLeft = await getCreditsLeft(cognito_user_name);
 
+      if (userCreditsLeft.data.getUserCreditsLeft === null) {
+        props.navigation.navigate('Purchase');
+        return;
+      }
+
       props.updateUserCreditsLeft(userCreditsLeft);
 
       props.navigation.replace('Root');
@@ -85,6 +90,7 @@ const LoginScreen = props => {
       setError(err.toString());
     } finally {
       setLoading(false);
+      setEmail('');
       setPassword('');
     }
   };

@@ -49,6 +49,11 @@ const HomeScreen = props => {
         });
         const userCreditsLeft = await getCreditsLeft(cognito_user_name);
 
+        if (userCreditsLeft.data.getUserCreditsLeft === null) {
+          props.navigation.navigate('Purchase');
+          return;
+        }
+
         props.updateUserCreditsLeft(userCreditsLeft);
 
         props.navigation.navigate('Root');

@@ -3,7 +3,13 @@ import {combineReducers} from 'redux';
 const INITIAL_STATE = {
   //   current: [],
   loggedInUser: {},
-  userCreditsLeft: 0,
+  userCreditsLeft: {
+    data: {
+      getUserCreditsLeft: {
+        credits_left: 0,
+      },
+    },
+  },
   lastCheckedCreditsDate: Date.now(),
 };
 
@@ -24,6 +30,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         lastCheckedCreditsDate: action.payload,
       };
+    case 'RESET':
+      return INITIAL_STATE;
     default:
       return state;
   }
