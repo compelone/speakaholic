@@ -35,34 +35,6 @@ const ImageToSpeechScreen = props => {
   const [voice, setVoice] = useState('Salli');
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [imageBytes, setImageBytes] = useState();
-  const [maxLengthCredits, setMaxLengthCredits] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      // const notificationPermissions = await check(
-      //   PERMISSIONS.IOS.NOTIFICATIONS,
-      // );
-      // if (notificationPermissions !== RESULTS.GRANTED) {
-      //   const requestNotificationPermission = await request(
-      //     PERMISSIONS.IOS.NOTIFICATIONS,
-      //   );
-      //   if (requestNotificationPermission !== RESULTS.GRANTED) {
-      //     Alert.alert('Permission to send notification is not allowed');
-      //     return;
-      //   }
-      //   PushNotification.onRegister(token => {
-      //     console.log('in app registration', token);
-      //   });
-      //   PushNotificationIOS.addEventListener(
-      //     'notification',
-      //     onRemoteNotification,
-      //   );
-      // }
-      setMaxLengthCredits(
-        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left,
-      );
-    })();
-  }, []);
 
   const maxImageSize = 5000000;
   const options = {
@@ -171,11 +143,6 @@ const ImageToSpeechScreen = props => {
         'imagetospeech',
         name,
       );
-
-      const updatedCreditsLeft = maxLengthCredits;
-      props.updateUserCreditsLeft(updatedCreditsLeft);
-
-      setMaxLengthCredits(updatedCreditsLeft);
 
       setName();
       setImageUri('');

@@ -28,4 +28,12 @@ async function downloadFile(key) {
   return url;
 }
 
+export function checkCachedDate(cachedDate) {
+  const currentTime = Date.now();
+  const cachedTime = new Date(cachedDate).getTime();
+  if (currentTime - cachedTime > 5 * 60 * 1000) {
+    return true;
+  }
+}
+
 export {generateUUID, uploadToS3, downloadFile};

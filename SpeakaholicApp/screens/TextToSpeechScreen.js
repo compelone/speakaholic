@@ -38,34 +38,6 @@ const TextToSpeechScreen = props => {
   const [textLength, setTextLength] = useState(0);
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
-  const [maxLengthCredits, setMaxLengthCredits] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      // const notificationPermissions = await check(
-      //   PERMISSIONS.IOS.NOTIFICATIONS,
-      // );
-      // if (notificationPermissions !== RESULTS.GRANTED) {
-      //   const requestNotificationPermission = await request(
-      //     PERMISSIONS.IOS.NOTIFICATIONS,
-      //   );
-      //   if (requestNotificationPermission !== RESULTS.GRANTED) {
-      //     Alert.alert('Permission to send notification is not allowed');
-      //     return;
-      //   }
-      //   PushNotification.onRegister(token => {
-      //     console.log('in app registration', token);
-      //   });
-      //   PushNotificationIOS.addEventListener(
-      //     'notification',
-      //     onRemoteNotification,
-      //   );
-      // }
-      setMaxLengthCredits(
-        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left,
-      );
-    })();
-  }, []);
 
   const onRemoteNotification = notification => {
     const isClicked = notification.getData().userInteraction === 1;
@@ -90,7 +62,10 @@ const TextToSpeechScreen = props => {
         setTextError(true);
         return;
       }
-      if (text.length > maxLengthCredits) {
+      if (
+        text.length >
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+      ) {
         setTextError('Not enough credits remaining');
         return;
       }
@@ -114,10 +89,13 @@ const TextToSpeechScreen = props => {
         name,
       );
 
-      const updatedCreditsLeft = maxLengthCredits - textLength;
-      props.updateUserCreditsLeft(updatedCreditsLeft);
+      const updatedCreditsLeft =
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
+        textLength;
 
-      setMaxLengthCredits(updatedCreditsLeft);
+      props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left =
+        updatedCreditsLeft;
+      props.updateUserCreditsLeft(props.user.userCreditsLeft);
 
       setText();
       setName();
@@ -162,20 +140,27 @@ const TextToSpeechScreen = props => {
             placeholderTextColor={colors.COLORS.DARKGRAY}
             value={text}
             onChangeText={value => setTextAndLength(value)}
-            maxLength={maxLengthCredits}
+            maxLength={
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+            }
           />
         </View>
         <Text style={styles.lengthCount}>
-          {textLength + ' character(s) of ' + maxLengthCredits}
+          {textLength +
+            ' character(s) of ' +
+            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
         </Text>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
-        ) : maxLengthCredits <= 0 ? (
+        ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
+          0 ? (
           <TouchableOpacity
             style={styles.button}
             onPress={() => props.navigation.navigate('Purchase')}>
             <Text style={styles.buttonText}>
-              You have {maxLengthCredits} credits available
+              You have{' '}
+              {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
+              credits available
             </Text>
           </TouchableOpacity>
         ) : (

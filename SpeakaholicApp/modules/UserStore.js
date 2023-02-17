@@ -1,10 +1,10 @@
-import {InteractionManager} from 'react-native';
 import {combineReducers} from 'redux';
 
 const INITIAL_STATE = {
   //   current: [],
   loggedInUser: {},
   userCreditsLeft: 0,
+  lastCheckedCreditsDate: Date.now(),
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -18,6 +18,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         userCreditsLeft: action.payload,
+      };
+    case 'SET_LAST_CHECKED_DATE':
+      return {
+        ...state,
+        lastCheckedCreditsDate: action.payload,
       };
     default:
       return state;

@@ -18,7 +18,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
-import {Glassfy} from 'react-native-glassfy-module';
 import {DataStore, syncExpression} from 'aws-amplify';
 import {getCreditsLeft} from '../services/dataService';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';

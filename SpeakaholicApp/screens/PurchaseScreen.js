@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -17,8 +17,30 @@ import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
 import {connect} from 'react-redux';
 import {purchaseCredits} from '../services/dataService';
+import {Glassfy} from 'react-native-glassfy-module';
 
 const PurchaseScreen = props => {
+  useEffect(() => {
+    (async () => {
+      await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
+
+      try {
+        let offering = Glassfy.offerings.all.find(
+          o => o.identifier === 'standard',
+        );
+        console.log(offering);
+
+        offering?.skus.forEach(sku => {
+          // sku.extravars
+          // sku.product.description;
+          console.log(sku.product.price);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   const handlePress = async credits => {
     const creditAmount = credits;
     const cognitoUserName = props.user.loggedInUser.attributes.sub;
@@ -30,14 +52,17 @@ const PurchaseScreen = props => {
       Alert.alert('Something went wrong.');
     }
   };
+
   return (
     <View style={styles.mainContainer}>
+      <Text> </Text>
       <Text>
         Allow up to 10 minutes for your credit balance to show in the
         application. Also, note that we will allow you to go over on credits,
         however, when purchasing new credits, the new credits will go towards
         the overage balance prior to be credited to your account.
       </Text>
+      <Text> </Text>
       <TouchableOpacity
         style={styles.buttons}
         onPress={() => handlePress(4000)}>
