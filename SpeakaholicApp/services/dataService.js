@@ -1,6 +1,9 @@
 import '@azure/core-asynciterator-polyfill';
 import {DataStore} from '@aws-amplify/datastore';
 import {SpeechItems, Users} from '../models';
+import {API, graphqlOperation} from 'aws-amplify';
+import {getUserCreditsLeft} from '../models/graphql/queries';
+import {createPurchaseCredits} from '../models/graphql/mutations';
 
 export async function createUser(email, name, cognitoUsername, imageUrl) {
   const doesUserExist = await userExists(cognitoUsername);
@@ -81,4 +84,46 @@ export async function getProcessedSpeechItems(cognitoUsername) {
   return models.filter(
     model => model.is_processed || model.failed_reason !== null,
   );
+}
+
+export async function purchaseCredits(cognito_user_name, credits) {
+  const now = new Date();
+  const purchase_date = now.toISOString();
+  const expiration_date = new Date(
+    now.setDate(now.getDate() + 30),
+  ).toISOString();
+
+  const purchaseCredits = {
+    cognito_user_name: cognito_user_name,
+    credits: credits,
+    purchase_date: purchase_date,
+    expiration_date: expiration_date,
+    is_expired: false,
+  };
+
+  const newPurchase = await API.graphql({
+    query: createPurchaseCredits,
+    variables: {input: purchaseCredits},
+  });
+
+  return newPurchase;
+}
+
+export async function getCreditsLeft(cognito_user_name) {
+  try {
+    const filter = {
+      id: {
+        eq: cognito_user_name,
+      },
+    };
+    const userCreditsLeft = await API.graphql({
+      query: getUserCreditsLeft,
+      variables: {id: cognito_user_name},
+    });
+    return userCreditsLeft;
+  } catch (error) {
+    console.log(error);
+    // raise error to the caller
+    throw error;
+  }
 }

@@ -1,7 +1,12 @@
 import React from 'react';
 
-const RootScreen = ({navigation}) => {
+const RootScreen = props => {
   return <></>;
 };
 
-export default RootScreen;
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RootScreen);

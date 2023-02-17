@@ -16,6 +16,7 @@ import colors from '../styles/colors';
 import BottomTabNavigator from './BottomTabNavigator';
 import DownloadsScreen from '../screens/DownloadsScreen';
 import {View} from 'react-native';
+import PurchaseScreen from '../screens/PurchaseScreen';
 
 Icon.loadFont().then();
 
@@ -123,6 +124,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Downloads"
         component={DownloadsScreen}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="Purchase"
+        component={PurchaseScreen}
         options={{headerShown: true}}
       />
     </Stack.Navigator>

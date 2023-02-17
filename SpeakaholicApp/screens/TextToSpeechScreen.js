@@ -21,6 +21,14 @@ import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
 import {uploadToS3} from '../services/generalService';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  updateUserCreditsLeft,
+  updateUsedCreditsAfterSubmit,
+} from '../modules/UserCreditsLeftAction';
+import {DataStore, syncExpression} from 'aws-amplify';
+import {SpeechItems, UserCreditsLeft, Users} from '../models';
+import {getCreditsLeft} from '../services/dataService';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -31,35 +39,29 @@ const TextToSpeechScreen = props => {
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
 
-  const maxLength = 1000;
-  if (!DeviceInfo.isEmulatorSync()) {
-    useEffect(() => {
-      (async () => {
-        const notificationPermissions = await check(
-          PERMISSIONS.IOS.NOTIFICATIONS,
-        );
-
-        if (notificationPermissions !== RESULTS.GRANTED) {
-          const requestNotificationPermission = await request(
-            PERMISSIONS.IOS.NOTIFICATIONS,
-          );
-          if (requestNotificationPermission !== RESULTS.GRANTED) {
-            Alert.alert('Permission to send notification is not allowed');
-            return;
-          }
-
-          PushNotification.onRegister(token => {
-            console.log('in app registration', token);
-          });
-
-          PushNotificationIOS.addEventListener(
-            'notification',
-            onRemoteNotification,
-          );
-        }
-      })();
-    }, []);
-  }
+  useEffect(() => {
+    (async () => {
+      // const notificationPermissions = await check(
+      //   PERMISSIONS.IOS.NOTIFICATIONS,
+      // );
+      // if (notificationPermissions !== RESULTS.GRANTED) {
+      //   const requestNotificationPermission = await request(
+      //     PERMISSIONS.IOS.NOTIFICATIONS,
+      //   );
+      //   if (requestNotificationPermission !== RESULTS.GRANTED) {
+      //     Alert.alert('Permission to send notification is not allowed');
+      //     return;
+      //   }
+      //   PushNotification.onRegister(token => {
+      //     console.log('in app registration', token);
+      //   });
+      //   PushNotificationIOS.addEventListener(
+      //     'notification',
+      //     onRemoteNotification,
+      //   );
+      // }
+    })();
+  }, []);
 
   const onRemoteNotification = notification => {
     const isClicked = notification.getData().userInteraction === 1;
@@ -84,6 +86,13 @@ const TextToSpeechScreen = props => {
         setTextError(true);
         return;
       }
+      if (
+        text.length >
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+      ) {
+        setTextError('Not enough credits remaining');
+        return;
+      }
 
       const fileName = `inputs/${new Date().toISOString()}.txt`;
       const s3_key = await uploadToS3(
@@ -103,6 +112,12 @@ const TextToSpeechScreen = props => {
         'texttospeech',
         name,
       );
+
+      props.updateUserCreditsLeft(
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
+          textLength,
+      );
+
       setText();
       setName();
     } catch (error) {
@@ -118,7 +133,7 @@ const TextToSpeechScreen = props => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.mainContainer}>
         <Voices voice={voice} setVoice={setVoice} />
 
@@ -133,23 +148,40 @@ const TextToSpeechScreen = props => {
           value={name}
           maxLength={100}
         />
-        <TextInput
-          style={
-            textError
-              ? [styles.descriptionTextInput, styles.textDescriptionError]
-              : styles.descriptionTextInput
-          }
-          multiline={true}
-          placeholder="Text*"
-          value={text}
-          onChangeText={value => setTextAndLength(value)}
-          maxLength={maxLength}
-        />
+        <View style={styles.descriptionView}>
+          <TextInput
+            style={
+              textError
+                ? [styles.descriptionTextInput, styles.textDescriptionError]
+                : styles.descriptionTextInput
+            }
+            multiline={true}
+            placeholder="Text*"
+            value={text}
+            onChangeText={value => setTextAndLength(value)}
+            maxLength={
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
+            }
+          />
+        </View>
         <Text style={styles.lengthCount}>
-          {textLength + ' character(s) of ' + maxLength}
+          {textLength +
+            ' character(s) of ' +
+            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
         </Text>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
+        ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
+          0 ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => props.navigation.navigate('Purchase')}>
+            <Text>
+              You have{' '}
+              {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
+              credits available
+            </Text>
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.button} onPress={() => saveText()}>
             <Text>Save</Text>
@@ -162,7 +194,12 @@ const TextToSpeechScreen = props => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: layout.top,
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
+  mainContainer: {
+    ...layout.top,
+  },
   scrollContainer: {
     paddingTop: 0,
   },
@@ -180,7 +217,10 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    height: '60%',
+    flexGrow: 1,
+  },
+  descriptionView: {
+    flexGrow: 1,
   },
   textDescriptionError: {
     ...defaultStyles.textInput,
@@ -207,4 +247,13 @@ const mapStateToProps = state => {
   return {user};
 };
 
-export default connect(mapStateToProps)(TextToSpeechScreen);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateUserCreditsLeft,
+      updateUsedCreditsAfterSubmit,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextToSpeechScreen);

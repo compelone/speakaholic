@@ -52,6 +52,11 @@ const SettingsScreen = props => {
         <TouchableOpacity style={styles.button} onPress={restore}>
           <Text style={styles.buttonText}>Restore Purchases</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.navigate('Purchase')}>
+          <Text style={styles.buttonText}>Purchase Credits</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => handlePress()}>
           <Text style={styles.buttonText}>Signout</Text>
         </TouchableOpacity>

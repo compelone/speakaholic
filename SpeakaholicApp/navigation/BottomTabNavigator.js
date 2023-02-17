@@ -14,26 +14,31 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="TextToSpeech"
-      screenOptions={({route}) => ({
+      screenOptions={({route, navigation}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
+          let page;
           if (route.name === 'Text To Speech') {
             iconName = 'file-text-o';
+            page = 'Text To Speech';
           } else if (route.name === 'Image To Speech') {
             iconName = 'file-image-o';
+            page = 'Image To Speech';
           }
 
+          print(page);
           return (
             <Icon.Button
+              onPress={() => navigation.navigate(page)}
               name={iconName}
               padding={5}
               backgroundColor={'white'}
-              color={focused ? colors.COLORS.PRIMARY : colors.COLORS.DARKGRAY}
+              color={focused ? colors.COLORS.SALMON : colors.COLORS.DARKGRAY}
             />
           );
         },
         headerShown: false,
-        tabBarActiveTintColor: colors.COLORS.PRIMARY,
+        tabBarActiveTintColor: colors.COLORS.SALMON,
         tabBarInactiveTintColor: colors.COLORS.DARKGRAY,
       })}>
       <BottomTab.Screen

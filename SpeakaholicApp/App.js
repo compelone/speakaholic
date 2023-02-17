@@ -14,6 +14,7 @@ import {createStore} from 'redux';
 import userReducer from './modules/UserStore';
 
 import awsconfig from './aws-exports';
+import UserCredits from './components/UserCredits';
 
 Amplify.configure(awsconfig);
 const store = createStore(userReducer);
@@ -22,6 +23,7 @@ function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
+        <UserCredits />
         <Navigation />
       </SafeAreaProvider>
     </Provider>

@@ -15,8 +15,8 @@ import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
-import {DataStore} from 'aws-amplify';
-import {SpeechItems} from '../models';
+import {API, graphqlOperation} from 'aws-amplify';
+import {listSpeechItems} from '../models/graphql/queries';
 
 const DownloadsScreen = props => {
   const [speechItems, setSpeechItems] = React.useState([]);
@@ -24,8 +24,6 @@ const DownloadsScreen = props => {
 
   useEffect(() => {
     (async () => {
-      await DataStore.clear();
-      await DataStore.start();
       await getProcessedItems();
 
       // const subscription = DataStore.observeQuery(SpeechItems, si =>
@@ -45,10 +43,22 @@ const DownloadsScreen = props => {
   const getProcessedItems = async () => {
     setIsLoading(true);
     try {
-      const items = await getProcessedSpeechItems(
-        props.user.loggedInUser.attributes.sub,
-      );
-      setSpeechItems([...items.reverse(a => a._lastChangedAt)]);
+      const filter = {
+        and: [
+          {
+            cognito_user_name: {eq: props.user.loggedInUser.attributes.sub},
+            is_processed: {eq: true},
+          },
+        ],
+      };
+      const items = await API.graphql({
+        query: listSpeechItems,
+        variables: {filter: filter},
+      });
+
+      setSpeechItems([
+        ...items?.data?.listSpeechItems?.items?.reverse(a => a._lastChangedAt),
+      ]);
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');

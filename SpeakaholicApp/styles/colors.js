@@ -1,5 +1,5 @@
 const DEFAULT = '#DD373B';
-const PRIMARY = '#37DDD9';
+const PRIMARY = '#2b68d3';
 const SALMON = '#FA8072';
 const GREEN = '#8EDD37';
 const PURPLE = '#8637DD';

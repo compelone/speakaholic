@@ -19,7 +19,7 @@ const SocialLogin = props => {
     const unsubscribe = Hub.listen('auth', ({payload: {event, data}}) => {
       switch (event) {
         case 'signIn':
-          props.navigation.navigate('Root');
+          // props.navigation.navigate('Root');
           break;
         case 'signOut':
           break;
