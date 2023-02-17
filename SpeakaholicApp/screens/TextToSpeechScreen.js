@@ -176,7 +176,7 @@ const TextToSpeechScreen = props => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => props.navigation.navigate('Purchase')}>
-            <Text>
+            <Text style={styles.buttonText}>
               You have{' '}
               {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
               credits available
@@ -184,7 +184,7 @@ const TextToSpeechScreen = props => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.button} onPress={() => saveText()}>
-            <Text>Save</Text>
+            <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         )}
         {/* <Downloads navigation={props.navigation} /> */}
@@ -239,6 +239,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 5,
     color: colors.COLORS.DARKGRAY,
+  },
+  buttonText: {
+    color: colors.COLORS.WHITE,
   },
 });
 

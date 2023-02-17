@@ -32,6 +32,12 @@ const PurchaseScreen = props => {
   };
   return (
     <View style={styles.mainContainer}>
+      <Text>
+        Allow up to 10 minutes for your credit balance to show in the
+        application. Also, note that we will allow you to go over on credits,
+        however, when purchasing new credits, the new credits will go towards
+        the overage balance prior to be credited to your account.
+      </Text>
       <TouchableOpacity
         style={styles.buttons}
         onPress={() => handlePress(4000)}>
@@ -82,6 +88,9 @@ const styles = StyleSheet.create({
   failedText: {
     color: 'red',
     fontSize: 12,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

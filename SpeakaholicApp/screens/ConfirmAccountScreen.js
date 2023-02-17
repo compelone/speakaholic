@@ -96,7 +96,7 @@ const ConfirmAccountScreen = props => {
         ) : (
           <View>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
-              <Text>Confirm Account</Text>
+              <Text style={styles.buttonText}>Confirm Account</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -140,6 +140,9 @@ const styles = StyleSheet.create({
     ...defaultStyles.default.standardText,
     paddingBottom: 20,
     color: colors.default.COLORS.ERROR,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

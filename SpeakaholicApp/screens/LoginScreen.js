@@ -137,12 +137,12 @@ const LoginScreen = props => {
         ) : (
           <View>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
-              <Text>Login</Text>
+              <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.signupButton]}
               onPress={() => props.navigation.navigate('SignUp')}>
-              <Text>Sign Up</Text>
+              <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -187,6 +187,9 @@ const styles = StyleSheet.create({
     ...defaultStyles.default.standardText,
     paddingBottom: 20,
     color: colors.default.COLORS.ERROR,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

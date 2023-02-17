@@ -110,7 +110,7 @@ const ForgotPasswordConfirmationScreen = props => {
         ) : (
           <View>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
-              <Text>Change Password</Text>
+              <Text style={styles.buttonText}>Change Password</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -154,6 +154,9 @@ const styles = StyleSheet.create({
     ...defaultStyles.default.standardText,
     paddingBottom: 20,
     color: colors.default.COLORS.ERROR,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

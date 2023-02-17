@@ -110,20 +110,23 @@ const HomeScreen = props => {
   return (
     <View style={styles.mainContainer}>
       <View>
-        <View style={styles.image}>
-          {/* <Image source={require('../assets/images/Appleicon_120px.png')} /> */}
+        <View style={styles.imageView}>
+          <Image
+            style={styles.image}
+            source={require('../assets/images/Transparent.png')}
+          />
         </View>
         <Text style={styles.headerText}>Speakaholic</Text>
         <View>
           <TouchableOpacity
             style={styles.button}
             onPress={() => props.navigation.navigate('Login')}>
-            <Text>Login</Text>
+            <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.signupButton]}
             onPress={() => props.navigation.navigate('SignUp')}>
-            <Text>Sign Up</Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -145,9 +148,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  image: {
+  imageView: {
     alignItems: 'center',
     paddingBottom: 50,
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -170,6 +177,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 20,
     textAlign: 'center',
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

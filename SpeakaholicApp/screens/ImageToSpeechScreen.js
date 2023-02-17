@@ -201,7 +201,7 @@ const ImageToSpeechScreen = props => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => props.navigation.navigate('Purchase')}>
-              <Text>
+              <Text style={styles.buttonText}>
                 You have{' '}
                 {
                   props.user.userCreditsLeft.data.getUserCreditsLeft
@@ -212,7 +212,7 @@ const ImageToSpeechScreen = props => {
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={styles.button} onPress={() => save()}>
-              <Text>Save</Text>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -278,6 +278,9 @@ const styles = StyleSheet.create({
   charactersleftandbuttonView: {
     flexGrow: 1,
     justifyContent: 'flex-end',
+  },
+  buttonText: {
+    color: colors.COLORS.WHITE,
   },
 });
 

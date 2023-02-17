@@ -115,12 +115,12 @@ const SignUpScreen = props => {
         <TouchableOpacity
           style={[styles.button, styles.signupButton]}
           onPress={handlePress}>
-          <Text>Sign Up</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate('Login')}>
-          <Text>Login</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
       <View>{/* <SocialLogin navigation={props.navigation} /> */}</View>
@@ -160,6 +160,9 @@ const styles = StyleSheet.create({
   orText: {
     padding: 20,
     textAlign: 'center',
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

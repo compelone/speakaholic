@@ -66,7 +66,7 @@ const ResendConfirmationCodeScreen = props => {
         ) : (
           <View>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
-              <Text>Resend Confirmation Code</Text>
+              <Text style={styles.buttonText}>Resend Confirmation Code</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -110,6 +110,9 @@ const styles = StyleSheet.create({
     ...defaultStyles.default.standardText,
     paddingBottom: 20,
     color: colors.default.COLORS.ERROR,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 

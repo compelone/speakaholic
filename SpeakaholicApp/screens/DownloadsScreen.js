@@ -119,12 +119,12 @@ const DownloadsScreen = props => {
                 <TouchableOpacity
                   style={styles.buttons}
                   onPress={() => downloadSpeech(item.s3_output_key)}>
-                  <Text>Download</Text>
+                  <Text style={styles.buttonText}>Download</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttons}
                   onPress={() => listenInBrowser(item.s3_output_key)}>
-                  <Text>Listen</Text>
+                  <Text style={styles.buttonText}>Listen</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -169,6 +169,9 @@ const styles = StyleSheet.create({
   pullToRefreshText: {
     alignSelf: 'center',
     color: colors.COLORS.SALMON,
+  },
+  buttonText: {
+    color: colors.COLORS.WHITE,
   },
 });
 

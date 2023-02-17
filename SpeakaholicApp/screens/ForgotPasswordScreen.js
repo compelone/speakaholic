@@ -71,7 +71,7 @@ const ForgotPasswordScreen = props => {
         ) : (
           <View>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
-              <Text>Send Password</Text>
+              <Text style={styles.buttonText}>Send Password</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -116,6 +116,9 @@ const styles = StyleSheet.create({
     ...defaultStyles.default.standardText,
     paddingBottom: 20,
     color: colors.default.COLORS.ERROR,
+  },
+  buttonText: {
+    color: colors.default.COLORS.WHITE,
   },
 });
 
