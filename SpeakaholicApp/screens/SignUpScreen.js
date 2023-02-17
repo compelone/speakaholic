@@ -71,6 +71,7 @@ const SignUpScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Name*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           value={name}
           onChangeText={setName}
         />
@@ -82,6 +83,7 @@ const SignUpScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Email*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -95,6 +97,7 @@ const SignUpScreen = props => {
           autoCapitalize="none"
           secureTextEntry={true}
           placeholder="Password*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           value={password}
           onChangeText={setPassword}
         />
@@ -107,6 +110,7 @@ const SignUpScreen = props => {
           autoCapitalize="none"
           secureTextEntry={true}
           placeholder="Confirm Password*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
         />

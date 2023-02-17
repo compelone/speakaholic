@@ -38,6 +38,7 @@ const TextToSpeechScreen = props => {
   const [textLength, setTextLength] = useState(0);
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
+  const [maxLengthCredits, setMaxLengthCredits] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -60,6 +61,9 @@ const TextToSpeechScreen = props => {
       //     onRemoteNotification,
       //   );
       // }
+      setMaxLengthCredits(
+        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left,
+      );
     })();
   }, []);
 
@@ -86,10 +90,7 @@ const TextToSpeechScreen = props => {
         setTextError(true);
         return;
       }
-      if (
-        text.length >
-        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
-      ) {
+      if (text.length > maxLengthCredits) {
         setTextError('Not enough credits remaining');
         return;
       }
@@ -113,10 +114,10 @@ const TextToSpeechScreen = props => {
         name,
       );
 
-      props.updateUserCreditsLeft(
-        props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
-          textLength,
-      );
+      const updatedCreditsLeft = maxLengthCredits - textLength;
+      props.updateUserCreditsLeft(updatedCreditsLeft);
+
+      setMaxLengthCredits(updatedCreditsLeft);
 
       setText();
       setName();
@@ -145,6 +146,7 @@ const TextToSpeechScreen = props => {
           }
           onChangeText={setName}
           placeholder="Name*"
+          placeholderTextColor={colors.COLORS.DARKGRAY}
           value={name}
           maxLength={100}
         />
@@ -157,29 +159,23 @@ const TextToSpeechScreen = props => {
             }
             multiline={true}
             placeholder="Text*"
+            placeholderTextColor={colors.COLORS.DARKGRAY}
             value={text}
             onChangeText={value => setTextAndLength(value)}
-            maxLength={
-              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
-            }
+            maxLength={maxLengthCredits}
           />
         </View>
         <Text style={styles.lengthCount}>
-          {textLength +
-            ' character(s) of ' +
-            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+          {textLength + ' character(s) of ' + maxLengthCredits}
         </Text>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
-        ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
-          0 ? (
+        ) : maxLengthCredits <= 0 ? (
           <TouchableOpacity
             style={styles.button}
             onPress={() => props.navigation.navigate('Purchase')}>
             <Text style={styles.buttonText}>
-              You have{' '}
-              {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
-              credits available
+              You have {maxLengthCredits} credits available
             </Text>
           </TouchableOpacity>
         ) : (

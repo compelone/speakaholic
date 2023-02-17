@@ -57,6 +57,7 @@ const ForgotPasswordScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Email*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}

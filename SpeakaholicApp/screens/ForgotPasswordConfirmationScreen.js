@@ -72,6 +72,7 @@ const ForgotPasswordConfirmationScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Email*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -84,6 +85,7 @@ const ForgotPasswordConfirmationScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Code*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="numeric"
           value={code}
           onChangeText={setCode}
@@ -97,6 +99,7 @@ const ForgotPasswordConfirmationScreen = props => {
           autoCapitalize="none"
           secureTextEntry={true}
           placeholder="New Password*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           value={newPassword}
           onChangeText={setNewPassword}
         />

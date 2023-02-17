@@ -63,6 +63,7 @@ const ConfirmAccountScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Email*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -75,6 +76,7 @@ const ConfirmAccountScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Code*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="numeric"
           value={code}
           onChangeText={setCode}

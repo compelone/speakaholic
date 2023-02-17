@@ -101,6 +101,7 @@ const LoginScreen = props => {
           }
           autoCapitalize="none"
           placeholder="Email*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -114,6 +115,7 @@ const LoginScreen = props => {
           autoCapitalize="none"
           secureTextEntry={true}
           placeholder="Password*"
+          placeholderTextColor={colors.default.COLORS.DARKGRAY}
           value={password}
           onChangeText={setPassword}
         />

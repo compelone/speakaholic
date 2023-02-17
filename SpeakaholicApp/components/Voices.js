@@ -51,6 +51,7 @@ const Voices = props => {
       dropDownContainerStyle={styles.dropDownContainerStyle}
       containerStyle={styles.selectContainer}
       placeholder={'Select a voice*'}
+      placeholderTextColor={colors.default.COLORS.DARKGRAY}
       value={props.voice}
       setValue={props.setVoice}
       placeholderStyle={styles.placeholderStyle}

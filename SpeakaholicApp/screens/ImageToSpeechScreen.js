@@ -166,6 +166,7 @@ const ImageToSpeechScreen = props => {
           }
           onChangeText={setName}
           placeholder="Name*"
+          placeholderTextColor={colors.COLORS.DARKGRAY}
           value={name}
           maxLength={100}
         />
