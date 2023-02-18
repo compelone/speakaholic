@@ -5,6 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: speakaholic-text-to-speech-azure-function",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-text-to-speech-azure-function.py",
+        "--lambda_handler",
+        "something",
+        "something"
+      ],
+      "env": {
+        "ENVIRONMENT": "local",
+        "SPEECH_REGION": "eastus"
+      }
+    },
+    {
       "name": "Python: speakaholic-deduct-user-credits-function",
       "type": "python",
       "request": "launch",

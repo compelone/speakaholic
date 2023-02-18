@@ -2,6 +2,8 @@ import json
 import urllib.parse
 import boto3
 import os
+import requests
+import base64
 
 
 def lambda_handler(event, context):
@@ -10,12 +12,14 @@ def lambda_handler(event, context):
     s3 = boto3.client('s3')
     env = os.getenv('ENVIRONMENT')
     speech_items_table_name = os.getenv('SPEECHITEMS_TABLE_NAME')
+    speech_key = os.getenv('SPEECH_KEY')
+    speech_region = os.getenv('SPEECH_REGION')
 
     if (env == 'local'):
         print("Environment is local, skipping")
 
         bucket = 'speakaholic-storage-dev202305-dev'
-        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/inputs/2023-02-04T13:37:46.934Z.txt'
+        key = 'private/us-east-1:bfb3afa9-5180-4f50-9dd5-d367658b54db/inputs/2023-02-18T14:59:56.273Z.txt'
         speech_items_table_name = 'SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-dev'
     else:
         print('Environment is not local, processing')
@@ -28,6 +32,10 @@ def lambda_handler(event, context):
     # if the key does not contains /inputs/ return
     if '/inputs/' not in key:
         print('Key does not contain /inputs/ skipping')
+        return
+
+    if '.txt' not in key:
+        print('Key does not contain .txt skipping')
         return
 
     key_split = key.split('/')
@@ -58,19 +66,90 @@ def lambda_handler(event, context):
         # read text from s3 object
         text = s3_response['Body'].read().decode('utf-8')
 
-        # boto3 pass s3 file to amazon polly for text to speech
-        polly = boto3.client('polly')
-        polly_response = polly.synthesize_speech(
-            OutputFormat='mp3',
-            TextType='ssml',
-            Text='<speak> %s </speak>' % (text),
-            VoiceId=dynamo_response['Items'][0]['voice'],
-            Engine='neural'
-        )
+        stream_data = None
+        if 'en-US-' not in dynamo_response['Items'][0]['voice']:
+            print('Processing AWS Polly')
+
+            # boto3 pass s3 file to amazon polly for text to speech
+            polly = boto3.client('polly')
+            polly_response = polly.synthesize_speech(
+                OutputFormat='mp3',
+                TextType='ssml',
+                Text='<speak> %s </speak>' % (text),
+                VoiceId=dynamo_response['Items'][0]['voice'],
+                Engine='neural'
+            )
+
+            stream_data = polly_response['AudioStream'].read()
+        else:
+            print('Processing Azure text to speech')
+
+            url = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1'
+
+            message_bytes = speech_key.encode('ascii')
+            base64_bytes = base64.b64encode(message_bytes)
+            speech_key_base64 = base64_bytes.decode('ascii')
+            # set headers for url request
+            headers = {
+                'Content-Type': 'application/ssml+xml',
+                'Host': 'eastus.tts.speech.microsoft.com',
+                'User-Agent': 'Speakaholic',
+                'X-Microsoft-OutputFormat': 'audio-16khz-32kbitrate-mono-mp3',
+                'Ocp-Apim-Subscription-Key':  speech_key
+            }
+
+            ssml = '''<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Male'
+                        name='%s'>%s</voice></speak>''' % (dynamo_response['Items'][0]['voice'], text)
+
+            # make rest call
+            response = requests.post(
+                url, headers=headers, data=ssml.encode('utf-8'))
+
+            # get the audio stream
+            if (response.status_code != 200):
+                raise Exception('Something went wrong with the request')
+
+            stream_data = response.content
+
+            # speech_config = speechsdk.SpeechConfig(
+            #     subscription=speech_key, region=speech_region)
+
+            # speech_config.set_speech_synthesis_output_format(
+            #     speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3)
+
+            # audio_config = speechsdk.audio.AudioOutputConfig(
+            #     use_default_speaker=True)
+
+            # voice = dynamo_response['Items'][0]['voice']
+
+            # speech_config.speech_synthesis_voice_name = voice
+
+            # speech_synthesizer = speechsdk.SpeechSynthesizer(
+            #     speech_config=speech_config, audio_config=audio_config)
+
+            # speech_synthesis_result = speech_synthesizer.speak_text_async(
+            #     text).get()
+
+            # if speech_synthesis_result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
+            #     print("Speech synthesized for text")
+            #     stream_data = speech_synthesis_result.audio_data
+            # elif speech_synthesis_result.reason == speechsdk.ResultReason.Canceled:
+            #     cancellation_details = speech_synthesis_result.cancellation_details
+            #     print("Speech synthesis canceled: {}".format(
+            #         cancellation_details.reason))
+            #     if cancellation_details.reason == speechsdk.CancellationReason.Error:
+            #         if cancellation_details.error_details:
+            #             print("Error details: {}".format(
+            #                 cancellation_details.error_details))
+            #             print(
+            #                 "Did you set the speech resource key and region values?")
+
+            #     raise Exception(
+            #         'Something went wrong while processing the file')
 
         # save polly response to s3
         s3.put_object(
-            Body=polly_response['AudioStream'].read(),
+            Body=stream_data,
             Bucket=bucket,
             Key=file_output_path
         )
@@ -106,5 +185,6 @@ def lambda_handler(event, context):
             print(ie)
         raise e
 
-# if __name__ == "__main__":
-#     lambda_handler(None, None)
+
+if __name__ == "__main__":
+    lambda_handler(None, None)

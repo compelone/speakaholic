@@ -44,21 +44,14 @@ const DownloadsScreen = props => {
     setIsLoading(true);
     try {
       const filter = {
-        and: [
-          {
-            cognito_user_name: {eq: props.user.loggedInUser.attributes.sub},
-            is_processed: {eq: true},
-          },
-        ],
+        cognito_user_name: {eq: props.user.loggedInUser.attributes.sub},
       };
       const items = await API.graphql({
         query: listSpeechItems,
         variables: {filter: filter},
       });
 
-      setSpeechItems([
-        ...items?.data?.listSpeechItems?.items?.reverse(a => a._lastChangedAt),
-      ]);
+      setSpeechItems(items?.data?.listSpeechItems?.items);
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
@@ -114,7 +107,7 @@ const DownloadsScreen = props => {
         renderItem={({item}) => (
           <View style={styles.speechItemContainer}>
             <Text style={styles.item}>{item.name}</Text>
-            {item.failed_reason === null ? (
+            {item.failed_reason === null && item.is_processed ? (
               <View style={styles.horizontalView}>
                 <TouchableOpacity
                   style={styles.buttons}
@@ -129,7 +122,8 @@ const DownloadsScreen = props => {
               </View>
             ) : (
               <Text style={styles.failedText}>
-                Something went wrong processing this item.
+                Something went wrong processing this item. No credits have been
+                charged.
               </Text>
             )}
           </View>

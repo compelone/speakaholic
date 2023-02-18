@@ -19,6 +19,22 @@ const Voices = props => {
     {label: 'English, Kimberly, Female', value: 'Kimberly'},
     {label: 'English, Matthew, Male', value: 'Matthew'},
     {label: 'English, Salli, Female', value: 'Salli'},
+    {label: 'English, Amber, Female', value: 'en-US-AmberNeural'},
+    {label: 'English, Ana, Female', value: 'en-US-AnaNeural'},
+    {label: 'English, Ashley, Female', value: 'en-US-AshleyNeural'},
+    {label: 'English, Brandon, Male', value: 'en-US-BrandonNeural'},
+    {label: 'English, Davis, Male', value: 'en-US-DavisNeural'},
+    {label: 'English, Elizabeth, Female', value: 'en-US-ElizabethNeural'},
+    {label: 'English, Eric, Male', value: 'en-US-EricNeural'},
+    {label: 'English, Jacob, Male', value: 'en-US-JacobNeural'},
+    {label: 'English, Jason, Male', value: 'en-US-JasonNeural'},
+    {label: 'English, Jenny, Female', value: 'en-US-JennyNeural'},
+    {label: 'English, Michelle, Female', value: 'en-US-MichelleNeural'},
+    {label: 'English, Monica, Female', value: 'en-US-MonicaNeural'},
+    {label: 'English, Nancy, Female', value: 'en-US-NancyNeural'},
+    {label: 'English, Roger, Male', value: 'en-US-RogerNeural'},
+    {label: 'English, Steffan, Male', value: 'en-US-SteffanNeural'},
+    {label: 'English, Tony, Male', value: 'en-US-TonyNeural'},
   ]);
 
   const changedValue = (value, index) => {
