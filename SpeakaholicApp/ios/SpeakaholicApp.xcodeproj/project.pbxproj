@@ -21,6 +21,22 @@
 		4952CEF82986F19D00BEC19A /* Joey.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4952CEEF2986F19C00BEC19A /* Joey.mp3 */; };
 		4952CEF92986F19D00BEC19A /* Ivy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4952CEF02986F19C00BEC19A /* Ivy.mp3 */; };
 		4952CEFA2986F19D00BEC19A /* Kendra.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4952CEF12986F19C00BEC19A /* Kendra.mp3 */; };
+		496A343B29A11CCF001982A0 /* en-US-BrandonNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A342B29A11CC2001982A0 /* en-US-BrandonNeural.mp3 */; };
+		496A343C29A11CCF001982A0 /* en-US-AshleyNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A342C29A11CC5001982A0 /* en-US-AshleyNeural.mp3 */; };
+		496A343D29A11CCF001982A0 /* en-US-MichelleNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A342D29A11CC7001982A0 /* en-US-MichelleNeural.mp3 */; };
+		496A343E29A11CCF001982A0 /* en-US-TonyNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A342E29A11CC8001982A0 /* en-US-TonyNeural.mp3 */; };
+		496A343F29A11CCF001982A0 /* en-US-JennyNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A342F29A11CC8001982A0 /* en-US-JennyNeural.mp3 */; };
+		496A344029A11CCF001982A0 /* en-US-DavisNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343029A11CC9001982A0 /* en-US-DavisNeural.mp3 */; };
+		496A344129A11CCF001982A0 /* en-US-AnaNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343129A11CCA001982A0 /* en-US-AnaNeural.mp3 */; };
+		496A344229A11CCF001982A0 /* en-US-JacobNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343229A11CCA001982A0 /* en-US-JacobNeural.mp3 */; };
+		496A344329A11CCF001982A0 /* en-US-MonicaNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343329A11CCB001982A0 /* en-US-MonicaNeural.mp3 */; };
+		496A344429A11CCF001982A0 /* en-US-RogerNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343429A11CCC001982A0 /* en-US-RogerNeural.mp3 */; };
+		496A344529A11CCF001982A0 /* en-US-AmberNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343529A11CCC001982A0 /* en-US-AmberNeural.mp3 */; };
+		496A344629A11CCF001982A0 /* en-US-SteffanNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343629A11CCD001982A0 /* en-US-SteffanNeural.mp3 */; };
+		496A344729A11CCF001982A0 /* en-US-EricNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343729A11CCD001982A0 /* en-US-EricNeural.mp3 */; };
+		496A344829A11CCF001982A0 /* en-US-NancyNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343829A11CCE001982A0 /* en-US-NancyNeural.mp3 */; };
+		496A344929A11CCF001982A0 /* en-US-ElizabethNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343929A11CCE001982A0 /* en-US-ElizabethNeural.mp3 */; };
+		496A344A29A11CCF001982A0 /* en-US-JasonNeural.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 496A343A29A11CCF001982A0 /* en-US-JasonNeural.mp3 */; };
 		7699B88040F8A987B510C191 /* libPods-SpeakaholicApp-SpeakaholicAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-SpeakaholicApp-SpeakaholicAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -57,6 +73,22 @@
 		4952CEF02986F19C00BEC19A /* Ivy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ivy.mp3; sourceTree = "<group>"; };
 		4952CEF12986F19C00BEC19A /* Kendra.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Kendra.mp3; sourceTree = "<group>"; };
 		4952CEFB298C09D800BEC19A /* SpeakaholicApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SpeakaholicApp.entitlements; path = SpeakaholicApp/SpeakaholicApp.entitlements; sourceTree = "<group>"; };
+		496A342B29A11CC2001982A0 /* en-US-BrandonNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-BrandonNeural.mp3"; sourceTree = "<group>"; };
+		496A342C29A11CC5001982A0 /* en-US-AshleyNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-AshleyNeural.mp3"; sourceTree = "<group>"; };
+		496A342D29A11CC7001982A0 /* en-US-MichelleNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-MichelleNeural.mp3"; sourceTree = "<group>"; };
+		496A342E29A11CC8001982A0 /* en-US-TonyNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-TonyNeural.mp3"; sourceTree = "<group>"; };
+		496A342F29A11CC8001982A0 /* en-US-JennyNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-JennyNeural.mp3"; sourceTree = "<group>"; };
+		496A343029A11CC9001982A0 /* en-US-DavisNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-DavisNeural.mp3"; sourceTree = "<group>"; };
+		496A343129A11CCA001982A0 /* en-US-AnaNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-AnaNeural.mp3"; sourceTree = "<group>"; };
+		496A343229A11CCA001982A0 /* en-US-JacobNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-JacobNeural.mp3"; sourceTree = "<group>"; };
+		496A343329A11CCB001982A0 /* en-US-MonicaNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-MonicaNeural.mp3"; sourceTree = "<group>"; };
+		496A343429A11CCC001982A0 /* en-US-RogerNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-RogerNeural.mp3"; sourceTree = "<group>"; };
+		496A343529A11CCC001982A0 /* en-US-AmberNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-AmberNeural.mp3"; sourceTree = "<group>"; };
+		496A343629A11CCD001982A0 /* en-US-SteffanNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-SteffanNeural.mp3"; sourceTree = "<group>"; };
+		496A343729A11CCD001982A0 /* en-US-EricNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-EricNeural.mp3"; sourceTree = "<group>"; };
+		496A343829A11CCE001982A0 /* en-US-NancyNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-NancyNeural.mp3"; sourceTree = "<group>"; };
+		496A343929A11CCE001982A0 /* en-US-ElizabethNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-ElizabethNeural.mp3"; sourceTree = "<group>"; };
+		496A343A29A11CCF001982A0 /* en-US-JasonNeural.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "en-US-JasonNeural.mp3"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-SpeakaholicApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakaholicApp.release.xcconfig"; path = "Target Support Files/Pods-SpeakaholicApp/Pods-SpeakaholicApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig"; path = "Target Support Files/Pods-SpeakaholicApp-SpeakaholicAppTests/Pods-SpeakaholicApp-SpeakaholicAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-SpeakaholicApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpeakaholicApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +168,22 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				496A343529A11CCC001982A0 /* en-US-AmberNeural.mp3 */,
+				496A343129A11CCA001982A0 /* en-US-AnaNeural.mp3 */,
+				496A342C29A11CC5001982A0 /* en-US-AshleyNeural.mp3 */,
+				496A342B29A11CC2001982A0 /* en-US-BrandonNeural.mp3 */,
+				496A343029A11CC9001982A0 /* en-US-DavisNeural.mp3 */,
+				496A343929A11CCE001982A0 /* en-US-ElizabethNeural.mp3 */,
+				496A343729A11CCD001982A0 /* en-US-EricNeural.mp3 */,
+				496A343229A11CCA001982A0 /* en-US-JacobNeural.mp3 */,
+				496A343A29A11CCF001982A0 /* en-US-JasonNeural.mp3 */,
+				496A342F29A11CC8001982A0 /* en-US-JennyNeural.mp3 */,
+				496A342D29A11CC7001982A0 /* en-US-MichelleNeural.mp3 */,
+				496A343329A11CCB001982A0 /* en-US-MonicaNeural.mp3 */,
+				496A343829A11CCE001982A0 /* en-US-NancyNeural.mp3 */,
+				496A343429A11CCC001982A0 /* en-US-RogerNeural.mp3 */,
+				496A343629A11CCD001982A0 /* en-US-SteffanNeural.mp3 */,
+				496A342E29A11CC8001982A0 /* en-US-TonyNeural.mp3 */,
 				4952CEF02986F19C00BEC19A /* Ivy.mp3 */,
 				4952CEEE2986F19C00BEC19A /* Joanna.mp3 */,
 				4952CEEF2986F19C00BEC19A /* Joey.mp3 */,
@@ -271,16 +319,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496A344429A11CCF001982A0 /* en-US-RogerNeural.mp3 in Resources */,
+				496A344729A11CCF001982A0 /* en-US-EricNeural.mp3 in Resources */,
 				4952CEF42986F19D00BEC19A /* Kevin.mp3 in Resources */,
+				496A344929A11CCF001982A0 /* en-US-ElizabethNeural.mp3 in Resources */,
+				496A343B29A11CCF001982A0 /* en-US-BrandonNeural.mp3 in Resources */,
 				4952CEFA2986F19D00BEC19A /* Kendra.mp3 in Resources */,
+				496A344629A11CCF001982A0 /* en-US-SteffanNeural.mp3 in Resources */,
+				496A344A29A11CCF001982A0 /* en-US-JasonNeural.mp3 in Resources */,
+				496A344529A11CCF001982A0 /* en-US-AmberNeural.mp3 in Resources */,
+				496A344329A11CCF001982A0 /* en-US-MonicaNeural.mp3 in Resources */,
+				496A344029A11CCF001982A0 /* en-US-DavisNeural.mp3 in Resources */,
+				496A343F29A11CCF001982A0 /* en-US-JennyNeural.mp3 in Resources */,
 				4952CEF32986F19D00BEC19A /* Salli.mp3 in Resources */,
 				4952CEF82986F19D00BEC19A /* Joey.mp3 in Resources */,
+				496A344229A11CCF001982A0 /* en-US-JacobNeural.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				4952CEF52986F19D00BEC19A /* Kimberly.mp3 in Resources */,
+				496A343D29A11CCF001982A0 /* en-US-MichelleNeural.mp3 in Resources */,
 				4952CEF22986F19D00BEC19A /* Matthew.mp3 in Resources */,
+				496A344129A11CCF001982A0 /* en-US-AnaNeural.mp3 in Resources */,
 				4952CEF62986F19D00BEC19A /* Justin.mp3 in Resources */,
+				496A344829A11CCF001982A0 /* en-US-NancyNeural.mp3 in Resources */,
+				496A343E29A11CCF001982A0 /* en-US-TonyNeural.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4952CEF72986F19D00BEC19A /* Joanna.mp3 in Resources */,
+				496A343C29A11CCF001982A0 /* en-US-AshleyNeural.mp3 in Resources */,
 				4952CEF92986F19D00BEC19A /* Ivy.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,6 +598,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ACCDownload_20230217152745/SSML/.voice-env/lib/python3.8/site-packages/azure/cognitiveservices/speech",
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -563,6 +631,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ACCDownload_20230217152745/SSML/.voice-env/lib/python3.8/site-packages/azure/cognitiveservices/speech",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
