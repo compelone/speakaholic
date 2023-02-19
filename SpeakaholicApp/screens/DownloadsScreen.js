@@ -100,12 +100,15 @@ const DownloadsScreen = props => {
 
   const deleteItem = async item => {
     try {
+      setIsLoading(true);
       await deleteSpeechItem(item.id);
       await new Promise(resolve => setTimeout(resolve, 5000));
       await getProcessedItems();
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -148,7 +151,8 @@ const DownloadsScreen = props => {
               </View>
             ) : (
               <View>
-                {item.failed_reason !== null && item.is_processed === false ? (
+                {item.failed_reason !== undefined &&
+                item.is_processed === false ? (
                   <ActivityIndicator color={colors.COLORS.PRIMARY} />
                 ) : (
                   <Text style={styles.failedText}>
