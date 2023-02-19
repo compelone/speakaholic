@@ -26,6 +26,7 @@ import RNFS from 'react-native-fs';
 import {bindActionCreators} from 'redux';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -156,7 +157,7 @@ const ImageToSpeechScreen = props => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.mainContainer}>
         <Voices voice={voice} setVoice={setVoice} />
         <TextInput
@@ -220,7 +221,7 @@ const ImageToSpeechScreen = props => {
         </View>
         {/* <Downloads navigation={props.navigation} /> */}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
