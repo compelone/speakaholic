@@ -8,8 +8,12 @@ import {
   View,
   Linking,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
-import {getProcessedSpeechItems} from '../services/dataService';
+import {
+  deleteSpeechItem,
+  getProcessedSpeechItems,
+} from '../services/dataService';
 import {connect} from 'react-redux';
 import layout from '../styles/layout';
 import colors from '../styles/colors';
@@ -51,7 +55,9 @@ const DownloadsScreen = props => {
         variables: {filter: filter},
       });
 
-      setSpeechItems(items?.data?.listSpeechItems?.items);
+      setSpeechItems(
+        items?.data?.listSpeechItems?.items.filter(m => m._deleted === null),
+      );
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
@@ -92,6 +98,17 @@ const DownloadsScreen = props => {
     Linking.openURL(url);
   };
 
+  const deleteItem = async item => {
+    try {
+      await deleteSpeechItem(item.id);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      await getProcessedItems();
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Something went wrong');
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.pullToRefreshText}>Pull to refresh</Text>
@@ -106,7 +123,16 @@ const DownloadsScreen = props => {
         }
         renderItem={({item}) => (
           <View style={styles.speechItemContainer}>
-            <Text style={styles.item}>{item.name}</Text>
+            <View style={[styles.horizontalView, styles.horizontalViewHeader]}>
+              <Text style={styles.item}>{item.name}</Text>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => deleteItem(item)}>
+                <Text style={[styles.buttonText, styles.deleteButtonText]}>
+                  X
+                </Text>
+              </TouchableOpacity>
+            </View>
             {item.failed_reason === null && item.is_processed ? (
               <View style={styles.horizontalView}>
                 <TouchableOpacity
@@ -121,10 +147,16 @@ const DownloadsScreen = props => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text style={styles.failedText}>
-                Something went wrong processing this item. No credits have been
-                charged.
-              </Text>
+              <View>
+                {item.failed_reason !== null && item.is_processed === false ? (
+                  <ActivityIndicator color={colors.COLORS.PRIMARY} />
+                ) : (
+                  <Text style={styles.failedText}>
+                    Something went wrong processing this item. No credits have
+                    been charged.
+                  </Text>
+                )}
+              </View>
             )}
           </View>
         )}
@@ -166,6 +198,20 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.COLORS.WHITE,
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    borderRadius: 10,
+    width: 25,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  horizontalViewHeader: {
+    marginBottom: 20,
+  },
+  deleteButtonText: {
+    fontWeight: 'bold',
   },
 });
 

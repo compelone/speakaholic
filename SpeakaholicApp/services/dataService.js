@@ -127,3 +127,7 @@ export async function getCreditsLeft(cognito_user_name) {
     throw error;
   }
 }
+
+export async function deleteSpeechItem(id) {
+  await DataStore.delete(SpeechItems, id);
+}
