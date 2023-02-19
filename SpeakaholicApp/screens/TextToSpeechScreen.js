@@ -142,10 +142,9 @@ const TextToSpeechScreen = props => {
             placeholderTextColor={colors.COLORS.DARKGRAY}
             value={text}
             onChangeText={value => setTextAndLength(value)}
-            maxLength={
-              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left
-            }
+            maxLength={3000}
           />
+          <Text>max 3000 characters at a time</Text>
         </View>
         <Text style={styles.lengthCount}>
           {textLength +
