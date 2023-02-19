@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
@@ -29,6 +30,7 @@ import {
 import {DataStore, syncExpression} from 'aws-amplify';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import {getCreditsLeft} from '../services/dataService';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -112,7 +114,7 @@ const TextToSpeechScreen = props => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.mainContainer}>
         <Voices voice={voice} setVoice={setVoice} />
 
@@ -170,7 +172,7 @@ const TextToSpeechScreen = props => {
         )}
         {/* <Downloads navigation={props.navigation} /> */}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    flexGrow: 1,
+    height: 300,
   },
   descriptionView: {
     flexGrow: 1,

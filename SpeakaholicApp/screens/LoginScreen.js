@@ -20,6 +20,7 @@ import {connect} from 'react-redux';
 import {DataStore, syncExpression} from '@aws-amplify/datastore';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import {getCreditsLeft} from '../services/dataService';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -96,7 +97,7 @@ const LoginScreen = props => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Login</Text>
         <TextInput
@@ -156,7 +157,7 @@ const LoginScreen = props => {
         )}
       </View>
       <View>{/* <SocialLogin navigation={props.navigation} /> */}</View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({

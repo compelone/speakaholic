@@ -12,6 +12,7 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {confirmAccount} from '../services/authService';
 import {connect} from 'react-redux';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ConfirmAccountScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -48,7 +49,7 @@ const ConfirmAccountScreen = props => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Confirm Account</Text>
         <Text>
@@ -103,7 +104,7 @@ const ConfirmAccountScreen = props => {
           </View>
         )}
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({

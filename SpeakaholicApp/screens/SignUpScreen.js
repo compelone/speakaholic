@@ -14,6 +14,7 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {registration} from '../services/authService';
 import SocialLogin from '../components/SocialLogin';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const SignUpScreen = props => {
   const [name, setName] = useState();
@@ -59,7 +60,7 @@ const SignUpScreen = props => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
       <View>
         <Text style={styles.headerText}>Sign Up</Text>
 
@@ -128,7 +129,7 @@ const SignUpScreen = props => {
         </TouchableOpacity>
       </View>
       <View>{/* <SocialLogin navigation={props.navigation} /> */}</View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
