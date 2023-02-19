@@ -128,7 +128,7 @@ const TextToSpeechScreen = props => {
           placeholder="Title*"
           placeholderTextColor={colors.COLORS.DARKGRAY}
           value={name}
-          maxLength={100}
+          maxLength={64}
         />
         <View style={styles.descriptionView}>
           <TextInput

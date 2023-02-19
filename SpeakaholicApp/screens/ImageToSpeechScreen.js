@@ -170,7 +170,7 @@ const ImageToSpeechScreen = props => {
           placeholder="Title*"
           placeholderTextColor={colors.COLORS.DARKGRAY}
           value={name}
-          maxLength={100}
+          maxLength={64}
         />
         <TouchableOpacity
           style={styles.centerImage}

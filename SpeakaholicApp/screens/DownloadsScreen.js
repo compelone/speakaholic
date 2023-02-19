@@ -136,6 +136,11 @@ const DownloadsScreen = props => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <View style={styles.centeredView}>
+              <Text style={styles.characterCount}>
+                {item.character_count} character(s) processed
+              </Text>
+            </View>
             {item.failed_reason === null && item.is_processed ? (
               <View style={styles.horizontalView}>
                 <TouchableOpacity
@@ -204,7 +209,7 @@ const styles = StyleSheet.create({
     color: colors.COLORS.WHITE,
   },
   deleteButton: {
-    backgroundColor: 'red',
+    backgroundColor: 'transparent',
     borderRadius: 10,
     width: 25,
     height: 25,
@@ -216,6 +221,15 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     fontWeight: 'bold',
+    color: colors.COLORS.SALMON,
+  },
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  characterCount: {
+    color: colors.COLORS.PRIMARY,
   },
 });
 
