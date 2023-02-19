@@ -136,23 +136,25 @@ const DownloadsScreen = props => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.centeredView}>
-              <Text style={styles.characterCount}>
-                {item.character_count} character(s) processed
-              </Text>
-            </View>
             {item.failed_reason === null && item.is_processed ? (
-              <View style={styles.horizontalView}>
-                <TouchableOpacity
-                  style={styles.buttons}
-                  onPress={() => downloadSpeech(item.s3_output_key)}>
-                  <Text style={styles.buttonText}>Download</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.buttons}
-                  onPress={() => listenInBrowser(item.s3_output_key)}>
-                  <Text style={styles.buttonText}>Listen</Text>
-                </TouchableOpacity>
+              <View>
+                <View style={styles.centeredView}>
+                  <Text style={styles.characterCount}>
+                    {item.character_count} character(s) processed
+                  </Text>
+                </View>
+                <View style={styles.horizontalView}>
+                  <TouchableOpacity
+                    style={styles.buttons}
+                    onPress={() => downloadSpeech(item.s3_output_key)}>
+                    <Text style={styles.buttonText}>Download</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.buttons}
+                    onPress={() => listenInBrowser(item.s3_output_key)}>
+                    <Text style={styles.buttonText}>Listen</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : (
               <View>
