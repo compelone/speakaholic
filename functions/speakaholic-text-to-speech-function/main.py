@@ -159,10 +159,12 @@ def lambda_handler(event, context):
             Key={
                 'id': dynamo_response['Items'][0]['id']
             },
-            UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key',
+            UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key, character_count = :character_count, failed_reason = :failed_reason',
             ExpressionAttributeValues={
                 ':is_processed': True,
-                ':s3_output_key': file_output_path
+                ':s3_output_key': file_output_path,
+                ':character_count': len(text) - 1,
+                ':failed_reason': None
             }
         )
     except Exception as e:

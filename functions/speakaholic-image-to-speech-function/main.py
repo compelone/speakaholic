@@ -19,7 +19,7 @@ def lambda_handler(event, context):
         print("Environment is local, skipping")
 
         bucket = 'speakaholic-storage-dev202305-dev'
-        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/inputs/2023-02-06T00:31:03.563Z.jpg'
+        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/inputs/2023-02-19T11:24:39.186Z.jpg'
         speech_items_table_name = 'SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-dev'
     else:
         print('Environment is not local, processing')
@@ -61,7 +61,10 @@ def lambda_handler(event, context):
         rekognition = boto3.client('rekognition')
         rekognition_response = rekognition.detect_text(
             Image={
-                'Bytes': s3.get_object(Bucket=bucket, Key=key)['Body'].read()
+                'S3Object': {
+                    'Bucket': bucket,
+                    'Name': key,
+                },
             }
         )
 
@@ -166,11 +169,12 @@ def lambda_handler(event, context):
             Key={
                 'id': dynamo_response['Items'][0]['id']
             },
-            UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key, character_count = :character_count',
+            UpdateExpression='SET is_processed = :is_processed, s3_output_key = :s3_output_key, character_count = :character_count, failed_reason = :failed_reason',
             ExpressionAttributeValues={
                 ':is_processed': True,
                 ':s3_output_key': file_output_path,
-                ':character_count': len(detected_text) - 1
+                ':character_count': len(detected_text) - 1,
+                ':failed_reason': None
             }
         )
     except Exception as e:
