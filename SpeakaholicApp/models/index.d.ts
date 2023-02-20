@@ -135,7 +135,7 @@ type EagerPurchaseCredits = {
   };
   readonly id: string;
   readonly cognito_user_name: string;
-  readonly credits: string;
+  readonly credits: number;
   readonly purchase_date: string;
   readonly expiration_date: string;
   readonly is_expired: boolean;
@@ -150,7 +150,7 @@ type LazyPurchaseCredits = {
   };
   readonly id: string;
   readonly cognito_user_name: string;
-  readonly credits: string;
+  readonly credits: number;
   readonly purchase_date: string;
   readonly expiration_date: string;
   readonly is_expired: boolean;

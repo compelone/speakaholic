@@ -330,7 +330,7 @@ export const schema = {
                 "credits": {
                     "name": "credits",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -401,5 +401,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "e1e01037ab04da422c1cb583f86db669"
+    "version": "e25da1e54855f29c7a8fe6b88b48fae3"
 };

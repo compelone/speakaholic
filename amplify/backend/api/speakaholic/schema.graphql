@@ -35,8 +35,9 @@ type UserCreditsLeft @model @auth(rules: [{allow: private}]) {
 type PurchaseCredits @model @auth(rules: [{allow: private}]) {
   id: ID!
   cognito_user_name: String!
-  credits: String!
+  credits: Int!
   purchase_date: AWSDateTime!
   expiration_date: AWSDateTime!
   is_expired: Boolean!
 }
+ 
