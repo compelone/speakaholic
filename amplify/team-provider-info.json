@@ -1,45 +1,22 @@
 {
-  "dev": {
+  "production": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-speakaholic-dev-202305-authRole",
-      "UnauthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-dev-202305-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-dev-202305-authRole",
+      "AuthRoleName": "amplify-speakaholic-production-111412-authRole",
+      "UnauthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-production-111412-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-production-111412-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-speakaholic-dev-202305-deployment",
-      "UnauthRoleName": "amplify-speakaholic-dev-202305-unauthRole",
-      "StackName": "amplify-speakaholic-dev-202305",
-      "StackId": "arn:aws:cloudformation:us-east-1:744137563977:stack/amplify-speakaholic-dev-202305/d2bc4790-9c4e-11ed-92df-0eabb997dded",
+      "DeploymentBucketName": "amplify-speakaholic-production-111412-deployment",
+      "UnauthRoleName": "amplify-speakaholic-production-111412-unauthRole",
+      "StackName": "amplify-speakaholic-production-111412",
+      "StackId": "arn:aws:cloudformation:us-east-1:744137563977:stack/amplify-speakaholic-production-111412/9daff4c0-b139-11ed-bd2b-0a53a9771381",
       "AmplifyAppId": "d9ywujvoqorjm"
     },
     "categories": {
       "auth": {
         "speakaholic": {}
       },
-      "api": {
-        "speakaholic": {}
-      },
       "storage": {
-        "s3speakaholicstoragedev": {}
-      },
-      "predictions": {
-        "speakaholicidentifytext": {},
-        "speakaholictexttospeech": {},
-        "speakaholicspeechtotext": {}
-      },
-      "analytics": {
-        "speakaholic": {},
-        "Pinpoint": {
-          "Name": "speakaholic-dev",
-          "Id": "209ce5922b5d48619230c54e12c854ee",
-          "Region": "us-east-1"
-        }
-      },
-      "notifications": {
-        "Pinpoint": {
-          "Name": "speakaholic-dev",
-          "Id": "209ce5922b5d48619230c54e12c854ee",
-          "Region": "us-east-1"
-        }
+        "s3speakaholicstorage": {}
       }
     }
   }

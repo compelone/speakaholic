@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "speaka0bdd4d18",
+    "resourceNameTruncated": "speakab0f4971a",
     "userPoolName": "speakaholic",
     "autoVerifiedAttributes": [
       "email"
@@ -28,9 +28,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "speaka0bdd4d18_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "speakab0f4971a_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "0bdd4d18",
+    "sharedId": "b0f4971a",
     "resourceName": "speakaholic",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
@@ -43,13 +43,6 @@
     "adminQueries": false,
     "thirdPartyAuth": false,
     "authProviders": [],
-    "hostedUI": true,
-    "hostedUIDomainName": "4n9l7gcjegah",
-    "authProvidersUserPool": [
-      "Facebook"
-    ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"public_profile,email\",\"AttributeMapping\":{\"name\":\"name\",\"email\":\"email\",\"username\":\"id\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"speakaholic://com.byitl.speakaholic/signin\"],\"LogoutURLs\":[\"speakaholic://com.byitl.speakaholic/signout\"]}",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
     "authRoleArn": {

@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
   "analytics": {
-    "speakaholic": {
+    "speakaholicprod": {
       "Id": "string",
       "Region": "string",
       "appName": "string"
@@ -9,40 +9,33 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "speakaholic": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string",
-      "GraphQLAPIKeyOutput": "string"
+      "GraphQLAPIIdOutput": "string"
     }
   },
   "auth": {
     "speakaholic": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
-      "HostedUIDomain": "string",
       "IdentityPoolId": "string",
       "IdentityPoolName": "string",
-      "OAuthMetadata": "string",
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
     }
   },
   "predictions": {
-    "speakaholicidentifytext": {
+    "speakaholicidentifytextprod": {
       "format": "string",
       "region": "string"
     },
-    "speakaholicspeechtotext": {
-      "language": "string",
-      "region": "string"
-    },
-    "speakaholictexttospeech": {
+    "speakaholictexttospeechprod": {
       "language": "string",
       "region": "string",
       "voice": "string"
     }
   },
   "storage": {
-    "s3speakaholicstoragedev": {
+    "s3speakaholicstorage": {
       "BucketName": "string",
       "Region": "string"
     }

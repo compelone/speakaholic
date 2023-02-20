@@ -1,0 +1,21 @@
+{
+    "appName": "speakaholicprod",
+    "roleName": "pinpointLambdaRolefcf3e33f",
+    "cloudformationPolicyName": "cloudformationPolicyfcf3e33f",
+    "cloudWatchPolicyName": "cloudWatchPolicyfcf3e33f",
+    "pinpointPolicyName": "pinpointPolicyfcf3e33f",
+    "authPolicyName": "pinpoint_amplify_fcf3e33f",
+    "unauthPolicyName": "pinpoint_amplify_fcf3e33f",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

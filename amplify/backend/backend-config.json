@@ -1,13 +1,21 @@
 {
   "analytics": {
-    "speakaholic": {
+    "speakaholicprod": {
       "providerPlugin": "awscloudformation",
       "service": "Pinpoint"
     }
   },
   "api": {
     "speakaholic": {
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "speakaholic"
+        }
+      ],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
@@ -16,11 +24,10 @@
             }
           ],
           "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
-            },
-            "authenticationType": "API_KEY"
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authspeakaholic"
+            }
           }
         }
       },
@@ -45,9 +52,7 @@
           "NAME",
           "EMAIL"
         ],
-        "socialProviders": [
-          "FACEBOOK"
-        ],
+        "socialProviders": [],
         "usernameAttributes": [
           "EMAIL"
         ],
@@ -59,84 +64,21 @@
       "service": "Cognito"
     }
   },
-  "notifications": {
-    "speakaholic": {
-      "channels": [
-        "APNS"
-      ],
-      "service": "Pinpoint"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_analytics_Pinpoint_Id": {
-      "usedBy": [
-        {
-          "category": "analytics",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    },
-    "AMPLIFY_analytics_Pinpoint_Name": {
-      "usedBy": [
-        {
-          "category": "analytics",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    },
-    "AMPLIFY_analytics_Pinpoint_Region": {
-      "usedBy": [
-        {
-          "category": "analytics",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    },
-    "AMPLIFY_notifications_Pinpoint_Id": {
-      "usedBy": [
-        {
-          "category": "notifications",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    },
-    "AMPLIFY_notifications_Pinpoint_Name": {
-      "usedBy": [
-        {
-          "category": "notifications",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    },
-    "AMPLIFY_notifications_Pinpoint_Region": {
-      "usedBy": [
-        {
-          "category": "notifications",
-          "resourceName": "Pinpoint"
-        }
-      ]
-    }
-  },
   "predictions": {
-    "speakaholicidentifytext": {
+    "speakaholicidentifytextprod": {
       "dependsOn": [],
       "identifyType": "identifyText",
       "providerPlugin": "awscloudformation",
       "service": "Rekognition"
     },
-    "speakaholicspeechtotext": {
-      "convertType": "transcription",
-      "providerPlugin": "awscloudformation",
-      "service": "Transcribe"
-    },
-    "speakaholictexttospeech": {
+    "speakaholictexttospeechprod": {
       "convertType": "speechGenerator",
       "providerPlugin": "awscloudformation",
       "service": "Polly"
     }
   },
   "storage": {
-    "s3speakaholicstoragedev": {
+    "s3speakaholicstorage": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

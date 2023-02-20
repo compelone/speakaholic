@@ -3,36 +3,20 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_mobile_analytics_app_id": "209ce5922b5d48619230c54e12c854ee",
+    "aws_mobile_analytics_app_id": "7ae6ada8db714055922164f15ca2d135",
     "aws_mobile_analytics_app_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "https://qs7k46lyyrcbpi3m3uqzvkqjme.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://tkjbulyj6nh4hnjuzcskinel5q.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-zxub52rhozay7ezkox24bmz3gm",
-    "aws_cognito_identity_pool_id": "us-east-1:970821f4-f436-4859-9b25-a3d823b78394",
+    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "aws_cognito_identity_pool_id": "us-east-1:dd8c692c-7c00-4031-85e6-c238ad79750d",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_YfuGxpqKk",
-    "aws_user_pools_web_client_id": "1q16mvhoopdvs8c5l2ll6onqla",
-    "oauth": {
-        "domain": "4n9l7gcjegah-dev.auth.us-east-1.amazoncognito.com",
-        "scope": [
-            "phone",
-            "email",
-            "openid",
-            "profile",
-            "aws.cognito.signin.user.admin"
-        ],
-        "redirectSignIn": "speakaholic://com.byitl.speakaholic/signin",
-        "redirectSignOut": "speakaholic://com.byitl.speakaholic/signout",
-        "responseType": "code"
-    },
-    "federationTarget": "COGNITO_USER_POOLS",
+    "aws_user_pools_id": "us-east-1_1bpcAfWwz",
+    "aws_user_pools_web_client_id": "12626gg5ma70qlpjev7npns1ej",
+    "oauth": {},
     "aws_cognito_username_attributes": [
         "EMAIL"
     ],
-    "aws_cognito_social_providers": [
-        "FACEBOOK"
-    ],
+    "aws_cognito_social_providers": [],
     "aws_cognito_signup_attributes": [
         "NAME",
         "EMAIL"
@@ -48,7 +32,7 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
-    "aws_user_files_s3_bucket": "speakaholic-storage-dev202305-dev",
+    "aws_user_files_s3_bucket": "speakaholic-storage111412-production",
     "aws_user_files_s3_bucket_region": "us-east-1",
     "predictions": {
         "identify": {
@@ -61,18 +45,11 @@ const awsmobile = {
             }
         },
         "convert": {
-            "transcription": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "language": "en-US"
-                }
-            },
             "speechGenerator": {
                 "region": "us-east-1",
                 "proxy": false,
                 "defaults": {
-                    "VoiceId": "Matthew",
+                    "VoiceId": "Salli",
                     "LanguageCode": "en-US"
                 }
             }

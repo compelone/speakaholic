@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3speakaholicstorage",
+  "bucketName": "speakaholic-storage",
+  "policyUUID": "a7053589",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
