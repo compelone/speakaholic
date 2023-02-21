@@ -21,6 +21,7 @@ import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {DataStore, syncExpression} from 'aws-amplify';
 import {getCreditsLeft} from '../services/dataService';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
+import Purchases from 'react-native-purchases';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -33,6 +34,12 @@ const HomeScreen = props => {
         );
 
         props.updateUser(loggedInUser);
+
+        await Purchases.configure({
+          apiKey: 'appl_UYIOkgOIQWppphKHUeYowHDCfqo',
+          appUserID: loggedInUser.attributes.sub,
+        });
+
         const cognito_user_name = loggedInUser.attributes.sub;
         DataStore.configure({
           syncExpressions: [

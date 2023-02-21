@@ -27,6 +27,8 @@ target 'SpeakaholicApp' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'RNPurchases', :path => '../node_modules/react-native-purchases', :inhibit_warnings => true, :modular_headers => false
+
 
   config = use_native_modules!
 

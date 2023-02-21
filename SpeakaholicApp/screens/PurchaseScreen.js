@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -18,51 +18,60 @@ import {updateUser} from '../modules/UserActions';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {connect} from 'react-redux';
 import {purchaseCredits, getCreditsLeft} from '../services/dataService';
-import {Glassfy} from 'react-native-glassfy-module';
+import Purchases from 'react-native-purchases';
 
 const PurchaseScreen = props => {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [offerings, setOfferings] = useState();
 
-  // useEffect(() => {
-  //   (async () => {
-  //   //   await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
+  useEffect(() => {
+    (async () => {
+      try {
+        const offerings = await Purchases.getOfferings();
+        console.log(offerings);
+        if (offerings.current !== null) {
+          // Display current offering with offerings.current
+          setOfferings(offerings.current);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
-  //   //   try {
-  //   //     let offering = Glassfy.offerings.all.find(
-  //   //       o => o.identifier === 'standard',
-  //   //     );
-  //   //     console.log(offering);
-
-  //   //     offering?.skus.forEach(sku => {
-  //   //       // sku.extravars
-  //   //       // sku.product.description;
-  //   //       console.log(sku.product.price);
-  //   //     });
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // })();
-  // }, []);
-
-  const handlePress = async credits => {
+  const handlePress = async offering => {
     try {
       setIsLoading(true);
-      const creditAmount = credits;
-      const cognitoUserName = props.user.loggedInUser.attributes.sub;
-      await purchaseCredits(cognitoUserName, creditAmount);
 
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      let userCreditsLeft = await getCreditsLeft(cognitoUserName);
+      // Split the offering identifier and take the data after the - as the amount of credits
+      const splitOfferingIdentifier = offering.identifier.split('-');
+      const credits = splitOfferingIdentifier[1];
 
-      while (userCreditsLeft.data.getUserCreditsLeft === null) {
-        // sleep for 5 seconds
+      const {customerInfo, productIdentifier} = await Purchases.purchasePackage(
+        offering,
+      );
+
+      if (
+        typeof purchaseMade.customerInfo.entitlements.active
+          .my_entitlement_identifier !== 'undefined'
+      ) {
+        const creditAmount = credits;
+        const cognitoUserName = props.user.loggedInUser.attributes.sub;
+        await purchaseCredits(cognitoUserName, creditAmount);
+
         await new Promise(resolve => setTimeout(resolve, 5000));
-        userCreditsLeft = await getCreditsLeft(cognitoUserName);
+        let userCreditsLeft = await getCreditsLeft(cognitoUserName);
+
+        while (userCreditsLeft.data.getUserCreditsLeft === null) {
+          // sleep for 5 seconds
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          userCreditsLeft = await getCreditsLeft(cognitoUserName);
+        }
+
+        props.updateUserCreditsLeft(userCreditsLeft);
+
+        props.navigation.navigate('Root');
       }
-
-      props.updateUserCreditsLeft(userCreditsLeft);
-
-      props.navigation.navigate('Root');
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
@@ -99,33 +108,18 @@ const PurchaseScreen = props => {
         <ActivityIndicator color={colors.default.COLORS.PRIMARY} />
       ) : (
         <View>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => handlePress(4000)}>
-            <Text style={styles.buttonText}>
-              Buy 3000 + 1000 (free) credits
-            </Text>
-            <Text> </Text>
-            <Text style={styles.buttonText}>$4.99</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => handlePress(9000)}>
-            <Text style={styles.buttonText}>
-              Buy 8000 + 1000 (free) credits
-            </Text>
-            <Text> </Text>
-            <Text style={styles.buttonText}>$6.99</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => handlePress(16000)}>
-            <Text style={styles.buttonText}>
-              Buy 15000 + 1000 (free) credits
-            </Text>
-            <Text> </Text>
-            <Text style={styles.buttonText}>$9.99</Text>
-          </TouchableOpacity>
+          {offerings?.availablePackages?.map((o, i) => {
+            return (
+              <TouchableOpacity
+                key={i}
+                style={styles.buttons}
+                onPress={() => handlePress(o)}>
+                <Text style={styles.buttonText}>{o.product.description}</Text>
+                <Text> </Text>
+                <Text style={styles.buttonText}>{o.product.priceString}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       )}
     </View>
