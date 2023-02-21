@@ -16,6 +16,7 @@ import {version} from '../package.json';
 import {DataStore} from 'aws-amplify';
 import {reset} from '../modules/ResetAction';
 import {bindActionCreators} from 'redux';
+import Purchases from 'react-native-purchases';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
@@ -28,7 +29,7 @@ const SettingsScreen = props => {
 
   const restore = async () => {
     try {
-      await Purchases.restoreTransactions();
+      await Purchases.restorePurchases();
       Alert.alert('Purchases restored');
     } catch (e) {
       console.log(e);
