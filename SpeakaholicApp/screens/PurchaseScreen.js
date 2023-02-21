@@ -28,7 +28,6 @@ const PurchaseScreen = props => {
     (async () => {
       try {
         const offerings = await Purchases.getOfferings();
-        console.log(offerings);
         if (offerings.current !== null) {
           // Display current offering with offerings.current
           setOfferings(offerings.current);
@@ -51,27 +50,22 @@ const PurchaseScreen = props => {
         offering,
       );
 
-      if (
-        typeof purchaseMade.customerInfo.entitlements.active
-          .my_entitlement_identifier !== 'undefined'
-      ) {
-        const creditAmount = credits;
-        const cognitoUserName = props.user.loggedInUser.attributes.sub;
-        await purchaseCredits(cognitoUserName, creditAmount);
+      const creditAmount = credits;
+      const cognitoUserName = props.user.loggedInUser.attributes.sub;
+      await purchaseCredits(cognitoUserName, creditAmount);
 
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      let userCreditsLeft = await getCreditsLeft(cognitoUserName);
+
+      while (userCreditsLeft.data.getUserCreditsLeft === null) {
+        // sleep for 5 seconds
         await new Promise(resolve => setTimeout(resolve, 5000));
-        let userCreditsLeft = await getCreditsLeft(cognitoUserName);
-
-        while (userCreditsLeft.data.getUserCreditsLeft === null) {
-          // sleep for 5 seconds
-          await new Promise(resolve => setTimeout(resolve, 5000));
-          userCreditsLeft = await getCreditsLeft(cognitoUserName);
-        }
-
-        props.updateUserCreditsLeft(userCreditsLeft);
-
-        props.navigation.navigate('Root');
+        userCreditsLeft = await getCreditsLeft(cognitoUserName);
       }
+
+      props.updateUserCreditsLeft(userCreditsLeft);
+
+      props.navigation.navigate('Root');
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
