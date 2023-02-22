@@ -163,7 +163,7 @@ def lambda_handler(event, context):
             ExpressionAttributeValues={
                 ':is_processed': True,
                 ':s3_output_key': file_output_path,
-                ':character_count': len(text) - 1,
+                ':character_count': len(text),
                 ':failed_reason': None
             }
         )

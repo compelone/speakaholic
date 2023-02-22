@@ -68,6 +68,8 @@ const LoginScreen = props => {
         ],
       });
 
+      DataStore.start();
+
       const userCreditsLeft = await getCreditsLeft(cognito_user_name);
 
       if (userCreditsLeft.data.getUserCreditsLeft === null) {

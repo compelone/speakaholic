@@ -263,9 +263,8 @@ const styles = StyleSheet.create({
   },
   selectPhotoButton: {
     fontSize: 20,
-    color: colors.COLORS.DARKGRAY,
-    paddingLeft: 20,
-    paddingBottom: 20,
+    color: colors.COLORS.PRIMARY,
+    padding: 10,
   },
   imageButtonsContainer: {
     flexDirection: 'row',

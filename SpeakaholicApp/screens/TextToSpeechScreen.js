@@ -130,6 +130,7 @@ const TextToSpeechScreen = props => {
           value={name}
           maxLength={64}
         />
+        <Text>max 3000 characters at a time</Text>
         <View style={styles.descriptionView}>
           <TextInput
             style={
@@ -144,7 +145,6 @@ const TextToSpeechScreen = props => {
             onChangeText={value => setTextAndLength(value)}
             maxLength={3000}
           />
-          <Text>max 3000 characters at a time</Text>
         </View>
         <Text style={styles.lengthCount}>
           {textLength +
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   descriptionTextInput: {
     ...defaultStyles.textInput,
-    height: 300,
+    flexGrow: 1,
   },
   descriptionView: {
     flexGrow: 1,
