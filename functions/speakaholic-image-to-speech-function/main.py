@@ -18,9 +18,9 @@ def lambda_handler(event, context):
     if (env == 'local'):
         print("Environment is local, skipping")
 
-        bucket = 'speakaholic-storage-dev202305-dev'
-        key = 'private/us-east-1:c561d778-1605-433a-89ae-361e189b4eea/inputs/2023-02-19T11:24:39.186Z.jpg'
-        speech_items_table_name = 'SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-dev'
+        bucket = 'speakaholic-storage111412-production'
+        key = 'private/us-east-1:4a2f991e-1967-44b8-a918-ebe11f8fdcf7/inputs/2023-02-23T08:04:27.330Z.jpg'
+        speech_items_table_name = 'SpeechItems-5k4nw2ylcvgsrho4e5brufqfya-production'
     else:
         print('Environment is not local, processing')
         print("Received event: " + json.dumps(event, indent=2))
@@ -76,6 +76,10 @@ def lambda_handler(event, context):
                 print(text_detection['DetectedText'])
                 print(text_detection['Type'])
 
+        # Encode SSML reserved characters
+        detected_text = detected_text.replace(
+            '"', '&quote;').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace("'", '&apos;')
+
         stream_data = None
         if 'en-US-' not in dynamo_response['Items'][0]['voice']:
             print('Processing AWS Polly')
@@ -85,7 +89,7 @@ def lambda_handler(event, context):
             polly_response = polly.synthesize_speech(
                 OutputFormat='mp3',
                 TextType='ssml',
-                Text='<speak> %s </speak>' % (detected_text),
+                Text='<speak>%s</speak>' % (detected_text),
                 VoiceId=dynamo_response['Items'][0]['voice'],
                 Engine='neural'
             )
@@ -96,9 +100,6 @@ def lambda_handler(event, context):
 
             url = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1'
 
-            message_bytes = speech_key.encode('ascii')
-            base64_bytes = base64.b64encode(message_bytes)
-            speech_key_base64 = base64_bytes.decode('ascii')
             # set headers for url request
             headers = {
                 'Content-Type': 'application/ssml+xml',
@@ -108,8 +109,16 @@ def lambda_handler(event, context):
                 'Ocp-Apim-Subscription-Key':  speech_key
             }
 
-            ssml = '''<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Male'
-                        name='%s'>%s</voice></speak>''' % (dynamo_response['Items'][0]['voice'], detected_text)
+            voice = dynamo_response['Items'][0]['voice']
+            gender = 'Amber' in voice or 'Ana' in voice or 'Ashley' in voice or 'Elizabeth' in voice or 'Jenny' in voice or 'Michelle' in voice or 'Monica' in voice or 'Nancy' in voice
+
+            if (gender):
+                gender = 'Female'
+            else:
+                gender = 'Male'
+
+            ssml = '''<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='%s' name='%s'>%s</voice></speak>''' % (
+                gender, voice, detected_text)
 
             # make rest call
             response = requests.post(
@@ -117,7 +126,8 @@ def lambda_handler(event, context):
 
             # get the audio stream
             if (response.status_code != 200):
-                raise Exception('Something went wrong with the request')
+                raise Exception(
+                    'Something went wrong with the request %s' % response.reason)
 
             stream_data = response.content
 
