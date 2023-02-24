@@ -21,3 +21,8 @@ amplifytools.xcconfig
 **.sample
 python/
 #amplify-do-not-edit-end
+
+.terraform
+.terraform.lock*
+
+amplify/

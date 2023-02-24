@@ -189,7 +189,7 @@ def lambda_handler(event, context):
                     },
                     UpdateExpression='SET is_processed = :is_processed, failed_reason = :failed_reason',
                     ExpressionAttributeValues={
-                        ':is_processed': False,
+                        ':is_processed': True,
                         ':failed_reason': 'An error occurred while processing the file',
                     }
                 )
