@@ -1,0 +1,37 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-speakaholic-dev-202305-authRole",
+      "UnauthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-dev-202305-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::744137563977:role/amplify-speakaholic-dev-202305-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-speakaholic-dev-202305-deployment",
+      "UnauthRoleName": "amplify-speakaholic-dev-202305-unauthRole",
+      "StackName": "amplify-speakaholic-dev-202305",
+      "StackId": "arn:aws:cloudformation:us-east-1:744137563977:stack/amplify-speakaholic-dev-202305/d2bc4790-9c4e-11ed-92df-0eabb997dded",
+      "AmplifyAppId": "d9ywujvoqorjm"
+    },
+    "categories": {
+      "auth": {
+        "speakaholic": {}
+      },
+      "notifications": {
+        "Pinpoint": {
+          "Name": "speakaholic-dev",
+          "Id": "209ce5922b5d48619230c54e12c854ee",
+          "Region": "us-east-1"
+        }
+      },
+      "analytics": {
+        "Pinpoint": {
+          "Name": "speakaholic-dev",
+          "Id": "209ce5922b5d48619230c54e12c854ee",
+          "Region": "us-east-1"
+        }
+      },
+      "storage": {
+        "s3speakaholicstoragedev": {}
+      }
+    }
+  }
+}

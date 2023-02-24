@@ -131,3 +131,18 @@ export async function getCreditsLeft(cognito_user_name) {
 export async function deleteSpeechItem(id) {
   await DataStore.delete(SpeechItems, id);
 }
+
+export async function deleteUser(cognito_user_name) {
+  await DataStore.save(
+    new Users({
+      id: cognito_user_name,
+      cognito_user_name: cognito_user_name,
+      email: 'deleteuser@deleteuser.com',
+      name: 'deleteuser',
+      created_date_utc: new Date().toISOString(),
+      monthly_limit: 0,
+      additional_credits: 0,
+      credit_reset_days: 0,
+    }),
+  );
+}

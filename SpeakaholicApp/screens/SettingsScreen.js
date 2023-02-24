@@ -17,6 +17,7 @@ import {DataStore} from 'aws-amplify';
 import {reset} from '../modules/ResetAction';
 import {bindActionCreators} from 'redux';
 import Purchases from 'react-native-purchases';
+import {deleteUser} from '../services/dataService';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
@@ -31,6 +32,36 @@ const SettingsScreen = props => {
     try {
       await Purchases.restorePurchases();
       Alert.alert('Purchases restored');
+    } catch (e) {
+      console.log(e);
+      Alert.alert('Something went wrong.');
+    }
+  };
+
+  const deleteAccount = async () => {
+    try {
+      Alert.alert(
+        'Remove All Data',
+        'This will remove all your data including any unused characters. Are you sure?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+          },
+          {
+            text: 'OK',
+            onPress: async () => {
+              deleteUser(props.user.loggedInUser.attributes.sub);
+
+              await Keychain.resetGenericPassword();
+              await DataStore.clear();
+              props.reset();
+              await signOut();
+              props.navigation.navigate('Home');
+            },
+          },
+        ],
+      );
     } catch (e) {
       console.log(e);
       Alert.alert('Something went wrong.');
@@ -68,6 +99,9 @@ const SettingsScreen = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.versionView}>
+        <TouchableOpacity style={styles.button} onPress={() => deleteAccount()}>
+          <Text style={styles.buttonText}>Delete Account</Text>
+        </TouchableOpacity>
         <Text style={styles.textVersion}>Version: {version}</Text>
       </View>
     </View>

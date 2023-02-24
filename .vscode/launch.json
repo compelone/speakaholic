@@ -5,6 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: speakaholic-delete-user-data-function",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-delete-user-data-function/main.py",
+        "--lambda_handler",
+        "something",
+        "something"
+      ],
+      "env": {
+        "ENVIRONMENT": "local",
+        "REGION": "east-us-1"
+      }
+    },
+    {
       "name": "Python: speakaholic-text-to-speech-azure-function",
       "type": "python",
       "request": "launch",
@@ -12,7 +30,7 @@
       "console": "integratedTerminal",
       "justMyCode": true,
       "args": [
-        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-text-to-speech-azure-function.py",
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-text-to-speech-azure-function/main.py",
         "--lambda_handler",
         "something",
         "something"

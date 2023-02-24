@@ -1,0 +1,43 @@
+type PurchaseCredits @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  cognito_user_name: String!
+  credits: Int!
+  purchase_date: AWSDateTime!
+  expiration_date: AWSDateTime!
+  is_expired: Boolean!
+}
+
+type UserCreditsLeft @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  created_date_utc: AWSDateTime!
+  cognito_user_name: String!
+  credits_left: Int!
+}
+
+type SpeechItems @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  s3_input_key: String!
+  cognito_user_name: String!
+  character_count: Int!
+  created_date_utc: AWSDateTime!
+  is_processed: Boolean
+  voice: String!
+  language: String!
+  prediction_type: String!
+  s3_output_key: String
+  failed_reason: String
+  name: String!
+}
+
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String!
+  name: String!
+  cognito_user_name: String!
+  image_url: String
+  created_date_utc: AWSDateTime!
+  monthly_limit: Int!
+  additional_credits: Int!
+  credit_reset_days: Int!
+}
+ 
