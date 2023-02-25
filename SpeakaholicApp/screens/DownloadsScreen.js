@@ -53,6 +53,17 @@ const DownloadsScreen = props => {
         variables: {filter: filter},
       });
 
+      Analytics.record({
+        name: 'GetProcessedItems',
+        attributes: {
+          component: 'DownloadsScreen',
+          function: 'getProcessedItems',
+          action: 'getProcessedItems',
+          items: items?.data?.listSpeechItems?.items.length,
+          user: props.user.loggedInUser.attributes.sub,
+        },
+      });
+
       setSpeechItems(
         items?.data?.listSpeechItems?.items.filter(m => m._deleted === null),
       );
@@ -84,6 +95,17 @@ const DownloadsScreen = props => {
     const url = await downloadFile(filename);
     const dirs = RNFetchBlob.fs.dirs;
 
+    Analytics.record({
+      name: 'Download',
+      attributes: {
+        component: 'DownloadsScreen',
+        function: 'downloadSpeech',
+        action: 'downloadSpeech',
+        name: filename,
+        user: props.user.loggedInUser.attributes.sub,
+      },
+    });
+
     const fullFileName = `${dirs.DocumentDir}/${filename}`;
     RNFetchBlob.config({
       // response data will be saved to this path if it has access right.
@@ -104,6 +126,17 @@ const DownloadsScreen = props => {
   const listenInBrowser = async key => {
     const filename = key.split('/').pop();
 
+    Analytics.record({
+      name: 'ListenInBrowser',
+      attributes: {
+        component: 'DownloadsScreen',
+        function: 'listenInBrowser',
+        action: 'listenInBrowser',
+        name: filename,
+        user: props.user.loggedInUser.attributes.sub,
+      },
+    });
+
     const url = await downloadFile(filename);
 
     Linking.openURL(url);
@@ -115,6 +148,17 @@ const DownloadsScreen = props => {
       await deleteSpeechItem(item.id);
       await new Promise(resolve => setTimeout(resolve, 5000));
       await getProcessedItems();
+
+      Analytics.record({
+        name: 'DeleteItem',
+        attributes: {
+          component: 'DownloadsScreen',
+          function: 'deleteItem',
+          action: 'deleteItem',
+          name: item.id,
+          user: props.user.loggedInUser.attributes.sub,
+        },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');

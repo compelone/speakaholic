@@ -75,6 +75,18 @@ const ImageToSpeechScreen = props => {
 
     setImageBytes(blob);
 
+    Analytics.record({
+      name: 'ImageSelected',
+      attributes: {
+        uri: imagePickerResponse.assets[0].uri,
+        component: 'ImageToSpeech',
+        function: 'selectPhoto',
+        action: 'selectPhoto',
+        user: props.user.loggedInUser.attributes.sub,
+      },
+      metrics: blob.size,
+    });
+
     setImageUri(imagePickerResponse.assets[0].uri);
     setIsImageChanged(true);
   };
@@ -104,6 +116,18 @@ const ImageToSpeechScreen = props => {
 
     const imageBytes = await fetch(imagePickerResponse.assets[0].uri);
     const blob = await imageBytes.blob();
+
+    Analytics.record({
+      name: 'PhotoTaken',
+      attributes: {
+        uri: imagePickerResponse.assets[0].uri,
+        component: 'ImageToSpeech',
+        function: 'pickImage',
+        action: 'pickImage',
+        user: props.user.loggedInUser.attributes.sub,
+      },
+      metrics: blob.size,
+    });
 
     setImageBytes(blob);
 
@@ -146,6 +170,19 @@ const ImageToSpeechScreen = props => {
         name,
       );
 
+      Analytics.record({
+        name: 'SaveImageToSpeech',
+        attributes: {
+          uri: imagePickerResponse.assets[0].uri,
+          component: 'ImageToSpeech',
+          function: 'save',
+          action: 'save',
+          title: name,
+          user: props.user.loggedInUser.attributes.sub,
+        },
+        metrics: imageBytes.size,
+      });
+
       setName();
       setImageUri('');
       setNameError(false);
@@ -160,6 +197,7 @@ const ImageToSpeechScreen = props => {
           component: 'ImageToSpeechScreen',
           function: 'save',
           action: 'save',
+          user: props.user.loggedInUser.attributes.sub,
         },
         metrics: {
           error: error.message,
@@ -224,7 +262,7 @@ const ImageToSpeechScreen = props => {
                   props.user.userCreditsLeft.data.getUserCreditsLeft
                     .credits_left
                 }{' '}
-                credits available
+                credits, click to purchase
               </Text>
             </TouchableOpacity>
           ) : (

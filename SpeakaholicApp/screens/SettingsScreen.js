@@ -18,6 +18,7 @@ import {reset} from '../modules/ResetAction';
 import {bindActionCreators} from 'redux';
 import Purchases from 'react-native-purchases';
 import {deleteUser} from '../services/dataService';
+import {Analytics} from 'aws-amplify';
 
 const SettingsScreen = props => {
   const handlePress = async () => {

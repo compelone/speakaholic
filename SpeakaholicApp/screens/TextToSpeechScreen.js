@@ -82,6 +82,18 @@ const TextToSpeechScreen = props => {
         name,
       );
 
+      Analytics.record({
+        name: 'SaveTextToSpeech',
+        attributes: {
+          component: 'TextToSpeechScreen',
+          function: 'saveText',
+          action: 'saveText',
+          title: name,
+          user: props.user.loggedInUser.attributes.sub,
+        },
+        metrics: text,
+      });
+
       const updatedCreditsLeft =
         props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
         textLength;
@@ -165,7 +177,7 @@ const TextToSpeechScreen = props => {
             <Text style={styles.buttonText}>
               You have{' '}
               {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
-              credits available
+              credits, click to purchase
             </Text>
           </TouchableOpacity>
         ) : (
