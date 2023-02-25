@@ -28,6 +28,7 @@ const PurchaseScreen = props => {
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true);
         const offerings = await Purchases.getOfferings();
         if (offerings.current !== null) {
           // Display current offering with offerings.current
@@ -36,6 +37,8 @@ const PurchaseScreen = props => {
       } catch (error) {
         Alert.alert('Something went wrong. Try logging out and back in again.');
         Sentry.captureException(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);
