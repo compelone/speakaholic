@@ -19,6 +19,7 @@ import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {connect} from 'react-redux';
 import {purchaseCredits, getCreditsLeft} from '../services/dataService';
 import Purchases from 'react-native-purchases';
+import {Analytics} from 'aws-amplify';
 
 const PurchaseScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +34,20 @@ const PurchaseScreen = props => {
           setOfferings(offerings.current);
         }
       } catch (error) {
-        console.log(error);
+        Alert.alert('Something went wrong. Try logging out and back in again.');
+        Analytics.record({
+          name: 'Error',
+          attributes: {
+            error: error.message,
+            stack: error.stack,
+            component: 'PurchaseScreen',
+            function: 'getOfferings',
+            action: 'getOfferings',
+          },
+          metrics: {
+            error: error.message,
+          },
+        });
       }
     })();
   }, []);
@@ -69,6 +83,19 @@ const PurchaseScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'PurchaseScreen',
+          function: 'purchaseCredits',
+          action: 'purchaseCredits',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setIsLoading(false);
     }

@@ -13,6 +13,7 @@ import * as defaultStyles from '../styles/defaultStyles';
 import {confirmAccount} from '../services/authService';
 import {connect} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Analytics} from 'aws-amplify';
 
 const ConfirmAccountScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -40,8 +41,21 @@ const ConfirmAccountScreen = props => {
       await confirmAccount(email, code);
       setError();
       props.navigation.replace('Login');
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'ConfirmAccountScreen',
+          function: 'handlePress',
+          action: 'handlePress',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setLoading(false);
       setEmail();

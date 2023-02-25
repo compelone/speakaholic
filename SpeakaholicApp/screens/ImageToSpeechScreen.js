@@ -27,6 +27,7 @@ import {bindActionCreators} from 'redux';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Analytics} from 'aws-amplify';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -151,6 +152,19 @@ const ImageToSpeechScreen = props => {
       setIsImageChanged(false);
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'ImageToSpeechScreen',
+          function: 'save',
+          action: 'save',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setIsLoading(false);
     }
