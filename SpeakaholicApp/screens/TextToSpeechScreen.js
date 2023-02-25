@@ -7,19 +7,12 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  ScrollView,
-  KeyboardAvoidingView,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
 import layout from '../styles/layout';
 import {saveSpeechItem} from '../services/dataService';
 import Voices from '../components/Voices';
-
-import {PushNotification} from '@aws-amplify/pushnotification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import DeviceInfo from 'react-native-device-info';
 import {uploadToS3} from '../services/generalService';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -27,10 +20,8 @@ import {
   updateUserCreditsLeft,
   updateUsedCreditsAfterSubmit,
 } from '../modules/UserCreditsLeftAction';
-import {DataStore, syncExpression} from 'aws-amplify';
-import {SpeechItems, UserCreditsLeft, Users} from '../models';
-import {getCreditsLeft} from '../services/dataService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Analytics} from 'aws-amplify';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -103,6 +94,19 @@ const TextToSpeechScreen = props => {
       setName();
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'TextToSpeechScreen',
+          function: 'saveText',
+          action: 'saveText',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +134,7 @@ const TextToSpeechScreen = props => {
           value={name}
           maxLength={64}
         />
-        <Text>max 3000 characters at a time</Text>
+        <Text>max {3000} characters at a time</Text>
         <View style={styles.descriptionView}>
           <TextInput
             style={

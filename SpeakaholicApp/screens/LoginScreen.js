@@ -21,6 +21,7 @@ import {DataStore, syncExpression} from '@aws-amplify/datastore';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import {getCreditsLeft} from '../services/dataService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Analytics} from 'aws-amplify';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -79,6 +80,13 @@ const LoginScreen = props => {
 
       props.updateUserCreditsLeft(userCreditsLeft);
 
+      Analytics.record({
+        name: 'Login Success',
+        attributes: {
+          email,
+        },
+      });
+
       props.navigation.replace('Root');
     } catch (err) {
       if (
@@ -90,6 +98,13 @@ const LoginScreen = props => {
         props.navigation.navigate('ConfirmAccount', {email});
         return;
       }
+      Analytics.record({
+        name: 'Login Error',
+        attributes: {
+          email,
+          error: err.toString(),
+        },
+      });
       setError(err.toString());
     } finally {
       setLoading(false);

@@ -15,6 +15,7 @@ import {forgotPassword, signOut} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
 import {connect} from 'react-redux';
+import {Analytics} from 'aws-amplify';
 
 const ForgotPasswordScreen = props => {
   const [email, setEmail] = useState();
@@ -37,8 +38,21 @@ const ForgotPasswordScreen = props => {
       await Keychain.resetGenericPassword();
       setError();
       props.navigation.navigate('ForgotPasswordConfirmation', {email});
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'ForgotPasswordScreen',
+          function: 'handlePress',
+          action: 'handlePress',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setLoading(false);
       setEmail();

@@ -10,17 +10,15 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {
-  deleteSpeechItem,
-  getProcessedSpeechItems,
-} from '../services/dataService';
+import {deleteSpeechItem} from '../services/dataService';
 import {connect} from 'react-redux';
 import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
-import {API, graphqlOperation} from 'aws-amplify';
+import {API} from 'aws-amplify';
 import {listSpeechItems} from '../models/graphql/queries';
+import {Analytics} from 'aws-amplify';
 
 const DownloadsScreen = props => {
   const [speechItems, setSpeechItems] = React.useState([]);
@@ -61,6 +59,19 @@ const DownloadsScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'DownloadsScreen',
+          function: 'getProcessedItems',
+          action: 'getProcessedItems',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -107,6 +118,19 @@ const DownloadsScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'DownloadsScreen',
+          function: 'deleteItem',
+          action: 'deleteItem',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setIsLoading(false);
     }

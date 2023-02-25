@@ -12,6 +12,7 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {resendConfirmationCode} from '../services/authService';
 import {connect} from 'react-redux';
+import {Analytics} from 'aws-amplify';
 
 const ResendConfirmationCodeScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -32,8 +33,21 @@ const ResendConfirmationCodeScreen = props => {
       await resendConfirmationCode(email);
       setError();
       props.navigation.replace('ConfirmAccount', {email});
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'ResendConfirmationCodeScreen',
+          function: 'handlePress',
+          action: 'handlePress',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setLoading(false);
       setEmail();

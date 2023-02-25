@@ -31,7 +31,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         lastCheckedCreditsDate: action.payload,
       };
     case 'RESET':
-      return INITIAL_STATE;
+      return {...INITIAL_STATE};
     default:
       return state;
   }

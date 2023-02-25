@@ -12,6 +12,7 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {confirmForgotPassword} from '../services/authService';
 import {connect} from 'react-redux';
+import {Analytics} from 'aws-amplify';
 
 const ForgotPasswordConfirmationScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -46,8 +47,21 @@ const ForgotPasswordConfirmationScreen = props => {
       await confirmForgotPassword(email, code, newPassword);
       setError();
       props.navigation.replace('Login');
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'ForgotPasswordConfirmationScreen',
+          function: 'handlePress',
+          action: 'handlePress',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     } finally {
       setLoading(false);
       setEmail();

@@ -22,6 +22,7 @@ import {DataStore, syncExpression} from 'aws-amplify';
 import {getCreditsLeft} from '../services/dataService';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import Purchases from 'react-native-purchases';
+import {Analytics} from 'aws-amplify';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -56,16 +57,32 @@ const HomeScreen = props => {
         });
 
         DataStore.start();
-        const userCreditsLeft = await getCreditsLeft(cognito_user_name);
+        try {
+          const userCreditsLeft = await getCreditsLeft(cognito_user_name);
 
-        if (userCreditsLeft.data.getUserCreditsLeft === null) {
-          props.navigation.navigate('Purchase');
-          return;
+          if (userCreditsLeft.data.getUserCreditsLeft === null) {
+            props.navigation.navigate('Purchase');
+            return;
+          }
+
+          props.updateUserCreditsLeft(userCreditsLeft);
+
+          props.navigation.navigate('Root');
+        } catch (error) {
+          Analytics.record({
+            name: 'Error',
+            attributes: {
+              error: error.message,
+              stack: error.stack,
+              component: 'HomeScreen',
+              function: 'useEffect',
+              action: 'useEffect',
+            },
+            metrics: {
+              error: error.message,
+            },
+          });
         }
-
-        props.updateUserCreditsLeft(userCreditsLeft);
-
-        props.navigation.navigate('Root');
       }
 
       // await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);

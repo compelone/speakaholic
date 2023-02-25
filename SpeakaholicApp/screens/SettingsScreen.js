@@ -32,9 +32,22 @@ const SettingsScreen = props => {
     try {
       await Purchases.restorePurchases();
       Alert.alert('Purchases restored');
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
       Alert.alert('Something went wrong.');
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'SettingsScreen',
+          function: 'restore',
+          action: 'restore',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     }
   };
 
@@ -65,6 +78,19 @@ const SettingsScreen = props => {
     } catch (e) {
       console.log(e);
       Alert.alert('Something went wrong.');
+      Analytics.record({
+        name: 'Error',
+        attributes: {
+          error: error.message,
+          stack: error.stack,
+          component: 'SettingsScreen',
+          function: 'deleteAccount',
+          action: 'deleteAccount',
+        },
+        metrics: {
+          error: error.message,
+        },
+      });
     }
   };
 
