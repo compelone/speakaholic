@@ -23,6 +23,7 @@ import {getCreditsLeft} from '../services/dataService';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import Purchases from 'react-native-purchases';
 import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -69,38 +70,10 @@ const HomeScreen = props => {
 
           props.navigation.navigate('Root');
         } catch (error) {
-          Analytics.record({
-            name: 'Error',
-            attributes: {
-              error: error.message,
-              stack: error.stack,
-              component: 'HomeScreen',
-              function: 'useEffect',
-              action: 'useEffect',
-            },
-            metrics: {
-              error: error.message,
-            },
-          });
+          Sentry.captureException(error);
+          Alert.alert('Something went wrong.');
         }
       }
-
-      // await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
-
-      // try {
-      //   let offering = Glassfy.offerings.all.find(
-      //     o => o.identifier === 'standard',
-      //   );
-      //   console.log(offering);
-
-      //   offering?.skus.forEach(sku => {
-      //     // sku.extravars
-      //     // sku.product.description;
-      //     console.log(sku.product.price);
-      //   });
-      // } catch (error) {
-      //   console.log(error);
-      // }
     })();
   }, []);
 

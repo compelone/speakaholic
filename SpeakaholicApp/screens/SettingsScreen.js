@@ -18,7 +18,7 @@ import {reset} from '../modules/ResetAction';
 import {bindActionCreators} from 'redux';
 import Purchases from 'react-native-purchases';
 import {deleteUser} from '../services/dataService';
-import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
@@ -36,19 +36,7 @@ const SettingsScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'SettingsScreen',
-          function: 'restore',
-          action: 'restore',
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     }
   };
 
@@ -79,19 +67,7 @@ const SettingsScreen = props => {
     } catch (e) {
       console.log(e);
       Alert.alert('Something went wrong.');
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'SettingsScreen',
-          function: 'deleteAccount',
-          action: 'deleteAccount',
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     }
   };
 

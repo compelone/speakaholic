@@ -21,7 +21,7 @@ import {
   updateUsedCreditsAfterSubmit,
 } from '../modules/UserCreditsLeftAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -82,18 +82,6 @@ const TextToSpeechScreen = props => {
         name,
       );
 
-      Analytics.record({
-        name: 'SaveTextToSpeech',
-        attributes: {
-          component: 'TextToSpeechScreen',
-          function: 'saveText',
-          action: 'saveText',
-          title: name,
-          user: props.user.loggedInUser.attributes.sub,
-        },
-        metrics: text,
-      });
-
       const updatedCreditsLeft =
         props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left -
         textLength;
@@ -106,19 +94,7 @@ const TextToSpeechScreen = props => {
       setName();
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'TextToSpeechScreen',
-          function: 'saveText',
-          action: 'saveText',
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -194,6 +170,7 @@ const TextToSpeechScreen = props => {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+    paddingTop: 18,
   },
   mainContainer: {
     ...layout.top,

@@ -27,7 +27,7 @@ import {bindActionCreators} from 'redux';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -75,18 +75,6 @@ const ImageToSpeechScreen = props => {
 
     setImageBytes(blob);
 
-    Analytics.record({
-      name: 'ImageSelected',
-      attributes: {
-        uri: imagePickerResponse.assets[0].uri,
-        component: 'ImageToSpeech',
-        function: 'selectPhoto',
-        action: 'selectPhoto',
-        user: props.user.loggedInUser.attributes.sub,
-      },
-      metrics: blob.size,
-    });
-
     setImageUri(imagePickerResponse.assets[0].uri);
     setIsImageChanged(true);
   };
@@ -116,18 +104,6 @@ const ImageToSpeechScreen = props => {
 
     const imageBytes = await fetch(imagePickerResponse.assets[0].uri);
     const blob = await imageBytes.blob();
-
-    Analytics.record({
-      name: 'PhotoTaken',
-      attributes: {
-        uri: imagePickerResponse.assets[0].uri,
-        component: 'ImageToSpeech',
-        function: 'pickImage',
-        action: 'pickImage',
-        user: props.user.loggedInUser.attributes.sub,
-      },
-      metrics: blob.size,
-    });
 
     setImageBytes(blob);
 
@@ -170,39 +146,13 @@ const ImageToSpeechScreen = props => {
         name,
       );
 
-      Analytics.record({
-        name: 'SaveImageToSpeech',
-        attributes: {
-          uri: imagePickerResponse.assets[0].uri,
-          component: 'ImageToSpeech',
-          function: 'save',
-          action: 'save',
-          title: name,
-          user: props.user.loggedInUser.attributes.sub,
-        },
-        metrics: imageBytes.size,
-      });
-
       setName();
       setImageUri('');
       setNameError(false);
       setIsImageChanged(false);
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'ImageToSpeechScreen',
-          function: 'save',
-          action: 'save',
-          user: props.user.loggedInUser.attributes.sub,
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -280,6 +230,7 @@ const ImageToSpeechScreen = props => {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+    paddingTop: 18,
   },
   mainContainer: layout.top,
   scrollContainer: {

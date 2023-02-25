@@ -16,6 +16,12 @@ import {createStore} from 'redux';
 import awsconfig from './aws-exports';
 import UserCredits from './components/UserCredits';
 
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://25237073e16042c3abf0de9eafaf8ae3@o4504740238131200.ingest.sentry.io/4504740241604608',
+});
+
 Amplify.configure(awsconfig);
 const store = createStore(userReducer);
 
@@ -30,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sentry.wrap(App);

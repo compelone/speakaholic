@@ -15,7 +15,7 @@ import * as defaultStyles from '../styles/defaultStyles';
 import {registration} from '../services/authService';
 import SocialLogin from '../components/SocialLogin';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const SignUpScreen = props => {
   const [name, setName] = useState();
@@ -56,19 +56,7 @@ const SignUpScreen = props => {
         });
       } catch (error) {
         Alert.alert('Something went wrong.');
-        Analytics.record({
-          name: 'Error',
-          attributes: {
-            error: error.message,
-            stack: error.stack,
-            component: 'SignUpScreen',
-            function: 'handlePress',
-            action: 'handlePress',
-          },
-          metrics: {
-            error: error.message,
-          },
-        });
+        Sentry.captureException(error);
       }
     }
   };

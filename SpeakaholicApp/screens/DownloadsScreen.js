@@ -18,7 +18,6 @@ import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
 import {API} from 'aws-amplify';
 import {listSpeechItems} from '../models/graphql/queries';
-import {Analytics} from 'aws-amplify';
 
 const DownloadsScreen = props => {
   const [speechItems, setSpeechItems] = React.useState([]);
@@ -53,36 +52,13 @@ const DownloadsScreen = props => {
         variables: {filter: filter},
       });
 
-      Analytics.record({
-        name: 'GetProcessedItems',
-        attributes: {
-          component: 'DownloadsScreen',
-          function: 'getProcessedItems',
-          action: 'getProcessedItems',
-          items: items?.data?.listSpeechItems?.items.length,
-          user: props.user.loggedInUser.attributes.sub,
-        },
-      });
-
       setSpeechItems(
         items?.data?.listSpeechItems?.items.filter(m => m._deleted === null),
       );
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'DownloadsScreen',
-          function: 'getProcessedItems',
-          action: 'getProcessedItems',
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -94,17 +70,6 @@ const DownloadsScreen = props => {
 
     const url = await downloadFile(filename);
     const dirs = RNFetchBlob.fs.dirs;
-
-    Analytics.record({
-      name: 'Download',
-      attributes: {
-        component: 'DownloadsScreen',
-        function: 'downloadSpeech',
-        action: 'downloadSpeech',
-        name: filename,
-        user: props.user.loggedInUser.attributes.sub,
-      },
-    });
 
     const fullFileName = `${dirs.DocumentDir}/${filename}`;
     RNFetchBlob.config({
@@ -126,17 +91,6 @@ const DownloadsScreen = props => {
   const listenInBrowser = async key => {
     const filename = key.split('/').pop();
 
-    Analytics.record({
-      name: 'ListenInBrowser',
-      attributes: {
-        component: 'DownloadsScreen',
-        function: 'listenInBrowser',
-        action: 'listenInBrowser',
-        name: filename,
-        user: props.user.loggedInUser.attributes.sub,
-      },
-    });
-
     const url = await downloadFile(filename);
 
     Linking.openURL(url);
@@ -146,35 +100,12 @@ const DownloadsScreen = props => {
     try {
       setIsLoading(true);
       await deleteSpeechItem(item.id);
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       await getProcessedItems();
-
-      Analytics.record({
-        name: 'DeleteItem',
-        attributes: {
-          component: 'DownloadsScreen',
-          function: 'deleteItem',
-          action: 'deleteItem',
-          name: item.id,
-          user: props.user.loggedInUser.attributes.sub,
-        },
-      });
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
-      Analytics.record({
-        name: 'Error',
-        attributes: {
-          error: error.message,
-          stack: error.stack,
-          component: 'DownloadsScreen',
-          function: 'deleteItem',
-          action: 'deleteItem',
-        },
-        metrics: {
-          error: error.message,
-        },
-      });
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
