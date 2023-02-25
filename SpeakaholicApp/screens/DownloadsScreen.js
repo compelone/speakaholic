@@ -182,7 +182,7 @@ const DownloadsScreen = props => {
               </View>
             ) : (
               <View>
-                {item.failed_reason !== null && item.is_processed === false ? (
+                {item.is_processed === false ? (
                   <ActivityIndicator color={colors.COLORS.PRIMARY} />
                 ) : (
                   <Text style={styles.failedText}>
