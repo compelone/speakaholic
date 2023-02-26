@@ -37,11 +37,6 @@ const HomeScreen = props => {
 
         props.updateUser(loggedInUser);
 
-        await Purchases.configure({
-          apiKey: 'appl_UYIOkgOIQWppphKHUeYowHDCfqo',
-          appUserID: loggedInUser.attributes.sub,
-        });
-
         const cognito_user_name = loggedInUser.attributes.sub;
         DataStore.configure({
           syncExpressions: [

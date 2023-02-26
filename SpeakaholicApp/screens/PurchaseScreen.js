@@ -28,6 +28,10 @@ const PurchaseScreen = props => {
   useEffect(() => {
     (async () => {
       try {
+        await Purchases.configure({
+          apiKey: 'appl_UYIOkgOIQWppphKHUeYowHDCfqo',
+          appUserID: props.user.loggedInUser.attributes.sub,
+        });
         setIsLoading(true);
         const offerings = await Purchases.getOfferings();
         if (offerings.current !== null) {
