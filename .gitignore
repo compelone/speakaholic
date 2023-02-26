@@ -1,4 +1,9 @@
+.terraform
+.terraform.lock*
 
+amplify/
+amplify-backup/
+.env*
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

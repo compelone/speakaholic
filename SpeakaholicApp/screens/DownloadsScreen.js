@@ -10,16 +10,13 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {
-  deleteSpeechItem,
-  getProcessedSpeechItems,
-} from '../services/dataService';
+import {deleteSpeechItem} from '../services/dataService';
 import {connect} from 'react-redux';
 import layout from '../styles/layout';
 import colors from '../styles/colors';
 import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
-import {API, graphqlOperation} from 'aws-amplify';
+import {API} from 'aws-amplify';
 import {listSpeechItems} from '../models/graphql/queries';
 
 const DownloadsScreen = props => {
@@ -61,6 +58,7 @@ const DownloadsScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -102,11 +100,12 @@ const DownloadsScreen = props => {
     try {
       setIsLoading(true);
       await deleteSpeechItem(item.id);
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       await getProcessedItems();
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -158,8 +157,7 @@ const DownloadsScreen = props => {
               </View>
             ) : (
               <View>
-                {item.failed_reason !== undefined &&
-                item.is_processed === false ? (
+                {item.is_processed === false && item.failed_reason === null ? (
                   <ActivityIndicator color={colors.COLORS.PRIMARY} />
                 ) : (
                   <Text style={styles.failedText}>

@@ -19,6 +19,7 @@ import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {connect} from 'react-redux';
 import {purchaseCredits, getCreditsLeft} from '../services/dataService';
 import Purchases from 'react-native-purchases';
+import * as Sentry from '@sentry/react-native';
 
 const PurchaseScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,13 +28,17 @@ const PurchaseScreen = props => {
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true);
         const offerings = await Purchases.getOfferings();
         if (offerings.current !== null) {
           // Display current offering with offerings.current
           setOfferings(offerings.current);
         }
       } catch (error) {
-        console.log(error);
+        Alert.alert('Something went wrong. Try logging out and back in again.');
+        Sentry.captureException(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -54,7 +59,7 @@ const PurchaseScreen = props => {
       const cognitoUserName = props.user.loggedInUser.attributes.sub;
       await purchaseCredits(cognitoUserName, creditAmount);
 
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       let userCreditsLeft = await getCreditsLeft(cognitoUserName);
 
       while (userCreditsLeft.data.getUserCreditsLeft === null) {
@@ -69,6 +74,7 @@ const PurchaseScreen = props => {
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }

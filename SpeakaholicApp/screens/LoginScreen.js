@@ -21,6 +21,7 @@ import {DataStore, syncExpression} from '@aws-amplify/datastore';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import {getCreditsLeft} from '../services/dataService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Sentry from '@sentry/react-native';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -90,6 +91,8 @@ const LoginScreen = props => {
         props.navigation.navigate('ConfirmAccount', {email});
         return;
       }
+      Sentry.captureException(error);
+
       setError(err.toString());
     } finally {
       setLoading(false);

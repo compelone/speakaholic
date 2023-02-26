@@ -15,6 +15,7 @@ import {forgotPassword, signOut} from '../services/authService';
 import * as Keychain from 'react-native-keychain';
 import SocialLogin from '../components/SocialLogin';
 import {connect} from 'react-redux';
+import * as Sentry from '@sentry/react-native';
 
 const ForgotPasswordScreen = props => {
   const [email, setEmail] = useState();
@@ -37,8 +38,9 @@ const ForgotPasswordScreen = props => {
       await Keychain.resetGenericPassword();
       setError();
       props.navigation.navigate('ForgotPasswordConfirmation', {email});
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Sentry.captureException(error);
     } finally {
       setLoading(false);
       setEmail();

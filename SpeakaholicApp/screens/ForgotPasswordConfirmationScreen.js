@@ -12,6 +12,7 @@ import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {confirmForgotPassword} from '../services/authService';
 import {connect} from 'react-redux';
+import * as Sentry from '@sentry/react-native';
 
 const ForgotPasswordConfirmationScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -46,8 +47,9 @@ const ForgotPasswordConfirmationScreen = props => {
       await confirmForgotPassword(email, code, newPassword);
       setError();
       props.navigation.replace('Login');
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Sentry.captureException(error);
     } finally {
       setLoading(false);
       setEmail();

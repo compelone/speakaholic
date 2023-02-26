@@ -13,6 +13,7 @@ import * as defaultStyles from '../styles/defaultStyles';
 import {confirmAccount} from '../services/authService';
 import {connect} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Sentry from '@sentry/react-native';
 
 const ConfirmAccountScreen = props => {
   const [email, setEmail] = useState(props?.route?.params?.email);
@@ -40,8 +41,9 @@ const ConfirmAccountScreen = props => {
       await confirmAccount(email, code);
       setError();
       props.navigation.replace('Login');
-    } catch (err) {
-      setError(err.toString());
+    } catch (error) {
+      setError(error.toString());
+      Sentry.captureException(error);
     } finally {
       setLoading(false);
       setEmail();

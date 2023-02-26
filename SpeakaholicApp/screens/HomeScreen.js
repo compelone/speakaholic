@@ -22,6 +22,8 @@ import {DataStore, syncExpression} from 'aws-amplify';
 import {getCreditsLeft} from '../services/dataService';
 import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import Purchases from 'react-native-purchases';
+import {Analytics} from 'aws-amplify';
+import * as Sentry from '@sentry/react-native';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -56,34 +58,22 @@ const HomeScreen = props => {
         });
 
         DataStore.start();
-        const userCreditsLeft = await getCreditsLeft(cognito_user_name);
+        try {
+          const userCreditsLeft = await getCreditsLeft(cognito_user_name);
 
-        if (userCreditsLeft.data.getUserCreditsLeft === null) {
-          props.navigation.navigate('Purchase');
-          return;
+          if (userCreditsLeft.data.getUserCreditsLeft === null) {
+            props.navigation.navigate('Purchase');
+            return;
+          }
+
+          props.updateUserCreditsLeft(userCreditsLeft);
+
+          props.navigation.navigate('Root');
+        } catch (error) {
+          Sentry.captureException(error);
+          Alert.alert('Something went wrong.');
         }
-
-        props.updateUserCreditsLeft(userCreditsLeft);
-
-        props.navigation.navigate('Root');
       }
-
-      // await Glassfy.initialize('a0df75170c064d528ccd3af9c505b6f6', false);
-
-      // try {
-      //   let offering = Glassfy.offerings.all.find(
-      //     o => o.identifier === 'standard',
-      //   );
-      //   console.log(offering);
-
-      //   offering?.skus.forEach(sku => {
-      //     // sku.extravars
-      //     // sku.product.description;
-      //     console.log(sku.product.price);
-      //   });
-      // } catch (error) {
-      //   console.log(error);
-      // }
     })();
   }, []);
 

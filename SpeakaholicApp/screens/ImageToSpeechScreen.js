@@ -27,6 +27,7 @@ import {bindActionCreators} from 'redux';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as Sentry from '@sentry/react-native';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -151,6 +152,7 @@ const ImageToSpeechScreen = props => {
       setIsImageChanged(false);
     } catch (error) {
       Alert.alert('Something went wrong', error.message);
+      Sentry.captureException(error);
     } finally {
       setIsLoading(false);
     }
@@ -210,7 +212,7 @@ const ImageToSpeechScreen = props => {
                   props.user.userCreditsLeft.data.getUserCreditsLeft
                     .credits_left
                 }{' '}
-                credits available
+                credits, click to purchase
               </Text>
             </TouchableOpacity>
           ) : (
@@ -228,6 +230,7 @@ const ImageToSpeechScreen = props => {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+    paddingTop: 18,
   },
   mainContainer: layout.top,
   scrollContainer: {
