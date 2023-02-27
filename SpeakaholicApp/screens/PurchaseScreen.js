@@ -21,10 +21,14 @@ import {purchaseCredits, getCreditsLeft} from '../services/dataService';
 import Purchases from 'react-native-purchases';
 import * as Sentry from '@sentry/react-native';
 import {REVENUE_CAT_API_KEY} from '@env';
+import flagsmith from 'flagsmith';
+import {useFlags, useFlagsmith} from 'flagsmith/react';
 
 const PurchaseScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [offerings, setOfferings] = useState();
+  const flags = useFlags(['allow_free_1000_credits']);
+  const allow_free_credits = flags.allow_free_1000_credits;
 
   useEffect(() => {
     (async () => {
@@ -48,6 +52,25 @@ const PurchaseScreen = props => {
     })();
   }, []);
 
+  async function updateUserCredits(credits, props) {
+    const creditAmount = credits;
+    const cognitoUserName = props.user.loggedInUser.attributes.sub;
+    await purchaseCredits(cognitoUserName, creditAmount);
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    let userCreditsLeft = await getCreditsLeft(cognitoUserName);
+
+    while (userCreditsLeft.data.getUserCreditsLeft === null) {
+      // sleep for 5 seconds
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      userCreditsLeft = await getCreditsLeft(cognitoUserName);
+    }
+
+    props.updateUserCreditsLeft(userCreditsLeft);
+
+    props.navigation.navigate('Root');
+  }
+
   const handlePress = async offering => {
     try {
       setIsLoading(true);
@@ -60,22 +83,21 @@ const PurchaseScreen = props => {
         offering,
       );
 
-      const creditAmount = credits;
-      const cognitoUserName = props.user.loggedInUser.attributes.sub;
-      await purchaseCredits(cognitoUserName, creditAmount);
+      await updateUserCredits(credits, props);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Something went wrong.');
+      Sentry.captureException(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      let userCreditsLeft = await getCreditsLeft(cognitoUserName);
+  const handleFreeCredits = async credits => {
+    try {
+      setIsLoading(true);
 
-      while (userCreditsLeft.data.getUserCreditsLeft === null) {
-        // sleep for 5 seconds
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        userCreditsLeft = await getCreditsLeft(cognitoUserName);
-      }
-
-      props.updateUserCreditsLeft(userCreditsLeft);
-
-      props.navigation.navigate('Root');
+      await updateUserCredits(credits, props);
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong.');
@@ -126,6 +148,19 @@ const PurchaseScreen = props => {
             );
           })}
         </View>
+      )}
+      {allow_free_credits.enabled ? (
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => handleFreeCredits(allow_free_credits.value)}>
+          <Text style={styles.buttonText}>
+            Get {allow_free_credits.value} free characters.
+          </Text>
+          <Text> </Text>
+          <Text style={styles.buttonText}>FREE</Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
       )}
     </View>
   );
