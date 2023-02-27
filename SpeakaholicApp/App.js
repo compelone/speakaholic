@@ -17,9 +17,10 @@ import awsconfig from './aws-exports';
 import UserCredits from './components/UserCredits';
 
 import * as Sentry from '@sentry/react-native';
+import {SENTRY_DSN} from '@env';
 
 Sentry.init({
-  dsn: 'https://25237073e16042c3abf0de9eafaf8ae3@o4504740238131200.ingest.sentry.io/4504740241604608',
+  dsn: SENTRY_DSN,
 });
 
 Amplify.configure(awsconfig);
