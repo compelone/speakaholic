@@ -22,6 +22,7 @@ import {
 } from '../modules/UserCreditsLeftAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
+import {useFlags} from 'flagsmith/react';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -29,8 +30,17 @@ const TextToSpeechScreen = props => {
   const [nameError, setNameError] = useState();
   const [textError, setTextError] = useState();
   const [textLength, setTextLength] = useState(0);
+  const [maxCharacters, setMaxCharacters] = useState(3000);
   const [voice, setVoice] = useState('Salli');
   const [isLoading, setIsLoading] = useState(false);
+  const flags = useFlags(['max_characters']);
+  const flagMaxCharacters = flags.max_characters;
+
+  useEffect(() => {
+    if (flagMaxCharacters) {
+      setMaxCharacters(flagMaxCharacters.value);
+    }
+  }, [flagMaxCharacters]);
 
   const onRemoteNotification = notification => {
     const isClicked = notification.getData().userInteraction === 1;
@@ -122,7 +132,7 @@ const TextToSpeechScreen = props => {
           value={name}
           maxLength={64}
         />
-        <Text>max {3000} characters at a time</Text>
+        <Text>max {maxCharacters} characters at a time</Text>
         <View style={styles.descriptionView}>
           <TextInput
             style={
@@ -135,7 +145,7 @@ const TextToSpeechScreen = props => {
             placeholderTextColor={colors.COLORS.DARKGRAY}
             value={text}
             onChangeText={value => setTextAndLength(value)}
-            maxLength={3000}
+            maxLength={maxCharacters}
           />
         </View>
         <Text style={styles.lengthCount}>

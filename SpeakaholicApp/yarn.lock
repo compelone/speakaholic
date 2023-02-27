@@ -5932,6 +5932,11 @@
     "locate-path" "^6.0.0"
     "path-exists" "^4.0.0"
 
+"flagsmith@^3.16.0":
+  "integrity" "sha512-P0lPIAmj8271mCBgl4EX+ln0CAK4f2RL4JpLGJMhhtv0q21RvrC+FTo7Q/qrjUhZRYoPxiUqHwAxo5Vqbd+wNA=="
+  "resolved" "https://registry.npmjs.org/flagsmith/-/flagsmith-3.16.0.tgz"
+  "version" "3.16.0"
+
 "flat-cache@^3.0.4":
   "integrity" "sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg=="
   "resolved" "https://registry.npmjs.org/flat-cache/-/flat-cache-3.0.4.tgz"
@@ -8508,6 +8513,11 @@
   "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.4.tgz"
   "version" "5.4.4"
 
+"react-native-flagsmith@^3.16.0":
+  "integrity" "sha512-TJv1tWGC8/hQIjCAIkHfhFZXBWzdj4vAZj7SzrTbR+Uks0A0WY95QBmNOKDbKRwtr3YGr8tlzfRWlGSIlEpUVw=="
+  "resolved" "https://registry.npmjs.org/react-native-flagsmith/-/react-native-flagsmith-3.16.0.tgz"
+  "version" "3.16.0"
+
 "react-native-fs@^2.20.0":
   "integrity" "sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ=="
   "resolved" "https://registry.npmjs.org/react-native-fs/-/react-native-fs-2.20.0.tgz"
@@ -8599,7 +8609,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.58.2", "react-native@>= 0.64.3", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.56", "react-native@>=0.58.4", "react-native@>=0.59", "react-native@>=0.63.3", "react-native@>=0.65.0", "react-native@>=0.8.0", "react-native@0.71.1":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.58.2", "react-native@>= 0.64.3", "react-native@>=0.20.0", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.56", "react-native@>=0.58.4", "react-native@>=0.59", "react-native@>=0.63.3", "react-native@>=0.65.0", "react-native@>=0.8.0", "react-native@0.71.1":
   "integrity" "sha512-bLP5+IBj2IX6tgF9WnC/UL2ZPYkVUPsU4xqZV1jntTC2TH4xyLrvfKACjGlz5nQ3Mx4BmOFqsnMxithm53+6Aw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.1.tgz"
   "version" "0.71.1"
