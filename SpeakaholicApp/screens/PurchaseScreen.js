@@ -20,6 +20,7 @@ import {connect} from 'react-redux';
 import {purchaseCredits, getCreditsLeft} from '../services/dataService';
 import Purchases from 'react-native-purchases';
 import * as Sentry from '@sentry/react-native';
+import {REVENUE_CAT_API_KEY} from '@env';
 
 const PurchaseScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +30,7 @@ const PurchaseScreen = props => {
     (async () => {
       try {
         await Purchases.configure({
-          apiKey: 'appl_UYIOkgOIQWppphKHUeYowHDCfqo',
+          apiKey: REVENUE_CAT_API_KEY,
           appUserID: props.user.loggedInUser.attributes.sub,
         });
         setIsLoading(true);

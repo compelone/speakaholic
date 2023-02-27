@@ -19,6 +19,7 @@ import {bindActionCreators} from 'redux';
 import Purchases from 'react-native-purchases';
 import {deleteUser} from '../services/dataService';
 import * as Sentry from '@sentry/react-native';
+import {ENVIRONMENT} from '@env';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
@@ -105,7 +106,9 @@ const SettingsScreen = props => {
         <TouchableOpacity style={styles.button} onPress={() => deleteAccount()}>
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
-        <Text style={styles.textVersion}>Version: {version}</Text>
+        <Text style={styles.textVersion}>
+          {ENVIRONMENT} Version: {version}
+        </Text>
       </View>
     </View>
   );
