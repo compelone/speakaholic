@@ -38,6 +38,10 @@ function App() {
           environmentID: 'a8qPDNYmjZPTratk55ZUHL',
           cacheFlags: true,
           AsyncStorage: AsyncStorage, // Pass in whatever storage you use if you wish to cache flag values
+          cacheOptions: {
+            // How long to cache flags for in seconds
+            ttl: 60 * 60 * 24,
+          },
         }}
         flagsmith={flagsmith}>
         <SafeAreaProvider>
