@@ -57,7 +57,7 @@ const PurchaseScreen = props => {
     const cognitoUserName = props.user.loggedInUser.attributes.sub;
     await purchaseCredits(cognitoUserName, creditAmount);
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     let userCreditsLeft = await getCreditsLeft(cognitoUserName);
 
     while (userCreditsLeft.data.getUserCreditsLeft === null) {
