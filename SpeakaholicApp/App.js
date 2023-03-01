@@ -19,6 +19,10 @@ import UserCredits from './components/UserCredits';
 import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN} from '@env';
 
+import flagsmith from 'react-native-flagsmith';
+import {FlagsmithProvider} from 'flagsmith/react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 Sentry.init({
   dsn: SENTRY_DSN,
 });
@@ -29,10 +33,22 @@ const store = createStore(userReducer);
 function App() {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <UserCredits />
-        <Navigation />
-      </SafeAreaProvider>
+      <FlagsmithProvider
+        options={{
+          environmentID: 'a8qPDNYmjZPTratk55ZUHL',
+          cacheFlags: true,
+          AsyncStorage: AsyncStorage, // Pass in whatever storage you use if you wish to cache flag values
+          cacheOptions: {
+            // How long to cache flags for in seconds
+            ttl: 60 * 60 * 24,
+          },
+        }}
+        flagsmith={flagsmith}>
+        <SafeAreaProvider>
+          <UserCredits />
+          <Navigation />
+        </SafeAreaProvider>
+      </FlagsmithProvider>
     </Provider>
   );
 }
