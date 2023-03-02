@@ -8,21 +8,28 @@ import {
   setLastCheckedDate,
 } from '../modules/UserCreditsLeftAction';
 import {checkCachedDate} from '../services/generalService';
+import {DataStore} from 'aws-amplify';
+import {UserCreditsLeft} from '../models';
 
 const UserCredits = props => {
-  setInterval(async () => {
-    if (
-      props.user.loggedInUser.attributes !== undefined &&
-      checkCachedDate(props.user.lastCheckedCreditsDate)
-    ) {
-      const remainingCredits = await getCreditsLeft(
-        props.user.loggedInUser.attributes.sub,
-      );
-      props.updateUserCreditsLeft(remainingCredits);
-      props.setLastCheckedDate(Date.now());
-      console.log('remaining credits', remainingCredits);
-    }
-  }, 300000);
+  const subscription = DataStore.observe(UserCreditsLeft).subscribe(
+    creditsLeft => {
+      console.log(creditsLeft.model, creditsLeft.opType, creditsLeft.element);
+    },
+  );
+  // setInterval(async () => {
+  //   if (
+  //     props.user.loggedInUser.attributes !== undefined &&
+  //     checkCachedDate(props.user.lastCheckedCreditsDate)
+  //   ) {
+  //     const remainingCredits = await getCreditsLeft(
+  //       props.user.loggedInUser.attributes.sub,
+  //     );
+  //     props.updateUserCreditsLeft(remainingCredits);
+  //     props.setLastCheckedDate(Date.now());
+  //     console.log('remaining credits', remainingCredits);
+  //   }
+  // }, 300000);
   return <></>;
 };
 
