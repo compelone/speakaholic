@@ -22,6 +22,7 @@ import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import {getCreditsLeft} from '../services/dataService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
+import flagsmith from 'react-native-flagsmith';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -54,6 +55,7 @@ const LoginScreen = props => {
       await Keychain.setGenericPassword(email, password);
 
       const cognito_user_name = loggedInUser.attributes.sub;
+      flagsmith.identify(cognito_user_name);
 
       DataStore.configure({
         syncExpressions: [

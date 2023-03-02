@@ -132,7 +132,10 @@ const PurchaseScreen = props => {
       </Text>
       <Text> </Text>
       {isLoading ? (
-        <ActivityIndicator color={colors.default.COLORS.PRIMARY} />
+        <View>
+          <Text>Please, stay on this screen until you are redirected</Text>
+          <ActivityIndicator color={colors.default.COLORS.PRIMARY} />
+        </View>
       ) : (
         <View>
           {offerings?.availablePackages?.map((o, i) => {
