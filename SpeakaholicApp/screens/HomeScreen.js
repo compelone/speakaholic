@@ -24,6 +24,7 @@ import {SpeechItems, UserCreditsLeft, Users} from '../models';
 import Purchases from 'react-native-purchases';
 import {Analytics} from 'aws-amplify';
 import * as Sentry from '@sentry/react-native';
+import flagsmith from 'react-native-flagsmith';
 
 const HomeScreen = props => {
   useEffect(() => {
@@ -38,6 +39,7 @@ const HomeScreen = props => {
         props.updateUser(loggedInUser);
 
         const cognito_user_name = loggedInUser.attributes.sub;
+        flagsmith.identify(cognito_user_name);
         DataStore.configure({
           syncExpressions: [
             syncExpression(UserCreditsLeft, () => {
