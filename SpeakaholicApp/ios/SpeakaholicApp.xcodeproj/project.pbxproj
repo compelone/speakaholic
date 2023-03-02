@@ -622,7 +622,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ACCDownload_20230217152745/SSML/.voice-env/lib/python3.8/site-packages/azure/cognitiveservices/speech",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -657,7 +657,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ACCDownload_20230217152745/SSML/.voice-env/lib/python3.8/site-packages/azure/cognitiveservices/speech",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
