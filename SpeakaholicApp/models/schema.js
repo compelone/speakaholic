@@ -1,26 +1,12 @@
 export const schema = {
     "models": {
-        "Users": {
-            "name": "Users",
+        "PurchaseCredits": {
+            "name": "PurchaseCredits",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -31,11 +17,84 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "image_url": {
-                    "name": "image_url",
+                "credits": {
+                    "name": "credits",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "purchase_date": {
+                    "name": "purchase_date",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "expiration_date": {
+                    "name": "expiration_date",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "is_expired": {
+                    "name": "is_expired",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
                     "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "PurchaseCredits",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "UserCreditsLeft": {
+            "name": "UserCreditsLeft",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
                     "attributes": []
                 },
                 "created_date_utc": {
@@ -45,22 +104,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "monthly_limit": {
-                    "name": "monthly_limit",
+                "cognito_user_name": {
+                    "name": "cognito_user_name",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "additional_credits": {
-                    "name": "additional_credits",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "credit_reset_days": {
-                    "name": "credit_reset_days",
+                "credits_left": {
+                    "name": "credits_left",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
@@ -84,7 +136,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Users",
+            "pluralName": "UserCreditsLefts",
             "attributes": [
                 {
                     "type": "model",
@@ -95,7 +147,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
+                                "allow": "public",
                                 "operations": [
                                     "create",
                                     "update",
@@ -224,7 +276,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
+                                "allow": "public",
                                 "operations": [
                                     "create",
                                     "update",
@@ -237,14 +289,42 @@ export const schema = {
                 }
             ]
         },
-        "UserCreditsLeft": {
-            "name": "UserCreditsLeft",
+        "Users": {
+            "name": "Users",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "cognito_user_name": {
+                    "name": "cognito_user_name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "image_url": {
+                    "name": "image_url",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "created_date_utc": {
@@ -254,15 +334,22 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "cognito_user_name": {
-                    "name": "cognito_user_name",
+                "monthly_limit": {
+                    "name": "monthly_limit",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
-                "credits_left": {
-                    "name": "credits_left",
+                "additional_credits": {
+                    "name": "additional_credits",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "credit_reset_days": {
+                    "name": "credit_reset_days",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
@@ -286,7 +373,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "UserCreditsLefts",
+            "pluralName": "Users",
             "attributes": [
                 {
                     "type": "model",
@@ -297,94 +384,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "PurchaseCredits": {
-            "name": "PurchaseCredits",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "cognito_user_name": {
-                    "name": "cognito_user_name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "credits": {
-                    "name": "credits",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "purchase_date": {
-                    "name": "purchase_date",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "expiration_date": {
-                    "name": "expiration_date",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "is_expired": {
-                    "name": "is_expired",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "PurchaseCredits",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
+                                "allow": "public",
                                 "operations": [
                                     "create",
                                     "update",
