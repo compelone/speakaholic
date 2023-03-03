@@ -23,7 +23,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
 import {useFlags} from 'react-native-flagsmith/react';
-import Buy from '../components/Buy';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -155,7 +155,14 @@ const TextToSpeechScreen = props => {
               ' character(s) of ' +
               props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
           </Text>
-          <Buy />
+          <Icon.Button
+            name="plus-circle"
+            backgroundColor="transparent"
+            color={colors.COLORS.SALMON}
+            size={30}
+            borderRadius={20}
+            onPress={() => props.navigation.navigate('Purchase')}
+          />
         </View>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
