@@ -5,6 +5,7 @@
  * @format
  */
 
+import 'core-js/full/symbol/async-iterator';
 import React, {useEffect} from 'react';
 import Navigation from './navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -20,8 +21,9 @@ import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN} from '@env';
 
 import flagsmith from 'react-native-flagsmith';
-import {FlagsmithProvider} from 'flagsmith/react';
+import {FlagsmithProvider} from 'react-native-flagsmith/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {FLAGSMITH_API_KEY} from '@env';
 
 Sentry.init({
   dsn: SENTRY_DSN,
@@ -35,7 +37,7 @@ function App() {
     <Provider store={store}>
       <FlagsmithProvider
         options={{
-          environmentID: 'a8qPDNYmjZPTratk55ZUHL',
+          environmentID: FLAGSMITH_API_KEY,
           cacheFlags: true,
           AsyncStorage: AsyncStorage, // Pass in whatever storage you use if you wish to cache flag values
           cacheOptions: {

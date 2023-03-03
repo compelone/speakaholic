@@ -8,6 +8,8 @@ import {
   setLastCheckedDate,
 } from '../modules/UserCreditsLeftAction';
 import {checkCachedDate} from '../services/generalService';
+import {DataStore} from 'aws-amplify';
+import {UserCreditsLeft} from '../models';
 
 const UserCredits = props => {
   setInterval(async () => {

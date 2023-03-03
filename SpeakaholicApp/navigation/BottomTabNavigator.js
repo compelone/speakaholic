@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TextToSpeechScreen from '../screens/TextToSpeechScreen';
 import ImageToSpeechScreen from '../screens/ImageToSpeechScreen';
-import SpeechToTextScreen from '../screens/SpeechToTextScreen';
+import PdfToSpeechScreen from '../screens/PdfToSpeechScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 
@@ -24,6 +24,9 @@ export default function BottomTabNavigator() {
           } else if (route.name === 'Image To Speech') {
             iconName = 'file-image-o';
             page = 'Image To Speech';
+          } else if (route.name === 'Pdf To Speech') {
+            iconName = 'file-pdf-o';
+            page = 'Pdf To Speech';
           }
 
           print(page);
@@ -49,10 +52,7 @@ export default function BottomTabNavigator() {
         name="Image To Speech"
         component={ImageToSpeechNavigator}
       />
-      {/* <BottomTab.Screen
-        name="Speech To Text"
-        component={SpeechToTextNavigator}
-      /> */}
+      <BottomTab.Screen name="Pdf To Speech" component={PdfToSpeechNavigator} />
     </BottomTab.Navigator>
   );
 }
@@ -88,18 +88,18 @@ function ImageToSpeechNavigator() {
   );
 }
 
-const SpeechToTextStack = createNativeStackNavigator();
+const PdfToTextStack = createNativeStackNavigator();
 
-function SpeechToTextNavigator() {
+function PdfToSpeechNavigator() {
   return (
-    <SpeechToTextStack.Navigator>
-      <SpeechToTextStack.Screen
-        name="SpeechToTextScreen"
-        component={SpeechToTextScreen}
+    <PdfToTextStack.Navigator>
+      <PdfToTextStack.Screen
+        name="PdfToSpeechScreen"
+        component={PdfToSpeechScreen}
         options={{
           header: () => <></>,
         }}
       />
-    </SpeechToTextStack.Navigator>
+    </PdfToTextStack.Navigator>
   );
 }

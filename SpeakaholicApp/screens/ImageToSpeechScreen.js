@@ -28,6 +28,7 @@ import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -38,7 +39,7 @@ const ImageToSpeechScreen = props => {
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [imageBytes, setImageBytes] = useState();
 
-  const maxImageSize = 5000000;
+  const maxImageSize = 7000000;
   const options = {
     mediaType: 'photo',
     includeBase64: false,
@@ -124,7 +125,7 @@ const ImageToSpeechScreen = props => {
         return;
       }
 
-      if (imageBytes.length > maxImageSize) {
+      if (imageBytes.size > maxImageSize) {
         Alert.alert('Image is too large');
         return;
       }
@@ -195,10 +196,20 @@ const ImageToSpeechScreen = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.charactersleftandbuttonView}>
-          <Text style={styles.lengthCount}>
-            {'character(s) left ' +
-              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
-          </Text>
+          <View style={styles.verticalView}>
+            <Text style={styles.lengthCount}>
+              {'character(s) left ' +
+                props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+            </Text>
+            <Icon.Button
+              name="plus-circle"
+              backgroundColor="transparent"
+              color={colors.COLORS.SALMON}
+              size={30}
+              borderRadius={20}
+              onPress={() => props.navigation.navigate('Purchase')}
+            />
+          </View>
           {isLoading ? (
             <ActivityIndicator color={colors.COLORS.PRIMARY} />
           ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
@@ -286,6 +297,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.COLORS.WHITE,
+  },
+  verticalView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
   },
 });
 

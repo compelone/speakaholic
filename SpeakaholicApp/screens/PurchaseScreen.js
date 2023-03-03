@@ -21,8 +21,7 @@ import {purchaseCredits, getCreditsLeft} from '../services/dataService';
 import Purchases from 'react-native-purchases';
 import * as Sentry from '@sentry/react-native';
 import {REVENUE_CAT_API_KEY} from '@env';
-import flagsmith from 'flagsmith';
-import {useFlags, useFlagsmith} from 'flagsmith/react';
+import {useFlags, useFlagsmith} from 'react-native-flagsmith/react';
 
 const PurchaseScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +132,9 @@ const PurchaseScreen = props => {
       <Text> </Text>
       {isLoading ? (
         <View>
-          <Text>Please, stay on this screen until you are redirected</Text>
+          <Text style={styles.messageText}>
+            Please, stay on this screen until you are redirected
+          </Text>
           <ActivityIndicator color={colors.default.COLORS.PRIMARY} />
         </View>
       ) : (
@@ -197,6 +198,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.default.COLORS.WHITE,
+  },
+  messageText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: colors.default.COLORS.PRIMARY,
+    marginBottom: 5,
   },
 });
 

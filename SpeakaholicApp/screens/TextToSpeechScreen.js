@@ -22,7 +22,8 @@ import {
 } from '../modules/UserCreditsLeftAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
-import {useFlags} from 'flagsmith/react';
+import {useFlags} from 'react-native-flagsmith/react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -148,11 +149,21 @@ const TextToSpeechScreen = props => {
             maxLength={maxCharacters}
           />
         </View>
-        <Text style={styles.lengthCount}>
-          {textLength +
-            ' character(s) of ' +
-            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
-        </Text>
+        <View style={styles.verticalView}>
+          <Text style={styles.lengthCount}>
+            {textLength +
+              ' character(s) of ' +
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+          </Text>
+          <Icon.Button
+            name="plus-circle"
+            backgroundColor="transparent"
+            color={colors.COLORS.SALMON}
+            size={30}
+            borderRadius={20}
+            onPress={() => props.navigation.navigate('Purchase')}
+          />
+        </View>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
         ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
@@ -227,6 +238,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.COLORS.WHITE,
+  },
+  verticalView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
   },
 });
 
