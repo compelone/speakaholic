@@ -12,28 +12,19 @@ import {DataStore} from 'aws-amplify';
 import {UserCreditsLeft} from '../models';
 
 const UserCredits = props => {
-  try {
-    const subscription = DataStore.observe(UserCreditsLeft).subscribe(
-      creditsLeft => {
-        console.log(creditsLeft.model, creditsLeft.opType, creditsLeft.element);
-      },
-    );
-  } catch (error) {
-    console.error(error);
-  }
-  // setInterval(async () => {
-  //   if (
-  //     props.user.loggedInUser.attributes !== undefined &&
-  //     checkCachedDate(props.user.lastCheckedCreditsDate)
-  //   ) {
-  //     const remainingCredits = await getCreditsLeft(
-  //       props.user.loggedInUser.attributes.sub,
-  //     );
-  //     props.updateUserCreditsLeft(remainingCredits);
-  //     props.setLastCheckedDate(Date.now());
-  //     console.log('remaining credits', remainingCredits);
-  //   }
-  // }, 300000);
+  setInterval(async () => {
+    if (
+      props.user.loggedInUser.attributes !== undefined &&
+      checkCachedDate(props.user.lastCheckedCreditsDate)
+    ) {
+      const remainingCredits = await getCreditsLeft(
+        props.user.loggedInUser.attributes.sub,
+      );
+      props.updateUserCreditsLeft(remainingCredits);
+      props.setLastCheckedDate(Date.now());
+      console.log('remaining credits', remainingCredits);
+    }
+  }, 300000);
   return <></>;
 };
 
