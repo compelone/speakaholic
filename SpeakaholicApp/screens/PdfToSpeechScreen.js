@@ -200,11 +200,13 @@ const PdfToSpeechScreen = props => {
           </View>
         </View>
       ) : (
-        <Text>
-          Coming Soon! Pdf to Speech is not enabled yet. Please check back later
-          to see when it is enabled. Thank you for your patience and
-          understanding.
-        </Text>
+        <View style={styles.centeredView}>
+          <Text style={styles.announcementText}>
+            Coming Soon! Pdf to Speech is not enabled yet. Please check back
+            later to see when it is enabled. Thank you for your patience and
+            understanding.
+          </Text>
+        </View>
       )}
     </KeyboardAwareScrollView>
   );
@@ -277,6 +279,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.COLORS.SALMON,
     padding: 5,
+    fontWeight: 'bold',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  announcementText: {
+    fontSize: 20,
+    color: colors.COLORS.SALMON,
     fontWeight: 'bold',
   },
 });
