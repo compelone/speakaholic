@@ -22,7 +22,7 @@ import {
 } from '../modules/UserCreditsLeftAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
-import {useFlags} from 'flagsmith/react';
+import {useFlags} from 'react-native-flagsmith/react';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();

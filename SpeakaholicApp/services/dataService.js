@@ -1,4 +1,3 @@
-import '@azure/core-asynciterator-polyfill';
 import {DataStore} from '@aws-amplify/datastore';
 import {SpeechItems, Users} from '../models';
 import {API, graphqlOperation} from 'aws-amplify';
