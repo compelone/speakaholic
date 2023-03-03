@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import colors from '../styles/colors';
 import defaultStyles from '../styles/defaultStyles';
@@ -19,6 +20,7 @@ import {useFlags} from 'react-native-flagsmith/react';
 import Voices from '../components/Voices';
 import DocumentPicker from 'react-native-document-picker';
 import * as Sentry from '@sentry/react-native';
+import {savePdfToSpeechItem} from '../services/dataService';
 
 const PdfToSpeechScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +42,10 @@ const PdfToSpeechScreen = props => {
 
   const selectFile = async () => {
     try {
+      setPdfUri();
+      setName();
+      setNameError(false);
+
       DocumentPicker.types.pdf;
 
       const res = await DocumentPicker.pick({
@@ -47,7 +53,7 @@ const PdfToSpeechScreen = props => {
         allowMultiSelection: false,
       });
 
-      const file = res[0];
+      let file = res[0];
 
       if (file.size > maxPdfSize) {
         Alert.alert('File size is too large.');
@@ -81,10 +87,10 @@ const PdfToSpeechScreen = props => {
         return;
       }
 
-      const pdfBytes = await fetch(imagePickerResponse.assets[0].uri);
+      const pdfBytes = await fetch(pdfUri);
       const blob = await pdfBytes.blob();
 
-      const fileName = `inputs/${new Date().toISOString()}.jpg`;
+      const fileName = `inputs/${new Date().toISOString()}.pdf`;
 
       const s3_key = await uploadToS3(
         fileName,
@@ -94,7 +100,7 @@ const PdfToSpeechScreen = props => {
         'input',
       );
 
-      await saveImageToSpeechItem(
+      await savePdfToSpeechItem(
         props.user.loggedInUser.attributes.sub,
         s3_key.key,
         voice,
@@ -109,6 +115,7 @@ const PdfToSpeechScreen = props => {
     } catch (error) {
       Alert.alert('Something went wrong.');
       Sentry.captureException(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -142,7 +149,9 @@ const PdfToSpeechScreen = props => {
               />
             </TouchableOpacity>
             {pdfUri ? (
-              <Text style={styles.fileName}>File selected: {name}</Text>
+              <>
+                <Text style={styles.fileName}>File selected: {name}</Text>
+              </>
             ) : (
               <></>
             )}
@@ -179,9 +188,14 @@ const PdfToSpeechScreen = props => {
                 </Text>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity style={styles.button} onPress={() => save()}>
-                <Text style={styles.buttonText}>Save</Text>
-              </TouchableOpacity>
+              <>
+                <Text style={styles.warningText}>
+                  Uploads without enough characters will not be processed
+                </Text>
+                <TouchableOpacity style={styles.button} onPress={() => save()}>
+                  <Text style={styles.buttonText}>Save</Text>
+                </TouchableOpacity>
+              </>
             )}
           </View>
         </View>
@@ -257,6 +271,12 @@ const styles = StyleSheet.create({
     color: colors.COLORS.DARKGRAY,
     padding: 5,
     marginTop: 10,
+    fontWeight: 'bold',
+  },
+  warningText: {
+    fontSize: 14,
+    color: colors.COLORS.SALMON,
+    padding: 5,
     fontWeight: 'bold',
   },
 });

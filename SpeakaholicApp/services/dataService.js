@@ -75,6 +75,29 @@ export async function saveImageToSpeechItem(
   );
 }
 
+export async function savePdfToSpeechItem(
+  cognitoUsername,
+  s3_key,
+  voice,
+  language,
+  predictionType,
+  name,
+) {
+  await DataStore.save(
+    new SpeechItems({
+      cognito_user_name: cognitoUsername,
+      s3_input_key: s3_key,
+      character_count: 0,
+      created_date_utc: new Date().toISOString(),
+      is_processed: false,
+      voice: voice,
+      language: language,
+      prediction_type: predictionType,
+      name: name,
+    }),
+  );
+}
+
 export async function getProcessedSpeechItems(cognitoUsername) {
   const models = await DataStore.query(SpeechItems, u =>
     u.cognito_user_name.eq(cognitoUsername),
