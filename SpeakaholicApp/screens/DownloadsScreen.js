@@ -52,9 +52,14 @@ const DownloadsScreen = props => {
         variables: {filter: filter},
       });
 
-      setSpeechItems(
-        items?.data?.listSpeechItems?.items.filter(m => m._deleted === null),
-      );
+      // Sort the speechitems
+      const sortedItems = items?.data?.listSpeechItems?.items.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      setSpeechItems(sortedItems?.filter(m => m._deleted === null));
     } catch (error) {
       console.log(error);
       Alert.alert('Something went wrong');

@@ -12,11 +12,15 @@ import {DataStore} from 'aws-amplify';
 import {UserCreditsLeft} from '../models';
 
 const UserCredits = props => {
-  const subscription = DataStore.observe(UserCreditsLeft).subscribe(
-    creditsLeft => {
-      console.log(creditsLeft.model, creditsLeft.opType, creditsLeft.element);
-    },
-  );
+  try {
+    const subscription = DataStore.observe(UserCreditsLeft).subscribe(
+      creditsLeft => {
+        console.log(creditsLeft.model, creditsLeft.opType, creditsLeft.element);
+      },
+    );
+  } catch (error) {
+    console.error(error);
+  }
   // setInterval(async () => {
   //   if (
   //     props.user.loggedInUser.attributes !== undefined &&

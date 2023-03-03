@@ -132,7 +132,9 @@ const PurchaseScreen = props => {
       <Text> </Text>
       {isLoading ? (
         <View>
-          <Text>Please, stay on this screen until you are redirected</Text>
+          <Text style={styles.messageText}>
+            Please, stay on this screen until you are redirected
+          </Text>
           <ActivityIndicator color={colors.default.COLORS.PRIMARY} />
         </View>
       ) : (
@@ -196,6 +198,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.default.COLORS.WHITE,
+  },
+  messageText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: colors.default.COLORS.PRIMARY,
+    marginBottom: 5,
   },
 });
 
