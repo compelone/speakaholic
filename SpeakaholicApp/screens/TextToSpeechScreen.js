@@ -23,6 +23,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
 import {useFlags} from 'react-native-flagsmith/react';
+import Buy from '../components/Buy';
 
 const TextToSpeechScreen = props => {
   const [text, setText] = useState();
@@ -148,11 +149,14 @@ const TextToSpeechScreen = props => {
             maxLength={maxCharacters}
           />
         </View>
-        <Text style={styles.lengthCount}>
-          {textLength +
-            ' character(s) of ' +
-            props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
-        </Text>
+        <View style={styles.verticalView}>
+          <Text style={styles.lengthCount}>
+            {textLength +
+              ' character(s) of ' +
+              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+          </Text>
+          <Buy />
+        </View>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
         ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
@@ -227,6 +231,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.COLORS.WHITE,
+  },
+  verticalView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
   },
 });
 
