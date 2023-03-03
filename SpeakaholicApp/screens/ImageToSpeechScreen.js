@@ -28,6 +28,7 @@ import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {userReducer} from '../modules/UserStore';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
+import Buy from '../components/Buy';
 
 const ImageToSpeechScreen = props => {
   const [imageUri, setImageUri] = useState('');
@@ -195,10 +196,13 @@ const ImageToSpeechScreen = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.charactersleftandbuttonView}>
-          <Text style={styles.lengthCount}>
-            {'character(s) left ' +
-              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
-          </Text>
+          <View style={styles.verticalView}>
+            <Text style={styles.lengthCount}>
+              {'character(s) left ' +
+                props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+            </Text>
+            <Buy />
+          </View>
           {isLoading ? (
             <ActivityIndicator color={colors.COLORS.PRIMARY} />
           ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
@@ -286,6 +290,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.COLORS.WHITE,
+  },
+  verticalView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
   },
 });
 
