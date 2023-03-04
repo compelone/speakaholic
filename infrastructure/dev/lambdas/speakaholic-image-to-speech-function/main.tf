@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "byitl-terraform-state"
-    key    = "prod/lambdas/speakaholic-image-to-speech-function"
+    key    = "dev/lambdas/speakaholic-image-to-speech-function"
     region = "us-east-1"
   }
 }
@@ -11,8 +11,8 @@ locals {
     yamldecode(file("../../environment.yaml"))
   )
   service_name = "speakaholic-image-to-speech-function"
-  bucket_arn   = "arn:aws:s3:::speakaholic-storage111412-production"
-  bucket_name  = "speakaholic-storage111412-production"
+  bucket_arn   = "arn:aws:s3:::speakaholic-storage-dev202305-dev"
+  bucket_name  = "speakaholic-storage-dev202305-dev"
 }
 
 resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
@@ -55,7 +55,7 @@ resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
 # If skipping this resource configuration, also add "logs:CreateLogGroup" to the IAM policy below.
 resource "aws_cloudwatch_log_group" "speakaholic_image_to_speech_function" {
-  name              = "/aws/lambda/${local.service_name}"
+  name              = "/aws/lambda/${local.service_name}-${local.vars.environment}"
   retention_in_days = 14
 }
 
@@ -107,7 +107,7 @@ resource "aws_iam_role_policy_attachment" "speakaholic_image_to_speech_function"
 }
 
 resource "aws_sns_topic" "speakaholic_image_to_speech_function" {
-  name = "${local.service_name}-topic"
+  name = "${local.service_name}-topic-${local.vars.environment}"
 }
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   alarm_name          = "${local.service_name}-error-alarm"
@@ -130,16 +130,6 @@ resource "aws_sns_topic_subscription" "email_subscription" {
   topic_arn = aws_sns_topic.speakaholic_image_to_speech_function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
-}
-
-resource "aws_s3_bucket_notification" "jpg_notification" {
-  bucket = local.bucket_name
-
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.speakaholic_image_to_speech_function.arn
-    events              = ["s3:ObjectCreated:*"]
-    filter_suffix       = ".jpg"
-  }
 }
 
 resource "aws_lambda_permission" "allow_bucket" {

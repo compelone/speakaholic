@@ -24,7 +24,8 @@ resource "aws_sns_topic" "textract_sns" {
 }
 
 resource "aws_sqs_queue" "textract_sqs" {
-  name = "${local.vars.environment}-textract-updates-queue"
+  name                       = "${local.vars.environment}-textract-updates-queue"
+  visibility_timeout_seconds = 300
 
   tags = {
     "Name"        = "${local.topic_name}"
