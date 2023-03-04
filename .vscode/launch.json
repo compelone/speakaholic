@@ -5,6 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: speakaholic-textract-to-text-function",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "/Users/lesterprivott/sc/speakaholic/functions/speakaholic-textract-to-text-function/main.py",
+        "--lambda_handler",
+        "something",
+        "something"
+      ],
+      "env": {
+        "ENVIRONMENT": "local",
+        "REGION": "east-us-1"
+      }
+    },
+    {
       "name": "Python: speakaholic-pdf-to-speech-function",
       "type": "python",
       "request": "launch",
