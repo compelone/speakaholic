@@ -11,6 +11,8 @@ locals {
     yamldecode(file("../../environment.yaml"))
   )
   service_name = "speakaholic-text-to-speech-function"
+  bucket_arn   = "arn:aws:s3:::speakaholic-storage111412-production"
+  bucket_name  = "speakaholic-storage111412-production"
 }
 
 resource "aws_lambda_function" "speakaholic_text_to_speech_function" {
@@ -128,4 +130,22 @@ resource "aws_sns_topic_subscription" "email_subscription" {
   topic_arn = aws_sns_topic.speakaholic_text_to_speech_function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
+}
+
+resource "aws_s3_bucket_notification" "txt_notification" {
+  bucket = local.bucket_name
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.speakaholic_text_to_speech_function.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_suffix       = ".txt"
+  }
+}
+
+resource "aws_lambda_permission" "allow_bucket" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.speakaholic_text_to_speech_function.arn
+  principal     = "s3.amazonaws.com"
+  source_arn    = local.bucket_arn
 }

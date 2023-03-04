@@ -13,6 +13,7 @@ locals {
   service_name = "speakaholic-textract-to-text-function"
   bucket_arn   = "arn:aws:s3:::speakaholic-storage-dev202305-dev"
   bucket_name  = "speakaholic-storage-dev202305-dev"
+  sqs_arn      = "arn:aws:sqs:us-east-1:744137563977:dev-textract-updates-queue"
 }
 
 resource "aws_lambda_function" "speakaholic-textract-to-text-function" {
@@ -20,7 +21,7 @@ resource "aws_lambda_function" "speakaholic-textract-to-text-function" {
   # path.module in the filename.
   filename      = "../../../../functions/${local.service_name}/${local.service_name}.zip"
   function_name = "${local.service_name}-${local.vars.environment}"
-  role          = "arn:aws:iam::744137563977:role/speakaholic-lambda-s3-predictions"
+  role          = aws_iam_role.speakaholic-textract-to-text-function.arn
   handler       = "main.lambda_handler"
   layers        = ["arn:aws:lambda:us-east-1:744137563977:layer:boto3-layer:2", "arn:aws:lambda:us-east-1:744137563977:layer:requestsLayer:1"]
   timeout       = 300
@@ -92,6 +93,36 @@ resource "aws_iam_role" "speakaholic-textract-to-text-function" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function1" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function2" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function3" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function4" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonRekognitionFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function5" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function6" {
+  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonPollyFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function" {
   role       = aws_iam_role.speakaholic-textract-to-text-function.name
   policy_arn = aws_iam_policy.speakaholic-textract-to-text-function.arn
@@ -122,6 +153,11 @@ resource "aws_sns_topic_subscription" "email_subscription" {
   topic_arn = aws_sns_topic.speakaholic-textract-to-text-function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
+}
+
+resource "aws_lambda_event_source_mapping" "speakaholic-textract-to-text-function" {
+  event_source_arn = local.sqs_arn
+  function_name    = aws_lambda_function.speakaholic-textract-to-text-function.arn
 }
 
 # resource "aws_s3_bucket_notification" "pdf_notification" {

@@ -20,7 +20,7 @@ resource "aws_lambda_function" "speakaholic_pdf_to_speech_function" {
   # path.module in the filename.
   filename      = "../../../../functions/${local.service_name}/${local.service_name}.zip"
   function_name = "${local.service_name}-${local.vars.environment}"
-  role          = "arn:aws:iam::744137563977:role/speakaholic-lambda-s3-predictions"
+  role          = aws_iam_role.speakaholic_pdf_to_speech_function.arn
   handler       = "main.lambda_handler"
   layers        = ["arn:aws:lambda:us-east-1:744137563977:layer:boto3-layer:2", "arn:aws:lambda:us-east-1:744137563977:layer:requestsLayer:1"]
   timeout       = 300
@@ -96,6 +96,32 @@ resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function" {
   role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
   policy_arn = aws_iam_policy.speakaholic_pdf_to_speech_function.arn
 }
+
+resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function2" {
+  role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonTextractFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function21" {
+  role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function22" {
+  role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function23" {
+  role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_pdf_to_speech_function25" {
+  role       = aws_iam_role.speakaholic_pdf_to_speech_function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 
 resource "aws_sns_topic" "speakaholic_pdf_to_speech_function" {
   name = "${local.service_name}-topic"

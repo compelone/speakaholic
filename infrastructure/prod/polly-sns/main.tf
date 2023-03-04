@@ -24,7 +24,8 @@ resource "aws_sns_topic" "polly_sns" {
 }
 
 resource "aws_sqs_queue" "polly_sqs" {
-  name = "${local.vars.environment}-polly-updates-queue"
+  name                       = "${local.vars.environment}-polly-updates-queue"
+  visibility_timeout_seconds = 300
 
   tags = {
     "Name"        = "${local.topic_name}"
