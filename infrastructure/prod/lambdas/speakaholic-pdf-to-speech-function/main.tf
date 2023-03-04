@@ -128,7 +128,7 @@ resource "aws_sns_topic" "speakaholic_pdf_to_speech_function" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
-  alarm_name          = "${local.service_name}-error-alarm"
+  alarm_name          = "${local.service_name}-error-alarm-${local.vars.environment}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "Errors"
@@ -148,16 +148,6 @@ resource "aws_sns_topic_subscription" "email_subscription" {
   topic_arn = aws_sns_topic.speakaholic_pdf_to_speech_function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
-}
-
-resource "aws_s3_bucket_notification" "pdf_notification" {
-  bucket = local.bucket_name
-
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.speakaholic_pdf_to_speech_function.arn
-    events              = ["s3:ObjectCreated:*"]
-    filter_suffix       = ".pdf"
-  }
 }
 
 resource "aws_lambda_permission" "allow_bucket" {

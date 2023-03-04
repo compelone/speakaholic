@@ -124,16 +124,6 @@ resource "aws_sns_topic_subscription" "email_subscription" {
   endpoint  = "support@byitl.com"
 }
 
-resource "aws_s3_bucket_notification" "pdf_notification" {
-  bucket = local.bucket_name
-
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.speakaholic_pdf_to_speech_function.arn
-    events              = ["s3:ObjectCreated:*"]
-    filter_suffix       = ".pdf"
-  }
-}
-
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"

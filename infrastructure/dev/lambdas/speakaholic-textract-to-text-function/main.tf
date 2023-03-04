@@ -133,7 +133,7 @@ resource "aws_sns_topic" "speakaholic-textract-to-text-function" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
-  alarm_name          = "${local.service_name}-error-alarm"
+  alarm_name          = "${local.service_name}-error-alarm-${local.vars.environment}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "Errors"
@@ -160,20 +160,10 @@ resource "aws_lambda_event_source_mapping" "speakaholic-textract-to-text-functio
   function_name    = aws_lambda_function.speakaholic-textract-to-text-function.arn
 }
 
-# resource "aws_s3_bucket_notification" "pdf_notification" {
-#   bucket = local.bucket_name
-
-#   lambda_function {
-#     lambda_function_arn = aws_lambda_function.speakaholic-textract-to-text-function.arn
-#     events              = ["s3:ObjectCreated:*"]
-#     filter_suffix       = ".pdf"
-#   }
-# }
-
-# resource "aws_lambda_permission" "allow_bucket" {
-#   statement_id  = "AllowExecutionFromS3Bucket"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.speakaholic-textract-to-text-function.arn
-#   principal     = "s3.amazonaws.com"
-#   source_arn    = local.bucket_arn
-# }
+resource "aws_lambda_permission" "allow_bucket" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.speakaholic-textract-to-text-function.arn
+  principal     = "s3.amazonaws.com"
+  source_arn    = local.bucket_arn
+}

@@ -110,7 +110,7 @@ resource "aws_sns_topic" "speakaholic_image_to_speech_function" {
   name = "${local.service_name}-topic-${local.vars.environment}"
 }
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
-  alarm_name          = "${local.service_name}-error-alarm"
+  alarm_name          = "${local.service_name}-error-alarm-${local.vars.environment}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "Errors"

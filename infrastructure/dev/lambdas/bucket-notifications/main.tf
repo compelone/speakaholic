@@ -10,9 +10,8 @@ locals {
   vars = merge(
     yamldecode(file("../../environment.yaml"))
   )
-  service_name = "speakaholic-text-to-speech-function"
-  bucket_arn   = "arn:aws:s3:::speakaholic-storage-dev202305-dev"
-  bucket_name  = "speakaholic-storage-dev202305-dev"
+  bucket_arn  = "arn:aws:s3:::speakaholic-storage-dev202305-dev"
+  bucket_name = "speakaholic-storage-dev202305-dev"
 }
 
 resource "aws_s3_bucket_notification" "notification" {
