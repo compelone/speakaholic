@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "byitl-terraform-state"
-    key    = "prod/lambdas/speakaholic-textract-to-text-function"
+    key    = "prod/lambdas/speakaholic-polly-synthesis-complete-function"
     region = "us-east-1"
   }
 }
@@ -10,18 +10,18 @@ locals {
   vars = merge(
     yamldecode(file("../../environment.yaml"))
   )
-  service_name = "speakaholic-textract-to-text-function"
+  service_name = "speakaholic-polly-synthesis-complete-function"
   bucket_arn   = "arn:aws:s3:::speakaholic-storage111412-production"
   bucket_name  = "speakaholic-storage111412-production"
-  sqs_arn      = "arn:aws:sqs:us-east-1:744137563977:production-textract-updates-queue"
+  sqs_arn      = "arn:aws:sqs:us-east-1:744137563977:production-polly-updates-queue"
 }
 
-resource "aws_lambda_function" "speakaholic-textract-to-text-function" {
+resource "aws_lambda_function" "speakaholic_polly_synthesis_complete_function" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
   filename      = "../../../../functions/${local.service_name}/${local.service_name}.zip"
   function_name = "${local.service_name}-${local.vars.environment}"
-  role          = aws_iam_role.speakaholic-textract-to-text-function.arn
+  role          = aws_iam_role.speakaholic_polly_synthesis_complete_function.arn
   handler       = "main.lambda_handler"
   layers        = ["arn:aws:lambda:us-east-1:744137563977:layer:boto3-layer:2", "arn:aws:lambda:us-east-1:744137563977:layer:requestsLayer:1"]
   timeout       = 300
@@ -37,7 +37,6 @@ resource "aws_lambda_function" "speakaholic-textract-to-text-function" {
       ENVIRONMENT            = "${local.vars.environment}"
       SPEECHITEMS_TABLE_NAME = "SpeechItems-5k4nw2ylcvgsrho4e5brufqfya-${local.vars.environment}"
       USERCREDITS_TABLE_NAME = "UserCreditsLeft-5k4nw2ylcvgsrho4e5brufqfya-${local.vars.environment}"
-      SPEECH_KEY             = "d4ad074a80f24b64a16f8709488b9fa4"
     }
   }
 
@@ -50,13 +49,13 @@ resource "aws_lambda_function" "speakaholic-textract-to-text-function" {
 
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
 # If skipping this resource configuration, also add "logs:CreateLogGroup" to the IAM policy below.
-resource "aws_cloudwatch_log_group" "speakaholic-textract-to-text-function" {
+resource "aws_cloudwatch_log_group" "speakaholic_polly_synthesis_complete_function" {
   name              = "/aws/lambda/${local.service_name}-${local.vars.environment}"
   retention_in_days = 14
 }
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
-resource "aws_iam_policy" "speakaholic-textract-to-text-function" {
+resource "aws_iam_policy" "speakaholic_polly_synthesis_complete_function" {
   name        = "${local.service_name}-${local.vars.environment}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
@@ -79,7 +78,7 @@ resource "aws_iam_policy" "speakaholic-textract-to-text-function" {
 EOF
 }
 
-resource "aws_iam_role" "speakaholic-textract-to-text-function" {
+resource "aws_iam_role" "speakaholic_polly_synthesis_complete_function" {
   name = "${local.service_name}-role-${local.vars.environment}"
 
   assume_role_policy = jsonencode({
@@ -96,53 +95,39 @@ resource "aws_iam_role" "speakaholic-textract-to-text-function" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function1" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
+  policy_arn = aws_iam_policy.speakaholic_polly_synthesis_complete_function.arn
 }
 
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function2" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function3" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function4" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonRekognitionFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function5" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function6" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonPollyFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function7" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function8" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function2" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonTextractFullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "speakaholic-textract-to-text-function" {
-  role       = aws_iam_role.speakaholic-textract-to-text-function.name
-  policy_arn = aws_iam_policy.speakaholic-textract-to-text-function.arn
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function21" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
-resource "aws_sns_topic" "speakaholic-textract-to-text-function" {
-  name = "${local.service_name}-topic"
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function22" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function23" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "speakaholic_polly_synthesis_complete_function25" {
+  role       = aws_iam_role.speakaholic_polly_synthesis_complete_function.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+
+resource "aws_sns_topic" "speakaholic_polly_synthesis_complete_function" {
+  name = "${local.service_name}-topic-${local.vars.environment}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
@@ -155,29 +140,24 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   statistic           = "Sum"
   threshold           = "1"
   alarm_description   = "This metric monitors errors in the Lambda function."
-  alarm_actions       = [aws_sns_topic.speakaholic-textract-to-text-function.arn]
+  alarm_actions       = [aws_sns_topic.speakaholic_polly_synthesis_complete_function.arn]
 
   dimensions = {
-    FunctionName = aws_lambda_function.speakaholic-textract-to-text-function.function_name
+    FunctionName = aws_lambda_function.speakaholic_polly_synthesis_complete_function.function_name
   }
 }
 
 resource "aws_sns_topic_subscription" "email_subscription" {
-  topic_arn = aws_sns_topic.speakaholic-textract-to-text-function.arn
+  topic_arn = aws_sns_topic.speakaholic_polly_synthesis_complete_function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
-}
-
-resource "aws_lambda_event_source_mapping" "speakaholic-textract-to-text-function" {
-  event_source_arn = local.sqs_arn
-  function_name    = aws_lambda_function.speakaholic-textract-to-text-function.arn
-  batch_size       = 1
 }
 
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.speakaholic-textract-to-text-function.arn
+  function_name = aws_lambda_function.speakaholic_polly_synthesis_complete_function.arn
   principal     = "s3.amazonaws.com"
   source_arn    = local.bucket_arn
 }
+

@@ -34,4 +34,9 @@ resource "aws_s3_bucket_notification" "notification" {
     events              = ["s3:ObjectCreated:*"]
     filter_suffix       = ".pdf"
   }
+  lambda_function {
+    lambda_function_arn = "arn:aws:lambda:us-east-1:744137563977:function:speakaholic-polly-synthesis-complete-function-dev"
+    events              = ["s3:ObjectCreated:*"]
+    filter_suffix       = ".mp3"
+  }
 }
