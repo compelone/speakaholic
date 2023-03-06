@@ -82,7 +82,17 @@ def lambda_handler(event, context):
                 text += block['Text'] + '\n'
                 print(block['Text'])
 
-        # Encode SSML reserved characters
+        while 'NextToken' in response:
+            next_token = response['NextToken']
+            response = textract.get_document_text_detection(
+                JobId=job_id, NextToken=next_token)
+            blocks = response['Blocks']
+            for block in blocks:
+                if block['BlockType'] == 'LINE':
+                    text += block['Text'] + '\n'
+                    print(block['Text'])
+
+            # Encode SSML reserved characters
         text = text.replace(
             '"', '&quote;').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace("'", '&apos;')
 
