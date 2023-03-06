@@ -175,6 +175,7 @@ const ImageToSpeechScreen = props => {
           value={name}
           maxLength={64}
         />
+        <Text>max 100 words</Text>
         <TouchableOpacity
           style={styles.centerImage}
           onPress={() => pickImage()}>
