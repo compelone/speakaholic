@@ -141,6 +141,7 @@ const PdfToSpeechScreen = props => {
             value={name}
             maxLength={64}
           />
+          <Text>max 10 pages</Text>
           <View style={styles.fileSelectorView}>
             <TouchableOpacity onPress={() => selectFile()}>
               <Image
