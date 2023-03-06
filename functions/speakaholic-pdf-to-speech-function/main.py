@@ -3,6 +3,8 @@ import urllib.parse
 import boto3
 import os
 
+# TODO: ADD CODE TO UPDATE THE DYNAMO RECORD IF A FAILURE OCCURS
+
 
 def lambda_handler(event, context):
     print('Loading function')

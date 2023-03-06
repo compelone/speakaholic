@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "byitl-terraform-state"
-    key    = "prod/lambdas/speakaholic-image-to-speech-function"
+    key    = "dev/lambdas/speakaholic-text-to-speech-function"
     region = "us-east-1"
   }
 }
@@ -10,12 +10,12 @@ locals {
   vars = merge(
     yamldecode(file("../../environment.yaml"))
   )
-  service_name = "speakaholic-image-to-speech-function"
-  bucket_arn   = "arn:aws:s3:::speakaholic-storage111412-production"
-  bucket_name  = "speakaholic-storage111412-production"
+  service_name = "speakaholic-text-to-speech-function"
+  bucket_arn   = "arn:aws:s3:::speakaholic-storage-dev202305-dev"
+  bucket_name  = "speakaholic-storage-dev202305-dev"
 }
 
-resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
+resource "aws_lambda_function" "speakaholic_text_to_speech_function" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
   filename      = "../../../../functions/${local.service_name}/${local.service_name}.zip"
@@ -41,8 +41,8 @@ resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
   }
 
   #   depends_on = [
-  #     aws_iam_role_policy_attachment.speakaholic_image_to_speech_function,
-  #     aws_cloudwatch_log_group.speakaholic_image_to_speech_function,
+  #     aws_iam_role_policy_attachment.speakaholic_text_to_speech_function,
+  #     aws_cloudwatch_log_group.speakaholic_text_to_speech_function,
   #   ]
 
   tags = {
@@ -54,13 +54,13 @@ resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
 
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
 # If skipping this resource configuration, also add "logs:CreateLogGroup" to the IAM policy below.
-resource "aws_cloudwatch_log_group" "speakaholic_image_to_speech_function" {
-  name              = "/aws/lambda/${local.service_name}"
+resource "aws_cloudwatch_log_group" "speakaholic_text_to_speech_function" {
+  name              = "/aws/lambda/${local.service_name}-${local.vars.environment}"
   retention_in_days = 14
 }
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
-resource "aws_iam_policy" "speakaholic_image_to_speech_function" {
+resource "aws_iam_policy" "speakaholic_text_to_speech_function" {
   name        = "${local.service_name}-${local.vars.environment}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
@@ -83,7 +83,7 @@ resource "aws_iam_policy" "speakaholic_image_to_speech_function" {
 EOF
 }
 
-resource "aws_iam_role" "speakaholic_image_to_speech_function" {
+resource "aws_iam_role" "speakaholic_text_to_speech_function" {
   name = "${local.service_name}-role-${local.vars.environment}"
 
   assume_role_policy = jsonencode({
@@ -100,17 +100,17 @@ resource "aws_iam_role" "speakaholic_image_to_speech_function" {
   })
 }
 
-
-resource "aws_iam_role_policy_attachment" "speakaholic_image_to_speech_function" {
-  role       = aws_iam_role.speakaholic_image_to_speech_function.name
-  policy_arn = aws_iam_policy.speakaholic_image_to_speech_function.arn
+resource "aws_iam_role_policy_attachment" "speakaholic_text_to_speech_function" {
+  role       = aws_iam_role.speakaholic_text_to_speech_function.name
+  policy_arn = aws_iam_policy.speakaholic_text_to_speech_function.arn
 }
 
-resource "aws_sns_topic" "speakaholic_image_to_speech_function" {
-  name = "${local.service_name}-topic"
+resource "aws_sns_topic" "speakaholic_text_to_speech_function" {
+  name = "${local.service_name}-topic-${local.vars.environment}"
 }
+
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
-  alarm_name          = "${local.service_name}-error-alarm"
+  alarm_name          = "${local.service_name}-error-alarm-${local.vars.environment}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "Errors"
@@ -119,15 +119,15 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   statistic           = "Sum"
   threshold           = "1"
   alarm_description   = "This metric monitors errors in the Lambda function."
-  alarm_actions       = [aws_sns_topic.speakaholic_image_to_speech_function.arn]
+  alarm_actions       = [aws_sns_topic.speakaholic_text_to_speech_function.arn]
 
   dimensions = {
-    FunctionName = aws_lambda_function.speakaholic_image_to_speech_function.function_name
+    FunctionName = aws_lambda_function.speakaholic_text_to_speech_function.function_name
   }
 }
 
 resource "aws_sns_topic_subscription" "email_subscription" {
-  topic_arn = aws_sns_topic.speakaholic_image_to_speech_function.arn
+  topic_arn = aws_sns_topic.speakaholic_text_to_speech_function.arn
   protocol  = "email"
   endpoint  = "support@byitl.com"
 }
@@ -135,7 +135,7 @@ resource "aws_sns_topic_subscription" "email_subscription" {
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.speakaholic_image_to_speech_function.arn
+  function_name = aws_lambda_function.speakaholic_text_to_speech_function.arn
   principal     = "s3.amazonaws.com"
   source_arn    = local.bucket_arn
 }
