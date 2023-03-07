@@ -56,28 +56,28 @@ def lambda_handler(event, context):
             return
 
         # Get the characters used and subtract and update the user credits left table
-        # characters_used = dynamo_response['Items'][0]['character_count']
-        # user_credits_table = dynamodb.Table(user_credits_table_name)
-        # cognito_user_name = dynamo_response['Items'][0]['cognito_user_name']
+        characters_used = dynamo_response['Items'][0]['character_count']
+        user_credits_table = dynamodb.Table(user_credits_table_name)
+        cognito_user_name = dynamo_response['Items'][0]['cognito_user_name']
 
-        # # user_credits_left_response = user_credits_table.get_item(
-        # #     Key={
-        # #         'id': cognito_user_name
-        # #     }
-        # # )
+        user_credits_left_response = user_credits_table.get_item(
+            Key={
+                'id': cognito_user_name
+            }
+        )
 
-        # # result_user_credits_left = user_credits_left_response[
-        # #     'Item']['credits_left'] - characters_used
+        result_user_credits_left = user_credits_left_response[
+            'Item']['credits_left'] - characters_used
 
-        # user_credits_table.update_item(
-        #     Key={
-        #         'id': cognito_user_name
-        #     },
-        #     UpdateExpression='SET credits_left = credits_left - :characters_used',
-        #     ExpressionAttributeValues={
-        #         ':characters_used': characters_used
-        #     }
-        # )
+        user_credits_table.update_item(
+            Key={
+                'id': cognito_user_name
+            },
+            UpdateExpression='SET credits_left = :result_user_credits_left',
+            ExpressionAttributeValues={
+                ':result_user_credits_left': result_user_credits_left
+            }
+        )
 
         # update the speech items table with is_processed = true
         speech_items_table.update_item(
