@@ -27,6 +27,11 @@ def lambda_handler(event, context):
             print('Environment is not local, processing')
 
         try:
+            # if the prediction_type is pdftospeech  we will not deduct credits from the user
+            if table_event['dynamodb']['NewImage']['prediction_type']['S'] == 'pdftospeech':
+                print('Prediction type is pdftospeech, skipping')
+                return
+
             event_name = table_event['eventName']
 
             # return out of the function if the event is not INSERT
