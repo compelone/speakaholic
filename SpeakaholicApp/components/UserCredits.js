@@ -10,21 +10,27 @@ import {
 import {checkCachedDate} from '../services/generalService';
 import {DataStore} from 'aws-amplify';
 import {UserCreditsLeft} from '../models';
+import * as Sentry from '@sentry/react-native';
 
 const UserCredits = props => {
-  setInterval(async () => {
-    if (
-      props.user.loggedInUser.attributes !== undefined &&
-      checkCachedDate(props.user.lastCheckedCreditsDate)
-    ) {
-      const remainingCredits = await getCreditsLeft(
-        props.user.loggedInUser.attributes.sub,
-      );
-      props.updateUserCreditsLeft(remainingCredits);
-      props.setLastCheckedDate(Date.now());
-      console.log('remaining credits', remainingCredits);
-    }
-  }, 300000);
+  try {
+    setInterval(async () => {
+      if (
+        props.user.loggedInUser.attributes !== undefined &&
+        checkCachedDate(props.user.lastCheckedCreditsDate)
+      ) {
+        const remainingCredits = await getCreditsLeft(
+          props.user.loggedInUser.attributes.sub,
+        );
+        props.updateUserCreditsLeft(remainingCredits);
+        props.setLastCheckedDate(Date.now());
+        console.log('remaining credits', remainingCredits);
+      }
+    }, 300000);
+  } catch (error) {
+    console.log(error);
+    Sentry.captureException(error);
+  }
   return <></>;
 };
 
