@@ -6,72 +6,46 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
-type EagerPurchaseCredits = {
+type EagerUsers = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
+    identifier: ManagedIdentifier<Users, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly email: string;
+  readonly name: string;
   readonly cognito_user_name: string;
-  readonly credits: number;
-  readonly purchase_date: string;
-  readonly expiration_date: string;
-  readonly is_expired: boolean;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyPurchaseCredits = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly cognito_user_name: string;
-  readonly credits: number;
-  readonly purchase_date: string;
-  readonly expiration_date: string;
-  readonly is_expired: boolean;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type PurchaseCredits = LazyLoading extends LazyLoadingDisabled ? EagerPurchaseCredits : LazyPurchaseCredits
-
-export declare const PurchaseCredits: (new (init: ModelInit<PurchaseCredits>) => PurchaseCredits) & {
-  copyOf(source: PurchaseCredits, mutator: (draft: MutableModel<PurchaseCredits>) => MutableModel<PurchaseCredits> | void): PurchaseCredits;
-}
-
-type EagerUserCreditsLeft = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
+  readonly image_url?: string | null;
   readonly created_date_utc: string;
-  readonly cognito_user_name: string;
-  readonly credits_left: number;
+  readonly monthly_limit: number;
+  readonly additional_credits: number;
+  readonly credit_reset_days: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyUserCreditsLeft = {
+type LazyUsers = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
+    identifier: ManagedIdentifier<Users, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly created_date_utc: string;
+  readonly email: string;
+  readonly name: string;
   readonly cognito_user_name: string;
-  readonly credits_left: number;
+  readonly image_url?: string | null;
+  readonly created_date_utc: string;
+  readonly monthly_limit: number;
+  readonly additional_credits: number;
+  readonly credit_reset_days: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type UserCreditsLeft = LazyLoading extends LazyLoadingDisabled ? EagerUserCreditsLeft : LazyUserCreditsLeft
+export declare type Users = LazyLoading extends LazyLoadingDisabled ? EagerUsers : LazyUsers
 
-export declare const UserCreditsLeft: (new (init: ModelInit<UserCreditsLeft>) => UserCreditsLeft) & {
-  copyOf(source: UserCreditsLeft, mutator: (draft: MutableModel<UserCreditsLeft>) => MutableModel<UserCreditsLeft> | void): UserCreditsLeft;
+export declare const Users: (new (init: ModelInit<Users>) => Users) & {
+  copyOf(source: Users, mutator: (draft: MutableModel<Users>) => MutableModel<Users> | void): Users;
 }
 
 type EagerSpeechItems = {
@@ -122,44 +96,70 @@ export declare const SpeechItems: (new (init: ModelInit<SpeechItems>) => SpeechI
   copyOf(source: SpeechItems, mutator: (draft: MutableModel<SpeechItems>) => MutableModel<SpeechItems> | void): SpeechItems;
 }
 
-type EagerUsers = {
+type EagerUserCreditsLeft = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Users, 'id'>;
+    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly email: string;
-  readonly name: string;
-  readonly cognito_user_name: string;
-  readonly image_url?: string | null;
   readonly created_date_utc: string;
-  readonly monthly_limit: number;
-  readonly additional_credits: number;
-  readonly credit_reset_days: number;
+  readonly cognito_user_name: string;
+  readonly credits_left: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyUsers = {
+type LazyUserCreditsLeft = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Users, 'id'>;
+    identifier: ManagedIdentifier<UserCreditsLeft, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly email: string;
-  readonly name: string;
-  readonly cognito_user_name: string;
-  readonly image_url?: string | null;
   readonly created_date_utc: string;
-  readonly monthly_limit: number;
-  readonly additional_credits: number;
-  readonly credit_reset_days: number;
+  readonly cognito_user_name: string;
+  readonly credits_left: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Users = LazyLoading extends LazyLoadingDisabled ? EagerUsers : LazyUsers
+export declare type UserCreditsLeft = LazyLoading extends LazyLoadingDisabled ? EagerUserCreditsLeft : LazyUserCreditsLeft
 
-export declare const Users: (new (init: ModelInit<Users>) => Users) & {
-  copyOf(source: Users, mutator: (draft: MutableModel<Users>) => MutableModel<Users> | void): Users;
+export declare const UserCreditsLeft: (new (init: ModelInit<UserCreditsLeft>) => UserCreditsLeft) & {
+  copyOf(source: UserCreditsLeft, mutator: (draft: MutableModel<UserCreditsLeft>) => MutableModel<UserCreditsLeft> | void): UserCreditsLeft;
+}
+
+type EagerPurchaseCredits = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognito_user_name: string;
+  readonly credits: number;
+  readonly purchase_date: string;
+  readonly expiration_date: string;
+  readonly is_expired: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyPurchaseCredits = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PurchaseCredits, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognito_user_name: string;
+  readonly credits: number;
+  readonly purchase_date: string;
+  readonly expiration_date: string;
+  readonly is_expired: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type PurchaseCredits = LazyLoading extends LazyLoadingDisabled ? EagerPurchaseCredits : LazyPurchaseCredits
+
+export declare const PurchaseCredits: (new (init: ModelInit<PurchaseCredits>) => PurchaseCredits) & {
+  copyOf(source: PurchaseCredits, mutator: (draft: MutableModel<PurchaseCredits>) => MutableModel<PurchaseCredits> | void): PurchaseCredits;
 }

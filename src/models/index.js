@@ -4,11 +4,11 @@ import { schema } from './schema';
 
 
 
-const { PurchaseCredits, UserCreditsLeft, SpeechItems, Users } = initSchema(schema);
+const { Users, SpeechItems, UserCreditsLeft, PurchaseCredits } = initSchema(schema);
 
 export {
-  PurchaseCredits,
-  UserCreditsLeft,
+  Users,
   SpeechItems,
-  Users
+  UserCreditsLeft,
+  PurchaseCredits
 };
