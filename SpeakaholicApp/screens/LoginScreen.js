@@ -12,17 +12,13 @@ import * as layout from '../styles/layout';
 import * as colors from '../styles/colors';
 import * as defaultStyles from '../styles/defaultStyles';
 import {signIn} from '../services/authService';
-import * as Keychain from 'react-native-keychain';
 import {bindActionCreators} from 'redux';
 import {updateUser} from '../modules/UserActions';
 import {updateUserCreditsLeft} from '../modules/UserCreditsLeftAction';
 import {connect} from 'react-redux';
-import {DataStore, syncExpression} from '@aws-amplify/datastore';
-import {SpeechItems, UserCreditsLeft, Users} from '../models';
-import {getCreditsLeft} from '../services/dataService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
-import flagsmith from 'react-native-flagsmith';
+import * as Keychain from 'react-native-keychain';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -34,6 +30,8 @@ const LoginScreen = props => {
   const [passwordError, setPasswordError] = useState(false);
 
   const handlePress = async () => {
+    setError('');
+
     if (!email) {
       setEmailError(true);
       return;
@@ -47,42 +45,8 @@ const LoginScreen = props => {
     setLoading(true);
 
     try {
-      const loggedInUser = await signIn(email, password);
-
-      props.updateUser(loggedInUser);
-
-      setError('');
+      await signIn(email, password);
       await Keychain.setGenericPassword(email, password);
-
-      const cognito_user_name = loggedInUser.attributes.sub;
-      flagsmith.identify(cognito_user_name);
-
-      DataStore.configure({
-        syncExpressions: [
-          syncExpression(UserCreditsLeft, () => {
-            return ucl => ucl.cognito_user_name.eq(cognito_user_name);
-          }),
-          syncExpression(SpeechItems, () => {
-            return si => si.cognito_user_name.eq(cognito_user_name);
-          }),
-          syncExpression(Users, () => {
-            return u => u.cognito_user_name.eq(cognito_user_name);
-          }),
-        ],
-      });
-
-      DataStore.start();
-
-      const userCreditsLeft = await getCreditsLeft(cognito_user_name);
-
-      if (userCreditsLeft.data.getUserCreditsLeft === null) {
-        props.navigation.navigate('Purchase');
-        return;
-      }
-
-      props.updateUserCreditsLeft(userCreditsLeft);
-
-      props.navigation.replace('Root');
     } catch (err) {
       if (
         err.toString() === 'UserNotConfirmedException: User is not confirmed.'

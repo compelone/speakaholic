@@ -10,6 +10,8 @@ def lambda_handler(event, context):
     print('Loading function')
 
     env = os.getenv('ENVIRONMENT')
+    role_arn = os.getenv('ROLE_ARN')
+    sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
 
     if (env == 'local'):
         print("Environment is local, skipping")
@@ -44,8 +46,8 @@ def lambda_handler(event, context):
                 }
             },
             NotificationChannel={
-                'RoleArn': 'arn:aws:iam::744137563977:role/dev-textract-sns-topic-role',
-                'SNSTopicArn': 'arn:aws:sns:us-east-1:744137563977:dev-textract-sns-topic'
+                'RoleArn': role_arn,
+                'SNSTopicArn': sns_topic_arn
             },
             OutputConfig={
                 'S3Bucket': bucket,
