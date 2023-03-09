@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -19,6 +19,13 @@ import {connect} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Sentry from '@sentry/react-native';
 import * as Keychain from 'react-native-keychain';
+import {reset} from '../modules/ResetAction';
+import flagsmith from 'react-native-flagsmith';
+import {DataStore, syncExpression} from '@aws-amplify/datastore';
+import {getCreditsLeft} from '../services/dataService';
+import {SpeechItems, UserCreditsLeft, Users} from '../models';
+import {useFlags} from 'react-native-flagsmith/react';
+import {Hub} from 'aws-amplify';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -28,6 +35,71 @@ const LoginScreen = props => {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const flags = useFlags(['allow_skip_purchase_screen_if_no_credits']);
+  const flagAllowSkipPurchaseScreenIfNoCredits =
+    flags.allow_skip_purchase_screen_if_no_credits;
+
+  useEffect(() => {
+    (async () => {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        const {username, password} = credentials;
+        await signIn(username, password);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', async ({payload: {event, data}}) => {
+      switch (event) {
+        case 'signIn':
+          props.updateUser(data);
+
+          const cognito_user_name = data.attributes.sub;
+          flagsmith.identify(cognito_user_name);
+
+          DataStore.configure({
+            syncExpressions: [
+              syncExpression(UserCreditsLeft, () => {
+                return ucl => ucl.cognito_user_name.eq(cognito_user_name);
+              }),
+              syncExpression(SpeechItems, () => {
+                return si => si.cognito_user_name.eq(cognito_user_name);
+              }),
+              syncExpression(Users, () => {
+                return u => u.cognito_user_name.eq(cognito_user_name);
+              }),
+            ],
+          });
+
+          DataStore.start();
+
+          const userCreditsLeft = await getCreditsLeft(cognito_user_name);
+
+          if (userCreditsLeft.data.getUserCreditsLeft === null) {
+            if (flagAllowSkipPurchaseScreenIfNoCredits.enabled) {
+              props.navigation.navigate('Root');
+            } else {
+              props.navigation.navigate('Purchase');
+            }
+            break;
+          }
+
+          props.updateUserCreditsLeft(userCreditsLeft);
+
+          props.navigation.replace('Root');
+          break;
+        case 'tokenRefresh':
+        case 'tokenRefresh_failure':
+        case 'signOut':
+          await Keychain.resetGenericPassword();
+          props.reset();
+          props.navigation.navigate('Home');
+          break;
+      }
+    });
+  }, []);
 
   const handlePress = async () => {
     setError('');
@@ -178,6 +250,7 @@ const mapDispatchToProps = dispatch =>
     {
       updateUser,
       updateUserCreditsLeft,
+      reset,
     },
     dispatch,
   );

@@ -24,7 +24,7 @@ const HomeScreen = props => {
     (async () => {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
-        await signIn(credentials.username, credentials.password);
+        props.navigation.navigate('Login');
       }
     })();
   }, []);

@@ -18,9 +18,12 @@ import Purchases from 'react-native-purchases';
 import {deleteUser} from '../services/dataService';
 import * as Sentry from '@sentry/react-native';
 import {ENVIRONMENT} from '@env';
+import {DataStore} from '@aws-amplify/datastore';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
+    await DataStore.clear();
+
     await signOut();
   };
 

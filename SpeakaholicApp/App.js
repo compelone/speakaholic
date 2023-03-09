@@ -49,7 +49,6 @@ function App() {
         flagsmith={flagsmith}>
         <SafeAreaProvider>
           <UserCredits />
-          <Root />
           <Navigation />
         </SafeAreaProvider>
       </FlagsmithProvider>
