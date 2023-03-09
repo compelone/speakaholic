@@ -34,7 +34,7 @@ resource "aws_lambda_function" "speakaholic_image_to_speech_function" {
   environment {
     variables = {
       ENVIRONMENT            = "${local.vars.environment}"
-      SPEECHITEMS_TABLE_NAME = "SpeechItems-5k4nw2ylcvgsrho4e5brufqfya-${local.vars.environment}"
+      SPEECHITEMS_TABLE_NAME = "SpeechItems-iwlprpgqjrhr3d34x4jcfvrp74-${local.vars.environment}"
       SPEECH_KEY             = "d4ad074a80f24b64a16f8709488b9fa4"
       SPEECH_REGION          = "eastus"
     }
