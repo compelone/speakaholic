@@ -18,6 +18,7 @@ import {downloadFile} from '../services/generalService';
 import RNFetchBlob from 'rn-fetch-blob';
 import {API} from 'aws-amplify';
 import {listSpeechItems} from '../models/graphql/queries';
+import * as Sentry from '@sentry/react-native';
 
 const DownloadsScreen = props => {
   const [speechItems, setSpeechItems] = React.useState([]);
