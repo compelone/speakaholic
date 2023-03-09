@@ -153,7 +153,8 @@ const TextToSpeechScreen = props => {
           <Text style={styles.lengthCount}>
             {textLength +
               ' character(s) of ' +
-              props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+              props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+                ?.credits_left}
           </Text>
           <Icon.Button
             name="plus-circle"
@@ -166,14 +167,17 @@ const TextToSpeechScreen = props => {
         </View>
         {isLoading ? (
           <ActivityIndicator color={colors.COLORS.PRIMARY} />
-        ) : props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left <=
-          0 ? (
+        ) : props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+            ?.credits_left <= 0 ? (
           <TouchableOpacity
             style={styles.button}
             onPress={() => props.navigation.navigate('Purchase')}>
             <Text style={styles.buttonText}>
               You have{' '}
-              {props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}{' '}
+              {
+                props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+                  ?.credits_left
+              }{' '}
               credits, click to purchase
             </Text>
           </TouchableOpacity>

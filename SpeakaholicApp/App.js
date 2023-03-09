@@ -24,6 +24,7 @@ import flagsmith from 'react-native-flagsmith';
 import {FlagsmithProvider} from 'react-native-flagsmith/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FLAGSMITH_API_KEY} from '@env';
+import Root from './components/Root';
 
 Sentry.init({
   dsn: SENTRY_DSN,

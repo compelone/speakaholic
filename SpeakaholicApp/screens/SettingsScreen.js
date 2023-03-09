@@ -9,25 +9,22 @@ import {
 } from 'react-native';
 import * as colors from '../styles/colors';
 import {signOut} from '../services/authService';
-import * as Keychain from 'react-native-keychain';
 import layout from '../styles/layout';
 import {connect} from 'react-redux';
 import {version} from '../package.json';
-import {DataStore} from 'aws-amplify';
 import {reset} from '../modules/ResetAction';
 import {bindActionCreators} from 'redux';
 import Purchases from 'react-native-purchases';
 import {deleteUser} from '../services/dataService';
 import * as Sentry from '@sentry/react-native';
 import {ENVIRONMENT} from '@env';
+import {DataStore} from '@aws-amplify/datastore';
 
 const SettingsScreen = props => {
   const handlePress = async () => {
-    await Keychain.resetGenericPassword();
     await DataStore.clear();
-    props.reset();
+
     await signOut();
-    props.navigation.navigate('Home');
   };
 
   const restore = async () => {
@@ -55,12 +52,7 @@ const SettingsScreen = props => {
             text: 'OK',
             onPress: async () => {
               deleteUser(props.user.loggedInUser.attributes.sub);
-
-              await Keychain.resetGenericPassword();
-              await DataStore.clear();
-              props.reset();
               await signOut();
-              props.navigation.navigate('Home');
             },
           },
         ],

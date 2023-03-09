@@ -160,7 +160,8 @@ const PdfToSpeechScreen = props => {
           <View style={styles.verticalView}>
             <Text style={styles.lengthCount}>
               {'character(s) left ' +
-                props.user.userCreditsLeft.data.getUserCreditsLeft.credits_left}
+                props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+                  ?.credits_left}
             </Text>
             <Icon.Button
               name="plus-circle"
@@ -174,16 +175,16 @@ const PdfToSpeechScreen = props => {
           <View>
             {isLoading ? (
               <ActivityIndicator color={colors.COLORS.PRIMARY} />
-            ) : props.user.userCreditsLeft.data.getUserCreditsLeft
-                .credits_left <= 0 ? (
+            ) : props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+                ?.credits_left <= 0 ? (
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => props.navigation.navigate('Purchase')}>
                 <Text style={styles.buttonText}>
                   You have{' '}
                   {
-                    props.user.userCreditsLeft.data.getUserCreditsLeft
-                      .credits_left
+                    props?.user?.userCreditsLeft?.data?.getUserCreditsLeft
+                      ?.credits_left
                   }{' '}
                   credits, click to purchase
                 </Text>
