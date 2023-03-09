@@ -24,7 +24,6 @@ const UserCredits = props => {
         );
         props.updateUserCreditsLeft(remainingCredits);
         props.setLastCheckedDate(Date.now());
-        console.log('remaining credits', remainingCredits);
       }
     }, 300000);
   } catch (error) {

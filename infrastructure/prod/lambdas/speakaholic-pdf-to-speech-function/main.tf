@@ -10,9 +10,12 @@ locals {
   vars = merge(
     yamldecode(file("../../environment.yaml"))
   )
-  service_name = "speakaholic-pdf-to-speech-function"
-  bucket_arn   = "arn:aws:s3:::speakaholic-storage111412-production"
-  bucket_name  = "speakaholic-storage111412-production"
+  service_name  = "speakaholic-pdf-to-speech-function"
+  bucket_arn    = "arn:aws:s3:::speakaholic-storage111412-production"
+  bucket_name   = "speakaholic-storage111412-production"
+  role_arn      = "arn:aws:iam::744137563977:role/production-textract-sns-topic-role"
+  sns_topic_arn = "arn:aws:sns:us-east-1:744137563977:production-textract-sns-topic"
+
 }
 
 resource "aws_lambda_function" "speakaholic_pdf_to_speech_function" {
@@ -33,7 +36,9 @@ resource "aws_lambda_function" "speakaholic_pdf_to_speech_function" {
 
   environment {
     variables = {
-      ENVIRONMENT = "${local.vars.environment}"
+      ENVIRONMENT   = "${local.vars.environment}"
+      ROLE_ARN      = local.role_arn
+      SNS_TOPIC_ARN = local.sns_topic_arn
     }
   }
 
